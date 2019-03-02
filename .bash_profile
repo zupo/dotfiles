@@ -75,3 +75,14 @@ export PS1="\W\$(__git_ps1)\$ "
 
 # Load secrets
 source ~/.dotfiles/.secrets
+
+# Better alternatives of common CLI commands
+# https://remysharp.com/2018/08/23/cli-improved
+#
+# Escape hatch: use `\`
+# \cat # ignore aliases named "cat"
+
+alias cat="bat"
+alias ping="prettyping --nolegend"
+alias diff="diff-so-fancy"
+alias man='tldr'
