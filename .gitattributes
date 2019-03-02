@@ -1,0 +1,2 @@
+# Prevent XML diffs for Balsamiq Mockups files
+*.bmml binary
