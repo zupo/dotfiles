@@ -34,16 +34,28 @@ alias youtube-dl-audio="youtube-dl -i --extract-audio --audio-format mp3"
 # rsync sane defaults
 alias rsync="rsync -avzhP"
 
+# Better alternatives of common CLI commands
+# https://remysharp.com/2018/08/23/cli-improved
+#
+# Escape hatch: use `\`
+# \cat # ignore aliases named "cat"
+alias cat="bat"
+alias ping="prettyping --nolegend"
+alias diff="diff-so-fancy"
+alias man='tldr'
+
 # Because I like to have things in the same place
 export PIPENV_VENV_IN_PROJECT=1
 
 # Add pyenv pythons into path
 eval "$(pyenv init -)"
 
+# Automatic per-project loading of env vars via direnv.net
+eval "$(direnv hook bash)"
+
 # Disable generation of .pyc files
 # https://docs.python-guide.org/writing/gotchas/#disabling-bytecode-pyc-files
 export PYTHONDONTWRITEBYTECODE=0
-
 
 # Change /etc/hosts and flush DNS cache
 function edithosts {
@@ -75,14 +87,3 @@ export PS1="\W\$(__git_ps1)\$ "
 
 # Load secrets
 source ~/.dotfiles/.secrets
-
-# Better alternatives of common CLI commands
-# https://remysharp.com/2018/08/23/cli-improved
-#
-# Escape hatch: use `\`
-# \cat # ignore aliases named "cat"
-
-alias cat="bat"
-alias ping="prettyping --nolegend"
-alias diff="diff-so-fancy"
-alias man='tldr'
