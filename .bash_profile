@@ -3,7 +3,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # Add custom libs to PATH
-home=/Users/zupo/bin
+home=/Users/$USER/bin
 homebrew=/usr/local/bin:/usr/local/sbin
 gems=/usr/local/opt/ruby/bin
 PATH=$home:$gems:$homebrew:$PATH
