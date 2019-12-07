@@ -11,9 +11,9 @@ PATH=$home:$gems:$homebrew:$PATH
 # Based on: http://y-draw.com/blog/articles/2009/11/20/mac-os-x-terminal-configuration/
 # colors for misc things
 export TERM=xterm-color
-export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
 export CLICOLOR=1
 export LS_COLORS='di=1;36:fi=0:ln=4;34:pi=5:so=4;5:bd=5:cd=5:or=4;91:mi=4;92:ex=35:*.rb=90'
+alias grep="grep --color=auto"
 
 # Navigation aliases
 alias ..="cd .."
