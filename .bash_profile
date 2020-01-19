@@ -87,3 +87,6 @@ export PS1="\W\$(__git_ps1)\$ "
 
 # Load secrets
 source ~/.dotfiles/.secrets
+
+# Support for Nix
+if [ -e /Users/zupo/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/zupo/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
