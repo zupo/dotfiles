@@ -1,10 +1,6 @@
 { config, pkgs, ... }:
 
-let
-
-  inherit (pkgs) lorri;
-
-in {
+{
 
 
   # Used for backwards compatibility, please read the changelog before changing.
@@ -66,7 +62,7 @@ in {
     pkgs.direnv
     pkgs.gitAndTools.diff-so-fancy
     pkgs.jq
-    pkgs.lorri
+    pkgs.cachix
     pkgs.ncdu
     pkgs.ngrok
     pkgs.nmap
@@ -81,21 +77,4 @@ in {
     pkgs.youtube-dl
   ];
 
-  # Automatically start the lorri daemon
-  launchd.user.agents = {
-    "lorri" = {
-      serviceConfig = {
-        WorkingDirectory = (builtins.getEnv "HOME");
-        EnvironmentVariables = { };
-        KeepAlive = true;
-        RunAtLoad = true;
-        StandardOutPath = "/var/tmp/lorri.log";
-        StandardErrorPath = "/var/tmp/lorri.log";
-      };
-      script = ''
-        source ${config.system.build.setEnvironment}
-        exec ${lorri}/bin/lorri daemon
-      '';
-    };
-  };
 }

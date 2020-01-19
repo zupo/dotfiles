@@ -16,6 +16,8 @@ $ ln -sv ~/.dotfiles/.gitattributes ~/
 $ ln -sv ~/.dotfiles/.vimrc ~/.vimrc
 $ ln -sv ~/.dotfiles/darwin-configuration.nix ~/.nixpkgs/darwin-configuration.nix
 $ ln -sv ~/.dotfiles/.vimrc ~/.vimrc
+$ ln -sv ~/.dotfiles/direnvrc ~/.config/direnv/direnvrc
+$ ln -sv ~/.dotfiles/darwin-configuration.nix ~/.nixpkgs/darwin-configuration.nix
 $ mv ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User.bak
 $ ln -sv ~/.dotfiles/sublime ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User
 
