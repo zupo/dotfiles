@@ -47,9 +47,6 @@ alias man='tldr'
 # Because I like to have things in the same place
 export PIPENV_VENV_IN_PROJECT=1
 
-# Add pyenv pythons into path
-eval "$(pyenv init -)"
-
 # Automatic per-project loading of env vars via direnv.net
 eval "$(direnv hook bash)"
 
