@@ -10,6 +10,7 @@ It targets macOS systems, but it should work on \*nix as well.
 ```
 $ git clone https://github.com/zupo/dotfiles.git ~/.dotfiles
 $ ln -sv ~/.dotfiles/.bash_profile ~/
+$ ln -sv ~/.dotfiles/.zshrc ~/
 $ ln -sv ~/.dotfiles/.gitignore ~/
 $ ln -sv ~/.dotfiles/.gitattributes ~/
 $ ln -sv ~/.dotfiles/direnvrc ~/.config/direnv/direnvrc
