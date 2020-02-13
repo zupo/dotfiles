@@ -88,5 +88,5 @@ function edithosts {
 }
 
 
-# Nix & direnv support
+# Enable direnv.net
 eval "$(direnv hook zsh)"
