@@ -18,6 +18,21 @@ plugins=(git sublime)
 
 source $ZSH/oh-my-zsh.sh
 
+# Hints taken from https://scriptingosx.com/2019/06/moving-to-zsh-part-3-shell-options/
+
+# By default, when you exit zsh this particular instance of zsh
+# will overwrite an existing history file with its history. So
+# when you have multiple tabs open, they will all overwrite
+# each others’ histories eventually. Tell zsh to use a single,
+# shared history file across the sessions and append to it
+# rather than overwrite:
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+
+# Tell zsh to update the history file after every command,
+# rather than waiting for the shell to exit:
+setopt INC_APPEND_HISTORY
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
