@@ -78,3 +78,6 @@ function edithosts {
 
 # Enable direnv.net
 eval "$(direnv hook zsh)"
+
+# Homebrew told me to do this
+export PATH="/usr/local/sbin:$PATH"
