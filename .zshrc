@@ -5,7 +5,6 @@ ZSH_THEME="robbyrussell"
 
 # Enable a few neat features
 HYPHEN_INSENSITIVE="true"
-ENABLE_CORRECTION="true"
 COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load?
