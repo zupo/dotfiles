@@ -24,9 +24,9 @@ source $ZSH/oh-my-zsh.sh
 # when you have multiple tabs open, they will all overwrite
 # each others’ histories eventually. Tell zsh to use a single,
 # shared history file across the sessions and append to it
-# rather than overwrite:
-setopt SHARE_HISTORY
-setopt APPEND_HISTORY
+# rather than overwrite. Additionally, append as soon as commands are entered
+# rather than waiting until the shell exits
+setopt INC_APPEND_HISTORY
 
 # Tell zsh to update the history file after every command,
 # rather than waiting for the shell to exit:
