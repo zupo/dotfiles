@@ -78,3 +78,7 @@ eval "$(direnv hook zsh)"
 
 # Homebrew told me to do this
 export PATH="/usr/local/sbin:$PATH"
+
+# Open GitX from Terminal, taken from
+# https://stackoverflow.com/questions/11625836/make-gitx-open-via-terminal-for-the-repo-laying-at-the-current-path
+alias gitx='open -a GitX .'
