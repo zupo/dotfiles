@@ -42,9 +42,6 @@ export PATH=$PATH:$HOME/bin
 # https://docs.python-guide.org/writing/gotchas/#disabling-bytecode-pyc-files
 export PYTHONDONTWRITEBYTECODE=0
 
-# Preventing "whoops" moments
-alias rm="trash"
-
 # Show alternative progress bar for Axel downloader
 alias axel="axel -a"
 
