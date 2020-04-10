@@ -15,6 +15,7 @@ $ ln -sv ~/.dotfiles/.hushlogin ~/
 $ ln -sv ~/.dotfiles/.gitignore ~/
 $ ln -sv ~/.dotfiles/.gitattributes ~/
 $ ln -sv ~/.dotfiles/darwin-configuration.nix ~/.nixpkgs/darwin-configuration.nix
+$ ln -sv ~/.dotfiles/.vimrc ~/.vimrc
 ```
 
 
