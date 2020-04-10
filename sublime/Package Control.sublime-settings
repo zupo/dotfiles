@@ -7,6 +7,8 @@
 	[
 		"BracketHighlighter",
 		"Color Highlight",
+		"Elm Format on Save",
+		"Elm Syntax Highlighting",
 		"GitGutter",
 		"MarkdownPreview",
 		"Nix",
