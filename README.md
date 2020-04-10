@@ -14,7 +14,7 @@ $ ln -sv ~/.dotfiles/.zshrc ~/
 $ ln -sv ~/.dotfiles/.hushlogin ~/
 $ ln -sv ~/.dotfiles/.gitignore ~/
 $ ln -sv ~/.dotfiles/.gitattributes ~/
-$ ln -sv ~/.dotfiles/direnvrc ~/.config/direnv/direnvrc
+$ ln -sv ~/.dotfiles/darwin-configuration.nix ~/.nixpkgs/darwin-configuration.nix
 ```
 
 

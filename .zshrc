@@ -57,6 +57,10 @@ alias rsync="rsync -avzhP"
 # force strong passwords
 alias pwgen="pwgen --ambiguous 20"
 
+# Open GitX from Terminal, taken from
+# https://stackoverflow.com/questions/11625836/make-gitx-open-via-terminal-for-the-repo-laying-at-the-current-path
+alias gitx='open -a GitX .'
+
 # Better alternatives of common CLI commands
 # (Inspired by https://remysharp.com/2018/08/23/cli-improved)
 #
@@ -73,12 +77,17 @@ function edithosts {
     sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
 }
 
+
+## Nix things
+
 # Enable direnv.net
 eval "$(direnv hook zsh)"
 
-# Homebrew told me to do this
-export PATH="/usr/local/sbin:$PATH"
-
-# Open GitX from Terminal, taken from
-# https://stackoverflow.com/questions/11625836/make-gitx-open-via-terminal-for-the-repo-laying-at-the-current-path
-alias gitx='open -a GitX .'
+# Moving from Homebrew to nix-darwin
+# https://www.softinio.com/post/moving-from-homebrew-to-nix-package-manager/
+alias nixre="darwin-rebuild switch"
+alias nixgc="nix-collect-garbage -d"
+alias nixq="nix-env -qaP"
+alias nixupgrade="sudo -i sh -c 'nix-channel --update && nix-env -iA nixpkgs.nix && launchctl remove org.nixos.nix-daemon && launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist'"
+alias nixup="nix-env -u"
+alias nixcfg="vim ~/.nixpkgs/darwin-configuration.nix"
