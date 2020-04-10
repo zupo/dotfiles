@@ -22,22 +22,22 @@ in {
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages =
-    [ pkgs.vim
-      pkgs.direnv
-      pkgs.lorri
-      pkgs.telnet
-      pkgs.wget
-      pkgs.ncdu
-      pkgs.axel
-      pkgs.youtube-dl
-      pkgs.pwgen
-      pkgs.bat
-      pkgs.prettyping
-      pkgs.gitAndTools.diff-so-fancy
-      pkgs.tldr
-      pkgs.nmap
-    ];
+  environment.systemPackages =[
+    pkgs.axel
+    pkgs.bat
+    pkgs.direnv
+    pkgs.gitAndTools.diff-so-fancy
+    pkgs.lorri
+    pkgs.ncdu
+    pkgs.nmap
+    pkgs.prettyping
+    pkgs.pwgen
+    pkgs.telnet
+    pkgs.tldr
+    pkgs.vim
+    pkgs.wget
+    pkgs.youtube-dl
+  ];
 
   # Automatically start the lorri daemon
   launchd.user.agents = {
