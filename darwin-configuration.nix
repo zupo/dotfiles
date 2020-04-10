@@ -13,6 +13,9 @@ in {
   nix.maxJobs = 8;
   nix.buildCores = 8;
 
+  # Allow licensed binaries
+  nixpkgs.config.allowUnfree = true; 
+
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
   nix.package = pkgs.nix;
@@ -29,11 +32,14 @@ in {
     pkgs.gitAndTools.diff-so-fancy
     pkgs.lorri
     pkgs.ncdu
+    pkgs.ngrok
     pkgs.nmap
     pkgs.prettyping
     pkgs.pwgen
+    pkgs.s3cmd
     pkgs.telnet
     pkgs.tldr
+    pkgs.unrar
     pkgs.vim
     pkgs.wget
     pkgs.youtube-dl
@@ -57,133 +63,4 @@ in {
     };
   };  
 
-
-  # things I had installed with homebrew:
-    # augeas
-    # autoconf
-    # awscli
-    # axel
-    # bash-completion
-    # bash-git-prompt
-    # bat
-    # blueutil
-    # cairo
-    # circleci
-    # cloc
-    # composer
-    # coreutils
-    # dep
-    # dialog
-    # diff-so-fancy
-    # direnv
-    # elm-format
-    # exiftool
-    # faac
-    # fcrackzip
-    # fdk-aac
-    # fontconfig
-    # freetype
-    # gd
-    # gdbm
-    # gettext
-    # git
-    # glib
-    # go
-    # gobject-introspection
-    # gptfdisk
-    # graphviz
-    # gts
-    # heroku
-    # heroku-node
-    # highlight
-    # icu4c
-    # ilmbase
-    # imagemagick
-    # jasper
-    # jpeg
-    # jq
-    # keybase
-    # lame
-    # lftp
-    # libav
-    # libde265
-    # libevent
-    # libffi
-    # libheif
-    # libidn
-    # libidn2
-    # libmaxminddb
-    # libogg
-    # libomp
-    # libpng
-    # libpq
-    # libssh
-    # libtiff
-    # libtool
-    # libunistring
-    # libvorbis
-    # libvpx
-    # libxml2
-    # libyaml
-    # libzip
-    # little-cms2
-    # lua
-    # lynx
-    # lz4
-    # lzo
-    # msgpack
-    # ncdu
-    # ncurses
-    # netcat
-    # netpbm
-    # ngrok2
-    # nmap
-    # node
-    # nspr
-    # nss
-    # nvm
-    # oniguruma
-    # openexr
-    # openjpeg
-    # openmotif
-    # openssl
-    # openssl@1.1
-    # opus
-    # pcre
-    # pcre2
-    # pgcli
-    # pgweb
-    # pixman
-    # pkg-config
-    # poetry
-    # poppler
-    # popt
-    # prettyping
-    # pwgen
-    # python
-    # qt
-    # readline
-    # ruby
-    # s3cmd
-    # sdl
-    # shared-mime-info
-    # shellcheck
-    # sqlite
-    # telnet
-    # theora
-    # tldr
-    # tmate
-    # tox
-    # trash
-    # tree
-    # unrar
-    # webp
-    # wget
-    # wine
-    # x264
-    # x265
-    # xvid
-    # xz
-    # youtube-dl
-    # zlib
 }
