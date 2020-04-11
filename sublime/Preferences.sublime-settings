@@ -32,7 +32,15 @@
 		"4ccc",
 		"aaaa",
 		"eeeeeeeeeee7",
-		"uuid"
+		"uuid",
+		"datetime",
+		"json",
+		"src",
+		"kai",
+		"app",
+		"zupo",
+		"py",
+		"Bär"
 	],
 	"ensure_newline_at_eof_on_save": true,
 	"file_exclude_patterns":
@@ -44,6 +52,7 @@
 		"*.dylib",
 		"*.exe",
 		"*.idb",
+		"*.log",
 		"*.lib",
 		"*.map",
 		"*.min.css",
