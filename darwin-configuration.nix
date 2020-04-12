@@ -29,6 +29,7 @@ in {
 
   # Personalization
   networking.hostName = "zbook";
+  system.defaults.dock.autohide = false;
   system.defaults.dock.orientation = "right";
   system.defaults.dock.tilesize = 35;
   system.defaults.finder._FXShowPosixPathInTitle = true;
