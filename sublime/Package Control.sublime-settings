@@ -11,9 +11,17 @@
 		"Elm Format on Save",
 		"Elm Syntax Highlighting",
 		"GitGutter",
+		"INI",
 		"MarkdownPreview",
+		"MikrotikScript",
 		"Nix",
 		"Package Control",
-		"sublack"
+		"sublack",
+		"SublimeLinter",
+		"SublimeLinter-annotations",
+		"SublimeLinter-contrib-yamllint",
+		"SublimeLinter-json",
+		"SublimeLinter-shellcheck",
+		"TOML"
 	]
 }

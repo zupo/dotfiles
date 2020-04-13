@@ -18,6 +18,7 @@
 		"https",
 		"circleci",
 		"config",
+		"Configurator",
 		"yml",
 		"github",
 		"backend",
@@ -40,9 +41,24 @@
 		"app",
 		"zupo",
 		"py",
-		"Bär"
+		"Bär",
+		"addons",
+		"postgresql",
+		"heroku",
+		"redis",
+		"papertrail",
+		"env",
+		"io",
+		"reviewapp",
+		"gpu",
+		"venv",
+		"foo",
+		"yaml",
+		"eg",
+		"plugin",
+		"schemas",
+		"niteoweb"
 	],
-	"ensure_newline_at_eof_on_save": true,
 	"binary_file_patterns":
 	[
 		"*.a",
@@ -97,6 +113,7 @@
 		"vcr_cassettes/",
 		"xunit.xml"
 	],
+	"ensure_newline_at_eof_on_save": true,
 	"folder_exclude_patterns":
 	[
 		".cache",
@@ -120,7 +137,10 @@
 	],
 	"ignored_words":
 	[
-		"Configurator"
+		"1c318b27262b4e10adc39403c4ffaf13",
+		"856cd8ae1dd145828596ec5c05f05850",
+		"B608",
+		"d2bacd33b9b4b9130889d7d0a1196136"
 	],
 	"rulers":
 	[
