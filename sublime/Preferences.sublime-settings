@@ -113,6 +113,7 @@
 		"vcr_cassettes/",
 		"xunit.xml"
 	],
+	"color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
 	"ensure_newline_at_eof_on_save": true,
 	"folder_exclude_patterns":
 	[
@@ -149,6 +150,8 @@
 		72
 	],
 	"spell_check": true,
+	"stop_at_paragraph_end": true,
 	"sublack.black_on_save": true,
+	"theme": "Default.sublime-theme",
 	"trim_trailing_white_space_on_save": true
 }
