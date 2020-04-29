@@ -18,6 +18,11 @@ $ ln -sv ~/.dotfiles/darwin-configuration.nix ~/.nixpkgs/darwin-configuration.ni
 $ ln -sv ~/.dotfiles/.vimrc ~/.vimrc
 $ mv ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User.bak
 $ ln -sv ~/.dotfiles/sublime ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User
+
+# nix-channels are implicit and bad, so I don't use them but instead pin nixpkgs to commit hashes
+# in nixPath.nix
+$ rm ~/.nix-channels
+$ rm ~/.nix-defexpr/channels
 ```
 
 

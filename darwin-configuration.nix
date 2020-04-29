@@ -1,9 +1,11 @@
 { config, pkgs, ... }:
 
 let
+
   inherit (pkgs) lorri;
 
 in {
+
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
@@ -52,10 +54,12 @@ in {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages =[
+    pkgs.asciinema
     pkgs.axel
     pkgs.bat
     pkgs.direnv
     pkgs.gitAndTools.diff-so-fancy
+    pkgs.jq
     pkgs.lorri
     pkgs.ncdu
     pkgs.ngrok
