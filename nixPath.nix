@@ -8,8 +8,8 @@ let
 
   darwin = builtins.fetchTarball {
     # https://github.com/LnL7/nix-darwin/tree/master on 2020-04-29
-    url = "https://github.com/LnL7/nix-darwin/archive/053f2cb9cb0ce7ceb4933cbd76e2d28713ad85da.tar.gz";
-    sha256 = "04m9id1gzq0k7n5rkrds6y6r0mmhhsci3aqwhj3i691kx0sf09ia";
+    url = "https://github.com/LnL7/nix-darwin/archive/ee2c31205c74da4862e22b33daea256b05856ee8.tar.gz";
+    sha256 = "173zzc94phybzsqfsz5l7kq2m4p1wc0ic2qrryqi5j79lx3a9m2g";
   };
 
 
