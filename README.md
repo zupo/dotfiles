@@ -9,11 +9,11 @@ It targets macOS systems, but it should work on \*nix as well.
 
 ```
 $ git clone https://github.com/zupo/dotfiles.git ~/.dotfiles
-$ ln -sv ~/.dotfiles/.bash_profile ~/
 $ ln -sv ~/.dotfiles/.zshrc ~/
 $ ln -sv ~/.dotfiles/.hushlogin ~/
 $ ln -sv ~/.dotfiles/.gitignore ~/
 $ ln -sv ~/.dotfiles/.gitattributes ~/
+$ ln -sv ~/.dotfiles/.vimrc ~/.vimrc
 $ ln -sv ~/.dotfiles/darwin-configuration.nix ~/.nixpkgs/darwin-configuration.nix
 $ ln -sv ~/.dotfiles/.vimrc ~/.vimrc
 $ mv ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User.bak
@@ -23,6 +23,9 @@ $ ln -sv ~/.dotfiles/sublime ~/Library/Application\ Support/Sublime\ Text\ 3/Pac
 # in nixPath.nix
 $ rm ~/.nix-channels
 $ rm ~/.nix-defexpr/channels
+
+# what to do with /etc/zshrc and /etc/zprofile:
+# https://github.com/LnL7/nix-darwin/issues/193
 ```
 
 

@@ -57,7 +57,9 @@
 		"eg",
 		"plugin",
 		"schemas",
-		"niteoweb"
+		"niteoweb",
+		"Gunicorn",
+		"cachix"
 	],
 	"binary_file_patterns":
 	[

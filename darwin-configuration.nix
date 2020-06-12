@@ -6,6 +6,7 @@ let
 
 in {
 
+
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
@@ -18,9 +19,13 @@ in {
   # Allow licensed binaries
   nixpkgs.config.allowUnfree = true;
 
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+  # Pin nixpkgs
   nix.package = pkgs.nix;
+  nix.nixPath = [
+    "nixpkgs=${import /Users/zupo/.dotfiles/pins/nixpkgs.nix}"
+    "darwin=${import /Users/zupo/.dotfiles/pins/darwin.nix}"
+    "nixos-config=/Users/zupo/.nixpkgs/darwin-configuration.nix"
+  ];
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true;
@@ -93,5 +98,4 @@ in {
       '';
     };
   };
-
 }
