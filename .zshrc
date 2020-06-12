@@ -85,10 +85,6 @@ eval "$(direnv hook zsh)"
 
 # Moving from Homebrew to nix-darwin
 # https://www.softinio.com/post/moving-from-homebrew-to-nix-package-manager/
-export NIX_PATH=$(nix-instantiate --eval --strict --json ~/.dotfiles/nixPath.nix | jq . -r )
 alias nixre="darwin-rebuild switch"
 alias nixgc="nix-collect-garbage -d"
-alias nixq="nix-env -qaP"
-alias nixupgrade="sudo -i sh -c 'nix-channel --update && nix-env -iA nixpkgs.nix && launchctl remove org.nixos.nix-daemon && launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist'"
-alias nixup="nix-env -u"
 alias nixcfg="subl ~/.nixpkgs/darwin-configuration.nix"
