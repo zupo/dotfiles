@@ -59,7 +59,8 @@
 		"schemas",
 		"niteoweb",
 		"Gunicorn",
-		"cachix"
+		"cachix",
+		"stylesheet"
 	],
 	"binary_file_patterns":
 	[
@@ -110,7 +111,6 @@
 		"nltk_data/",
 		"output/",
 		"parts/",
-		"poetry.lock",
 		"pip-selfcheck.json",
 		"selenium_screenshots/",
 		"share/",
