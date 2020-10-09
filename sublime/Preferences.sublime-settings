@@ -60,7 +60,12 @@
 		"niteoweb",
 		"Gunicorn",
 		"cachix",
-		"stylesheet"
+		"stylesheet",
+		"reimbursals",
+		"reimbursal",
+		"january",
+		"december",
+		"deliverability"
 	],
 	"binary_file_patterns":
 	[
