@@ -1,5 +1,20 @@
 { config, pkgs, ... }:
+let
+  pgweb = pkgs.buildGoPackage rec {
+    pname = "pgweb";
+    version = "0.11.6";
 
+    goPackagePath = "github.com/sosedoff/pgweb";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "sosedoff";
+      repo = "pgweb";
+      rev = "v${version}";
+      sha256 = "16qmc8c8vzs7zblmn7128bm91g6yvzrcapi6vlbjjbixqmzwfrcs";
+    };
+  };
+
+in
 {
 
   # Used for backwards compatibility, please read the changelog before changing.
@@ -75,6 +90,8 @@
     pkgs.wget
     pkgs.youtube-dl
     pkgs.nix-direnv
+
+    pgweb
   ];
 
   # Support for https://github.com/nix-community/nix-direnv
