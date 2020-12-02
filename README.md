@@ -20,7 +20,7 @@ $ mv ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User ~/Library/App
 $ ln -sv ~/.dotfiles/sublime ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User
 
 # nix-channels are implicit and bad, so I don't use them but instead pin nixpkgs to commit hashes
-# in nixPath.nix
+# in pins/*.nix
 $ rm ~/.nix-channels
 $ rm ~/.nix-defexpr/channels
 
