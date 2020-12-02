@@ -85,7 +85,7 @@ in
     pkgs.s3cmd
     pkgs.telnet
     pkgs.tldr
-    pkgs.unrar
+    # pkgs.unrar
     pkgs.vim
     pkgs.wget
     pkgs.youtube-dl
