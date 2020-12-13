@@ -65,7 +65,8 @@
 		"reimbursal",
 		"january",
 		"december",
-		"deliverability"
+		"deliverability",
+		"indices"
 	],
 	"binary_file_patterns":
 	[

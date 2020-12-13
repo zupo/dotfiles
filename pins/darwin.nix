@@ -1,5 +1,5 @@
 fetchTarball {
-  # https://github.com/LnL7/nix-darwin/tree/master on 2020-12-02
-  url = "https://github.com/LnL7/nix-darwin/archive/6c6eb8ace6599a33eeb33e28453a601ab02e523e.tar.gz";
-  sha256 = "1i3bbq0gb2mqs3431mvi0pvv57mdxkh13wx2di7a8ck269m5k1qw";
+  # https://github.com/LnL7/nix-darwin/tree/master on 2020-12-13
+  url = "https://github.com/LnL7/nix-darwin/archive/465539ad1d1ad458bd2179e5b10ad1d487f92e0a.tar.gz";
+  sha256 = "1cg367fdnabd8vca6jjcssszn832q60xw4v7sdl3gwiyapisicw7";
 }
