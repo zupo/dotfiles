@@ -1,5 +1,7 @@
 fetchTarball {
-  # https://github.com/NixOS/nixpkgs/tree/nixos-20.09 on 2020-12-13
-  url = "https://github.com/nixos/nixpkgs/archive/65c9cc79f1d179713c227bf447fb0dac384cdcda.tar.gz";
-  sha256 = "0whxlm098vas4ngq6hm3xa4mdd2yblxcl5x5ny216zajp08yp1wf";
+  # https://github.com/NixOS/nixpkgs/tree/nixos-unstable on 2020-12-09
+  url = "https://github.com/nixos/nixpkgs/archive/e9158eca70ae59e73fae23be5d13d3fa0cfc78b4.tar.gz";
+  sha256 = "0cnmvnvin9ixzl98fmlm3g17l6w95gifqfb3rfxs55c0wj2ddy53";
+  # TODO: revert back to nixos-20.09 once fixes for building on Big Sur
+  # have been backported -> building is needed for nmap 7.91
 }

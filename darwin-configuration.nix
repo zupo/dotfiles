@@ -94,6 +94,21 @@ in
     pgweb
   ];
 
+  # nmap 7.80 that currently ships with 20.09 has the following bug on Big Sur:
+  # https://github.com/nmap/nmap/issues/2079
+  # And it doesn't seem like it will get updated soon due to licensing issues:
+  # https://github.com/NixOS/nixpkgs/issues/105119
+  nixpkgs.config.packageOverrides = pkgs: rec {
+    nmap = pkgs.stdenv.lib.overrideDerivation pkgs.nmap (oldAttrs: {
+      name = "nmap-7.91";
+
+      src = pkgs.fetchurl {
+        url = "https://nmap.org/dist/nmap-7.91.tar.bz2";
+        sha256 = "001kb5xadqswyw966k2lqi6jr6zz605jpp9w4kmm272if184pk0q";
+      };
+    });
+  };
+
   # Support for https://github.com/nix-community/nix-direnv
   # nix options for derivations to persist garbage collection
   nix.extraOptions = ''
