@@ -26,6 +26,16 @@ in
   nix.maxJobs = 8;
   nix.buildCores = 8;
 
+  # Add support for remote builders
+  nix.distributedBuilds = true;
+  nix.buildMachines = [
+    { hostName = "eu.nixbuild.net";
+      system = "x86_64-linux";
+      maxJobs = 100;
+      supportedFeatures = [ "benchmark" "big-parallel" "kvm"];
+    }
+  ];
+
   # Allow licensed binaries
   nixpkgs.config.allowUnfree = true;
 
@@ -109,11 +119,14 @@ in
     });
   };
 
-  # Support for https://github.com/nix-community/nix-direnv
-  # nix options for derivations to persist garbage collection
   nix.extraOptions = ''
+    # Support for https://github.com/nix-community/nix-direnv
+    # nix options for derivations to persist garbage collection
     keep-outputs = true
     keep-derivations = true
+
+    # Allow remote builders to use caches
+    builders-use-substitutes = true
   '';
   environment.pathsToLink = [
     "/share/nix-direnv"
