@@ -83,23 +83,23 @@ in
     pkgs.asciinema
     pkgs.axel
     pkgs.bat
+    pkgs.cachix
     pkgs.direnv
     pkgs.gitAndTools.diff-so-fancy
     pkgs.jq
-    pkgs.cachix
     pkgs.ncdu
     pkgs.ngrok
+    pkgs.nix-direnv
     pkgs.nmap
     pkgs.prettyping
     pkgs.pwgen
     pkgs.s3cmd
     pkgs.telnet
     pkgs.tldr
-    # pkgs.unrar
+    pkgs.unrar
     pkgs.vim
     pkgs.wget
     pkgs.youtube-dl
-    pkgs.nix-direnv
 
     pgweb
   ];
