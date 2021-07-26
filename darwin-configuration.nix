@@ -86,6 +86,7 @@ in
     pkgs.cachix
     pkgs.direnv
     pkgs.gitAndTools.diff-so-fancy
+    pkgs.hyperfine
     pkgs.jq
     pkgs.ncdu
     pkgs.ngrok
@@ -109,7 +110,7 @@ in
   # And it doesn't seem like it will get updated soon due to licensing issues:
   # https://github.com/NixOS/nixpkgs/issues/105119
   nixpkgs.config.packageOverrides = pkgs: rec {
-    nmap = pkgs.stdenv.lib.overrideDerivation pkgs.nmap (oldAttrs: {
+    nmap = pkgs.lib.overrideDerivation pkgs.nmap (oldAttrs: {
       name = "nmap-7.91";
 
       src = pkgs.fetchurl {

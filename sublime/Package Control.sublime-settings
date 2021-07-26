@@ -19,6 +19,7 @@
 		"Move By Paragraph",
 		"Nix",
 		"Package Control",
+		"RemoteSubl",
 		"Select Quoted",
 		"sublack",
 		"SublimeLinter",
@@ -27,5 +28,5 @@
 		"SublimeLinter-json",
 		"SublimeLinter-shellcheck",
 		"TOML"
-	]
+	],
 }
