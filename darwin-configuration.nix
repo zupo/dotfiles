@@ -21,6 +21,9 @@ in
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
 
+  # Automatically manage build users
+  users.nix.configureBuildUsers = true;
+
   # You should generally set this to the total number of logical cores in your system.
   # $ sysctl -n hw.ncpu
   nix.maxJobs = 8;
@@ -91,7 +94,7 @@ in
     pkgs.ncdu
     pkgs.ngrok
     pkgs.nix-direnv
-    pkgs.nmap
+    pkgs.nmap-unfree  # revert to pkgs.nmap in 21.09
     pkgs.prettyping
     pkgs.pwgen
     pkgs.s3cmd
@@ -104,21 +107,6 @@ in
 
     pgweb
   ];
-
-  # nmap 7.80 that currently ships with 20.09 has the following bug on Big Sur:
-  # https://github.com/nmap/nmap/issues/2079
-  # And it doesn't seem like it will get updated soon due to licensing issues:
-  # https://github.com/NixOS/nixpkgs/issues/105119
-  nixpkgs.config.packageOverrides = pkgs: rec {
-    nmap = pkgs.lib.overrideDerivation pkgs.nmap (oldAttrs: {
-      name = "nmap-7.91";
-
-      src = pkgs.fetchurl {
-        url = "https://nmap.org/dist/nmap-7.91.tar.bz2";
-        sha256 = "001kb5xadqswyw966k2lqi6jr6zz605jpp9w4kmm272if184pk0q";
-      };
-    });
-  };
 
   nix.extraOptions = ''
     # Support for https://github.com/nix-community/nix-direnv
