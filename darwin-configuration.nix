@@ -24,6 +24,9 @@ in
   # Automatically manage build users
   users.nix.configureBuildUsers = true;
 
+  # Automatically run `nix-store --optimize` to save disk space
+  # nix.autoOptimiseStore = true;
+
   # You should generally set this to the total number of logical cores in your system.
   # $ sysctl -n hw.ncpu
   nix.maxJobs = 8;

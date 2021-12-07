@@ -77,7 +77,8 @@
 		"prepended",
 		"deserialized",
 		"deserialize",
-		"ruamel"
+		"ruamel",
+		"Transactional",
 	],
 	"binary_file_patterns":
 	[
