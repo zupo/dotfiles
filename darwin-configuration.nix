@@ -46,7 +46,7 @@ in
   nixpkgs.config.allowUnfree = true;
 
   # Pin nixpkgs
-  nix.package = pkgs.nix;
+  nix.package = pkgs.nix_2_4;
   nix.nixPath = [
     "nixpkgs=${import /Users/zupo/.dotfiles/pins/nixpkgs.nix}"
     "darwin=${import /Users/zupo/.dotfiles/pins/darwin.nix}"
@@ -122,6 +122,9 @@ in
 
     # Allow remote builders to use caches
     builders-use-substitutes = true
+
+    # Allow flakes
+    experimental-features = nix-command flakes
   '';
   environment.pathsToLink = [
     "/share/nix-direnv"
