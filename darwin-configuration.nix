@@ -108,6 +108,9 @@ in
     pkgs.wget
     pkgs.youtube-dl
 
+    pkgs.gnupg
+    pkgs.keybase
+
     pgweb
   ];
 
