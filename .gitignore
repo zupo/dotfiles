@@ -26,3 +26,7 @@ sublime/oscrypto-ca-bundle.crt
 sublime/Package Control.last-run
 sublime/Package Control.merged-ca-bundle
 sublime/Package Control.user-ca-bundle
+
+
+# Secret
+ssh_config_private

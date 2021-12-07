@@ -32,16 +32,6 @@ in
   nix.maxJobs = 8;
   nix.buildCores = 8;
 
-  # Add support for remote builders
-  nix.distributedBuilds = true;
-  nix.buildMachines = [
-    { hostName = "eu.nixbuild.net";
-      system = "x86_64-linux";
-      maxJobs = 100;
-      supportedFeatures = [ "benchmark" "big-parallel" "kvm"];
-    }
-  ];
-
   # Allow licensed binaries
   nixpkgs.config.allowUnfree = true;
 
@@ -55,6 +45,22 @@ in
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true;
+
+  # Support for nixbuild.net
+  programs.ssh.knownHosts = {
+    nixbuild = {
+      hostNames = [ "eu.nixbuild.net" ];
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIQCZc54poJ8vqawd8TraNryQeJnvH1eLpIDgbiqymM";
+    };
+  };
+  nix.distributedBuilds = true;
+  nix.buildMachines = [
+    { hostName = "eu.nixbuild.net";
+      system = "x86_64-linux";
+      maxJobs = 100;
+      supportedFeatures = [ "benchmark" "big-parallel" "kvm" "nixos-test"];
+    }
+  ];
 
   # make sure firewall is up & running
   system.defaults.alf.globalstate = 1;
