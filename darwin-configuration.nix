@@ -101,7 +101,12 @@ in
     pkgs.hyperfine
     pkgs.jq
     pkgs.ncdu
-    pkgs.ngrok
+
+    # Apply https://github.com/NixOS/nixpkgs/pull/150791
+    (pkgs.ngrok.overrideAttrs (oldAttrs: {
+      dontStrip = true;
+    }))
+
     pkgs.nix-direnv
     pkgs.nmap-unfree  # revert to pkgs.nmap in 21.09
     pkgs.prettyping
