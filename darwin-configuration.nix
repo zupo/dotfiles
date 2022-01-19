@@ -117,7 +117,7 @@ in
     pkgs.unrar
     pkgs.vim
     pkgs.wget
-    pkgs.youtube-dl
+    pkgs.yt-dlp
 
     pkgs.gnupg
     pkgs.keybase
