@@ -24,6 +24,9 @@ in
   # Automatically manage build users
   users.nix.configureBuildUsers = true;
 
+  # By default, Nix is installed in multi-user mode, and needs a daemon running
+  nix.useDaemon = true;
+
   # Automatically run `nix-store --optimize` to save disk space
   # nix.autoOptimiseStore = true;
 
