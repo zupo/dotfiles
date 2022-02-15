@@ -49,22 +49,6 @@ in
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true;
 
-  # Support for nixbuild.net
-  programs.ssh.knownHosts = {
-    nixbuild = {
-      hostNames = [ "eu.nixbuild.net" ];
-      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIQCZc54poJ8vqawd8TraNryQeJnvH1eLpIDgbiqymM";
-    };
-  };
-  nix.distributedBuilds = true;
-  nix.buildMachines = [
-    { hostName = "eu.nixbuild.net";
-      system = "x86_64-linux";
-      maxJobs = 100;
-      supportedFeatures = [ "benchmark" "big-parallel" "kvm" "nixos-test"];
-    }
-  ];
-
   # make sure firewall is up & running
   system.defaults.alf.globalstate = 1;
   system.defaults.alf.stealthenabled = 1;
