@@ -107,7 +107,7 @@ in
     pkgs.yt-dlp
 
     pkgs.gnupg
-    pkgs.keybase
+    (import (import /Users/zupo/.dotfiles/pins/nixpkgs_unstable.nix) {}).keybase
 
     pgweb
   ];
