@@ -94,7 +94,7 @@ in
     pkgs.prettyping
     pkgs.pwgen
     pkgs.s3cmd
-    pkgs.telnet
+    pkgs.inetutils  # telnet has been renamed to/replaced by inetutils
     pkgs.tldr
     pkgs.unrar
     pkgs.vim
