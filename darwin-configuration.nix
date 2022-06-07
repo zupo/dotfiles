@@ -71,25 +71,21 @@
     pkgs.gitAndTools.diff-so-fancy
     pkgs.gnupg
     pkgs.hyperfine
+    pkgs.inetutils  # telnet has been renamed to/replaced by inetutils
     pkgs.jq
     pkgs.ncdu
+    pkgs.ngrok
     pkgs.nix-direnv
     pkgs.nmap-unfree  # revert to pkgs.nmap in 21.09
-    pkgs.prettyping
     pkgs.pgweb
+    pkgs.prettyping
     pkgs.pwgen
     pkgs.s3cmd
-    pkgs.inetutils  # telnet has been renamed to/replaced by inetutils
     pkgs.tldr
     pkgs.unrar
     pkgs.vim
     pkgs.wget
     pkgs.yt-dlp
-
-    # Apply https://github.com/NixOS/nixpkgs/pull/150791
-    (pkgs.ngrok.overrideAttrs (oldAttrs: {
-      dontStrip = true;
-    }))
 
     (import (import /Users/zupo/.dotfiles/pins/nixpkgs_unstable.nix) {}).keybase
 
