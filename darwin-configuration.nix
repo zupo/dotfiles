@@ -1,20 +1,4 @@
 { config, pkgs, ... }:
-let
-  pgweb = pkgs.buildGoPackage rec {
-    pname = "pgweb";
-    version = "0.11.6";
-
-    goPackagePath = "github.com/sosedoff/pgweb";
-
-    src = pkgs.fetchFromGitHub {
-      owner = "sosedoff";
-      repo = "pgweb";
-      rev = "v${version}";
-      sha256 = "16qmc8c8vzs7zblmn7128bm91g6yvzrcapi6vlbjjbixqmzwfrcs";
-    };
-  };
-
-in
 {
 
   # Used for backwards compatibility, please read the changelog before changing.
@@ -92,6 +76,7 @@ in
     pkgs.nix-direnv
     pkgs.nmap-unfree  # revert to pkgs.nmap in 21.09
     pkgs.prettyping
+    pkgs.pgweb
     pkgs.pwgen
     pkgs.s3cmd
     pkgs.inetutils  # telnet has been renamed to/replaced by inetutils
@@ -108,7 +93,6 @@ in
 
     (import (import /Users/zupo/.dotfiles/pins/nixpkgs_unstable.nix) {}).keybase
 
-    pgweb
   ];
 
   nix.extraOptions = ''
