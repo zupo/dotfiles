@@ -85,15 +85,10 @@ in
     pkgs.cachix
     pkgs.direnv
     pkgs.gitAndTools.diff-so-fancy
+    pkgs.gnupg
     pkgs.hyperfine
     pkgs.jq
     pkgs.ncdu
-
-    # Apply https://github.com/NixOS/nixpkgs/pull/150791
-    (pkgs.ngrok.overrideAttrs (oldAttrs: {
-      dontStrip = true;
-    }))
-
     pkgs.nix-direnv
     pkgs.nmap-unfree  # revert to pkgs.nmap in 21.09
     pkgs.prettyping
@@ -106,7 +101,11 @@ in
     pkgs.wget
     pkgs.yt-dlp
 
-    pkgs.gnupg
+    # Apply https://github.com/NixOS/nixpkgs/pull/150791
+    (pkgs.ngrok.overrideAttrs (oldAttrs: {
+      dontStrip = true;
+    }))
+
     (import (import /Users/zupo/.dotfiles/pins/nixpkgs_unstable.nix) {}).keybase
 
     pgweb
