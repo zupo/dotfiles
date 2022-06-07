@@ -73,6 +73,7 @@
     pkgs.hyperfine
     pkgs.inetutils  # telnet has been renamed to/replaced by inetutils
     pkgs.jq
+    pkgs.keybase
     pkgs.ncdu
     pkgs.ngrok
     pkgs.nix-direnv
@@ -86,9 +87,6 @@
     pkgs.vim
     pkgs.wget
     pkgs.yt-dlp
-
-    (import (import /Users/zupo/.dotfiles/pins/nixpkgs_unstable.nix) {}).keybase
-
   ];
 
   nix.extraOptions = ''
