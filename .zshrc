@@ -1,3 +1,4 @@
+# Enable OMZ
 export ZSH="/Users/zupo/.oh-my-zsh"
 
 # Use the default theme that comes with oh-my-zsh
