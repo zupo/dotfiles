@@ -69,6 +69,7 @@
     pkgs.bat
     pkgs.cachix
     pkgs.direnv
+    pkgs.git
     pkgs.gitAndTools.diff-so-fancy
     pkgs.gnupg
     pkgs.hyperfine
