@@ -34,6 +34,11 @@
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true;
 
+  # Default prompt includes `prompt walters` that adds an annoying
+  # "current path" info to the right of the terminal line, which makes
+  # copy/pasting terminal output a pain
+  programs.zsh.promptInit = "autoload -U promptinit && promptinit";
+
   # make sure firewall is up & running
   system.defaults.alf.globalstate = 1;
   system.defaults.alf.stealthenabled = 1;
