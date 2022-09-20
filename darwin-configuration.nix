@@ -6,19 +6,19 @@
   system.stateVersion = 4;
 
   # Automatically manage build users
-  users.nix.configureBuildUsers = true;
+  nix.configureBuildUsers = true;
 
   # By default, Nix is installed in multi-user mode, and needs a daemon running
-  nix.useDaemon = true;
-  nix.trustedUsers = [ "root" "zupo" ];
+  services.nix-daemon.enable = true;
+  nix.settings.trusted-users = [ "root" "zupo" ];
 
   # Automatically run `nix-store --optimize` to save disk space
-  # nix.autoOptimiseStore = true;
+  nix.settings.auto-optimise-store = true;
 
   # You should generally set this to the total number of logical cores in your system.
   # $ sysctl -n hw.ncpu
-  nix.maxJobs = 8;
-  nix.buildCores = 8;
+  nix.settings.max-jobs = 8;
+  nix.settings.cores = 8;
 
   # Allow licensed binaries
   nixpkgs.config.allowUnfree = true;
