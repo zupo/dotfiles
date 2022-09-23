@@ -13,7 +13,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git sublime)
+plugins=(git sublime python sudo direnv history)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -80,9 +80,6 @@ function edithosts {
 
 
 ## Nix things
-
-# Enable direnv.net
-eval "$(direnv hook zsh)"
 
 # Moving from Homebrew to nix-darwin
 # https://www.softinio.com/post/moving-from-homebrew-to-nix-package-manager/
