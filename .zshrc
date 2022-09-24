@@ -38,6 +38,7 @@ export EDITOR="subl -w"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export PATH=$PATH:$HOME/bin
+export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
 
 # Disable generation of .pyc files
 # https://docs.python-guide.org/writing/gotchas/#disabling-bytecode-pyc-files
