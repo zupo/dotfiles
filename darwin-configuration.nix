@@ -88,6 +88,7 @@
     pkgs.pgweb
     pkgs.prettyping
     pkgs.pwgen
+    pkgs.python3
     pkgs.s3cmd
     pkgs.tldr
     pkgs.unrar

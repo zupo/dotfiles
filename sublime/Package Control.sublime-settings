@@ -27,6 +27,6 @@
 		"SublimeLinter-contrib-yamllint",
 		"SublimeLinter-json",
 		"SublimeLinter-shellcheck",
-		"TOML"
+		"TOML",
 	],
 }

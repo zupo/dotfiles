@@ -135,6 +135,8 @@
 		"ok",
 		"oauth",
 		"localhost",
+		"durations",
+		"blueracer",
 	],
 	"binary_file_patterns":
 	[
@@ -237,4 +239,6 @@
 	"sublack.black_on_save": true,
 	"theme": "Default.sublime-theme",
 	"trim_trailing_white_space_on_save": true,
+	"auto_complete_triggers": [{"selector": "source.python", "characters": ".",}],
+	"auto_complete_selector": "-",
 }
