@@ -1,5 +1,5 @@
 fetchTarball {
-  # https://github.com/NixOS/nixpkgs/tree/nixos-22.05 on 2022-09-20
-  url = "https://github.com/nixos/nixpkgs/archive/20dc478985d6545df53f0153f4af125eb014083d.tar.gz";
-  sha256 = "0yl70fk9f174m1amkgkr1a2z1wds02zhsxaph7j7iy3wypy12bp0";
+  # https://github.com/NixOS/nixpkgs/tree/nixos-22.11 on 2022-12-05
+  url = "https://github.com/nixos/nixpkgs/archive/2d10e73416ec1449ef74aeac7faf2cf8c556ff5a.tar.gz";
+  sha256 = "00s89np0sqr3jxxp5h9nrpqy30fy4vsrmis6mmryrrmjqh09lpfv";
 }
