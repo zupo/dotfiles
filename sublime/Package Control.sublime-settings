@@ -14,6 +14,8 @@
 		"GitGutter",
 		"INI",
 		"Jedi - Python autocompletion",
+		"LSP",
+		"LSP-copilot",
 		"MarkdownPreview",
 		"MikrotikScript",
 		"Move By Paragraph",

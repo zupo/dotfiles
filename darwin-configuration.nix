@@ -105,6 +105,10 @@
 
     # Allow remote builders to use caches
     builders-use-substitutes = true
+
+    # Support for `nix log`
+    # experimental-features = nix-command flakes
+    experimental-features = nix-command
   '';
   environment.pathsToLink = [
     "/share/nix-direnv"

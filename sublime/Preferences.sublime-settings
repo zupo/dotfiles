@@ -137,6 +137,9 @@
 		"localhost",
 		"durations",
 		"blueracer",
+		"openapi",
+		"docstrings",
+		"subdirectories",
 	],
 	"binary_file_patterns":
 	[
@@ -215,6 +218,8 @@
 		"node_modules"
 	],
 	"font_size": 15,
+	"font_options": [ "dwrite_cleartype_natural"],
+	// "font_options": [ "gray_antialias" ],
 	"ignored_packages":
 	[
 		"Vintage",
