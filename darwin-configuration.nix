@@ -76,6 +76,7 @@
     pkgs.direnv
     pkgs.git
     pkgs.gitAndTools.diff-so-fancy
+    pkgs.gnumake
     pkgs.gnupg
     pkgs.hyperfine
     pkgs.inetutils  # telnet has been renamed to/replaced by inetutils
