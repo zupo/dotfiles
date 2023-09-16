@@ -86,6 +86,7 @@
     pkgs.ngrok
     pkgs.nix-direnv
     pkgs.nmap-unfree  # revert to pkgs.nmap in 21.09
+    pkgs.pdfcrack
     pkgs.pgweb
     pkgs.prettyping
     pkgs.pwgen
@@ -95,7 +96,7 @@
     pkgs.unrar
     pkgs.vim
     pkgs.wget
-    pkgs.yt-dlp
+    (import (import /Users/zupo/.dotfiles/pins/nixpkgs_unstable.nix) {}).yt-dlp
   ];
 
   nix.extraOptions = ''
@@ -108,8 +109,7 @@
     builders-use-substitutes = true
 
     # Support for `nix log`
-    # experimental-features = nix-command flakes
-    experimental-features = nix-command
+    experimental-features = nix-command flakes
   '';
   environment.pathsToLink = [
     "/share/nix-direnv"

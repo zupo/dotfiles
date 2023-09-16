@@ -1,4 +1,5 @@
 Include ~/.ssh/ssh_config_private
+PubkeyAcceptedKeyTypes +ssh-rsa
 
 Host *
    IgnoreUnknown UseKeychain
@@ -9,4 +10,5 @@ Host *
 Host beta.nixbuild.net
   PubkeyAcceptedKeyTypes ssh-ed25519
   IdentityFile ~/.ssh/nixbuild-key
+
 

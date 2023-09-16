@@ -140,6 +140,8 @@
 		"openapi",
 		"docstrings",
 		"subdirectories",
+		"reasses",
+		"Commandline",
 	],
 	"binary_file_patterns":
 	[
@@ -217,7 +219,7 @@
 		"elm-stuff",
 		"node_modules"
 	],
-	"font_size": 15,
+	"font_size": 17,
 	"font_options": [ "dwrite_cleartype_natural"],
 	// "font_options": [ "gray_antialias" ],
 	"ignored_packages":
