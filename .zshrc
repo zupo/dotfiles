@@ -13,7 +13,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git sublime python sudo direnv history)
+plugins=(git python sudo direnv history)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -34,11 +34,10 @@ setopt INC_APPEND_HISTORY
 setopt INC_APPEND_HISTORY
 
 # User configuration
-export EDITOR="subl -w"
+export EDITOR="~/.dotfiles/editor.sh"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export PATH=$PATH:$HOME/bin
-export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
 
 # Disable generation of .pyc files
 # https://docs.python-guide.org/writing/gotchas/#disabling-bytecode-pyc-files
@@ -72,6 +71,7 @@ alias cat="bat"
 alias ping="prettyping --nolegend"
 alias diff="diff-so-fancy"
 alias man="tldr"
+alias subl="code"
 
 # Change /etc/hosts and flush DNS cache
 function edithosts {
@@ -86,4 +86,4 @@ function edithosts {
 # https://www.softinio.com/post/moving-from-homebrew-to-nix-package-manager/
 alias nixre="darwin-rebuild switch"
 alias nixgc="nix-collect-garbage -d"
-alias nixcfg="subl ~/.nixpkgs/darwin-configuration.nix"
+alias nixcfg="code ~/.nixpkgs/darwin-configuration.nix"

@@ -1,0 +1,51 @@
+{
+    "workbench.colorTheme": "Visual Studio Dark",
+    "workbench.startupEditor": "none",
+    "window.zoomLevel": 1,
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false
+    },
+    "editor.rulers": [
+        100,
+        80,
+        72
+    ],
+    "files.autoSave": "onFocusChange",
+    "apc.activityBar": {
+        "position": "top"
+    },
+    "window.commandCenter": false,
+    "git.openRepositoryInParentFolders": "always",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+    },
+    "black-formatter.importStrategy": "fromEnvironment",
+    "autoflake-extension.remove-duplicate-keys": true,
+    "autoflake-extension.remove-unused-variables": true,
+    "autoflake-extension.remove-all-unused-imports": true,
+    "workbench.list.horizontalScrolling": true,
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/.pytest_cache": true,
+        "**/.mypy_cache": true,
+        "**/.venv": true,
+        "**/.direnv": true,
+        "**/typecov": true,
+        "**/.coverage": true,
+        "**/cov.xml": true,
+        "**/geckodriver.log": true,
+        "**/.parcel-cache": true,
+        "**/elm-stuff": true,
+        "**/node_modules": true,
+        "**/selenium_screenshots": true,
+        "**/htmlcov": true,
+        "**/result": true
+    },
+    "extensions.ignoreRecommendations": true,
+    "elmLS.elmReviewDiagnostics": "warning",
+    "workbench.activityBar.location": "top"
+}

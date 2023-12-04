@@ -17,8 +17,11 @@
 
   # You should generally set this to the total number of logical cores in your system.
   # $ sysctl -n hw.ncpu
-  nix.settings.max-jobs = 8;
-  nix.settings.cores = 8;
+  nix.settings.max-jobs = 20;
+  nix.settings.cores = 0;
+
+  # Longer log output on errors
+  nix.log-lines = 25;
 
   # Allow licensed binaries
   nixpkgs.config.allowUnfree = true;
@@ -45,7 +48,7 @@
 
   # Personalization
   networking.hostName = "zbook";
-  system.defaults.dock.autohide = false;
+  system.defaults.dock.autohide = true;
   system.defaults.dock.orientation = "right";
   system.defaults.dock.tilesize = 35;
   system.defaults.finder._FXShowPosixPathInTitle = true;

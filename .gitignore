@@ -27,6 +27,15 @@ sublime/Package Control.last-run
 sublime/Package Control.merged-ca-bundle
 sublime/Package Control.user-ca-bundle
 
+# VS Code #
+##########
 
-# Secret
+vscode/History/
+vscode/globalStorage/
+vscode/workspaceStorage/
+
+# Secrets #
+###########
 ssh_config_private
+
+
