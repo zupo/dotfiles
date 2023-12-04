@@ -21,7 +21,7 @@
   nix.settings.cores = 0;
 
   # Longer log output on errors
-  nix.log-lines = 25;
+  nix.settings.log-lines = 25;
 
   # Allow licensed binaries
   nixpkgs.config.allowUnfree = true;
@@ -69,8 +69,7 @@
   system.keyboard.nonUS.remapTilde = true;
   system.defaults.screencapture.disable-shadow = true;
 
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
+  # List packages installed in system profile
   environment.systemPackages =[
     pkgs.asciinema
     pkgs.axel
@@ -82,13 +81,13 @@
     pkgs.gnumake
     pkgs.gnupg
     pkgs.hyperfine
-    pkgs.inetutils  # telnet has been renamed to/replaced by inetutils
+    pkgs.inetutils  # telnet
     pkgs.jq
     pkgs.keybase
     pkgs.ncdu
     pkgs.ngrok
     pkgs.nix-direnv
-    pkgs.nmap-unfree  # revert to pkgs.nmap in 21.09
+    pkgs.nmap
     pkgs.pdfcrack
     pkgs.pgweb
     pkgs.prettyping

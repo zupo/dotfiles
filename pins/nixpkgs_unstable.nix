@@ -1,5 +1,4 @@
 fetchTarball {
-  # https://github.com/NixOS/nixpkgs/tree/master on 2023-09-16
-  url = "https://github.com/nixos/nixpkgs/archive/46688f8eb5cd6f1298d873d4d2b9cf245e09e88e.tar.gz";
-  sha256 = "1qk28amvb3r766z0zs2wrbm33ifq6rmpcp0p5c86d9zb4l33nvfw";
+  # https://github.com/NixOS/nixpkgs/tree/master on 2023-12-04
+  url = "https://github.com/nixos/nixpkgs/archive/0c6d8c783336a59f4c59d4a6daed6ab269c4b361.tar.gz";
 }
