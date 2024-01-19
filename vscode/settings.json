@@ -47,5 +47,6 @@
     },
     "extensions.ignoreRecommendations": true,
     "elmLS.elmReviewDiagnostics": "warning",
-    "workbench.activityBar.location": "top"
+    "workbench.activityBar.location": "top",
+    "editor.multiCursorModifier": "ctrlCmd"
 }
