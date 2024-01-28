@@ -17,10 +17,6 @@ It targets a macOS systems, but some of it should work on \*nix as well.
 
 ```
 $ git clone https://github.com/zupo/dotfiles.git ~/.dotfiles
-$ ln -sv ~/.dotfiles/.gitignore ~/
-$ ln -sv ~/.dotfiles/.gitattributes ~/
-$ ln -sv ~/.dotfiles/.vimrc ~/.vimrc
-$ mv ~/Library/Application\ Support/Code/User ~/Library/Application\ Support/Code/User.bak
 $ ln -sv ~/.dotfiles/vscode ~/Library/Application\ Support/Code/User
 ```
 

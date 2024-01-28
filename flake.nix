@@ -145,6 +145,52 @@
       system.keyboard.nonUS.remapTilde = true;
       system.defaults.screencapture.disable-shadow = true;
       system.defaults.screensaver.askForPasswordDelay = 10;
+
+      # Configure git
+      environment.etc.gitattributes.text = ''
+        # Prevent XML diffs for Balsamiq Mockups files
+        *.bmml binary
+      '';
+      environment.etc.gitignore.text = ''
+        # Packages #
+        ############
+        # it's better to unpack these files and commit the raw source
+        # git has its own built in compression methods
+        *.7z
+        *.dmg
+        *.gz
+        *.iso
+        *.jar
+        *.rar
+        *.tar
+        *.zip
+
+        # OS generated files #
+        ######################
+        .DS_Store
+        .DS_Store?
+        ehthumbs.db
+        Icon?
+        Thumbs.db
+
+        # Sublime #
+        ###########
+        sublime/*.cache
+        sublime/oscrypto-ca-bundle.crt
+        sublime/Package Control.last-run
+        sublime/Package Control.merged-ca-bundle
+        sublime/Package Control.user-ca-bundle
+
+        # VS Code #
+        ##########
+        vscode/History/
+        vscode/globalStorage/
+        vscode/workspaceStorage/
+
+        # Secrets #
+        ###########
+        ssh_config_private
+      '';
     };
   in
   {
