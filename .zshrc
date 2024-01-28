@@ -46,12 +46,6 @@ export PYTHONDONTWRITEBYTECODE=0
 # Show alternative progress bar for Axel downloader
 alias axel="axel -a"
 
-# Use video title as filename
-alias youtube-dl="youtube-dl -t"
-
-# Download a song from youtube
-alias youtube-dl-audio="youtube-dl -i --extract-audio --audio-format mp3"
-
 # rsync sane defaults
 alias rsync="rsync -avzhP"
 
@@ -79,11 +73,7 @@ function edithosts {
     sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
 }
 
-
-## Nix things
-
-# Moving from Homebrew to nix-darwin
-# https://www.softinio.com/post/moving-from-homebrew-to-nix-package-manager/
-alias nixre="darwin-rebuild switch"
+## Nix shortcuts
+alias nixre="darwin-rebuild switch --flake /Users/zupo/.dotfiles"
 alias nixgc="nix-collect-garbage -d"
-alias nixcfg="code ~/.nixpkgs/darwin-configuration.nix"
+alias nixcfg="code ~/.dotfiles/"

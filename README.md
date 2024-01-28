@@ -2,7 +2,7 @@
 
 These are my dotfiles. Take anything you want, but at your own risk.
 
-It targets macOS systems, but it should work on \*nix as well.
+It targets a macOS systems, but some of it should work on \*nix as well.
 
 
 ## Install
@@ -15,18 +15,15 @@ It targets macOS systems, but it should work on \*nix as well.
 
 ```
 $ git clone https://github.com/zupo/dotfiles.git ~/.dotfiles
-$ ln -sv ~/.dotfiles/.zshrc ~/
 $ ln -sv ~/.dotfiles/.hushlogin ~/
 $ ln -sv ~/.dotfiles/.gitignore ~/
 $ ln -sv ~/.dotfiles/.gitattributes ~/
 $ ln -sv ~/.dotfiles/.vimrc ~/.vimrc
-$ ln -sv ~/.dotfiles/.direnvrc ~/.direnvrc
-$ ln -sv ~/.dotfiles/darwin-configuration.nix ~/.nixpkgs/darwin-configuration.nix
 $ mv ~/Library/Application\ Support/Code/User ~/Library/Application\ Support/Code/User.bak
 $ ln -sv ~/.dotfiles/vscode ~/Library/Application\ Support/Code/User
 ```
 
-4. `nix-channel`s are implicit and bad, so I remove them and instead pin nixpkgs to commit hashes in [`pins/*.nix`](https://github.com/zupo/dotfiles/tree/master/pins):
+4. `nix-channel`s are implicit and bad, so I remove them and instead use flakes to pin to exact nixpkgs commit hashes:
 
 ```
 $ rm ~/.nix-channels
@@ -40,7 +37,6 @@ TL;DR:
 ```
 $ sudo ln -sv ~/.dotfiles/zprofile.local /etc/zprofile.local
 $ sudo ln -sv ~/.dotfiles/zshrc.local /etc/zshrc.local
-$ sudo rm /etc/zshrc_Apple_Terminal
 ```
 
 ## Details
@@ -93,3 +89,9 @@ Related: https://github.com/LnL7/nix-darwin/issues/193
 - [@webpro's dotfiles](https://github.com/webpro/dotfiles)
 - [Dotfiles community](https://dotfiles.github.io).
 - [Awesome Dotfiles](https://github.com/webpro/awesome-dotfiles)
+
+
+
+nix-shell in direnv has broken prompt
+/etc fajle je treba uredit
+# (import (import /Users/zupo/.dotfiles/pins/nixpkgs_unstable.nix) {}).yt-dlp
