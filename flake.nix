@@ -73,6 +73,9 @@
       ];
       nix.settings.netrc-file = "/Users/zupo/.config/nix/netrc";
 
+      # Support for building Linux binaries
+      nix.linux-builder.enable = true;
+
       # Allow remote builders to use caches
       nix.extraOptions = ''
         builders-use-substitutes = true
