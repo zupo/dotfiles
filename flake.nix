@@ -38,7 +38,6 @@
         pkgs.s3cmd
         pkgs.tldr
         pkgs.unrar
-        pkgs.vim
         pkgs.wget
         # (import (import /Users/zupo/.dotfiles/pins/nixpkgs_unstable.nix) {}).yt-dlp
       ];
@@ -78,6 +77,10 @@
       nix.extraOptions = ''
         builders-use-substitutes = true
       '';
+
+      # Sane vim defaults
+      programs.vim.enable = true;
+      programs.vim.enableSensible = true;
 
       # Create /etc/zshrc that loads the nix-darwin environment.
       programs.zsh.enable = true;
