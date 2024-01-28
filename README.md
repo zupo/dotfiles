@@ -9,9 +9,11 @@ It targets a macOS systems, but some of it should work on \*nix as well.
 
 1. Use the official Nix installer for macOS: https://nixos.org/download.html#nix-install-macos
 
-2. Follow `Install` steps for nix-darwin: https://github.com/LnL7/nix-darwin
+1. Follow `Install` steps for nix-darwin: https://github.com/LnL7/nix-darwin
 
-3. Get my dotfiles and link them to places where they are used:
+1. Another great resource is: https://nixcademy.com/2024/01/15/nix-on-macos/
+
+1. Get my dotfiles and link them to places where they are used:
 
 ```
 $ git clone https://github.com/zupo/dotfiles.git ~/.dotfiles
@@ -23,14 +25,14 @@ $ mv ~/Library/Application\ Support/Code/User ~/Library/Application\ Support/Cod
 $ ln -sv ~/.dotfiles/vscode ~/Library/Application\ Support/Code/User
 ```
 
-4. `nix-channel`s are implicit and bad, so I remove them and instead use flakes to pin to exact nixpkgs commit hashes:
+1. `nix-channel`s are implicit and bad, so I remove them and instead use flakes to pin to exact nixpkgs commit hashes:
 
 ```
 $ rm ~/.nix-channels
 $ rm ~/.nix-defexpr/channels
 ```
 
-5. What to do with `/etc/zshrc` and `/etc/zprofile`?
+1. What to do with `/etc/zshrc` and `/etc/zprofile`?
 
 
 TL;DR:
