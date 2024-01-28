@@ -86,6 +86,9 @@
       programs.zsh.enable = true;
       programs.zsh.enableSyntaxHighlighting = true;
 
+      # Don't show the "Last login" message for every new terminal.
+      environment.etc.hushlogin.enable = true;
+
       # Default prompt includes `prompt walters` that adds an annoying
       # "current path" info to the right of the terminal line, which makes
       # copy/pasting terminal output a pain
