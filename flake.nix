@@ -1,5 +1,5 @@
 {
-  description = "zupo's Darwin system configuration";
+  description = "zupo's macOS/Darwin system configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.11-darwin";
@@ -81,6 +81,7 @@
 
       # Create /etc/zshrc that loads the nix-darwin environment.
       programs.zsh.enable = true;
+      programs.zsh.enableSyntaxHighlighting = true;
 
       # Default prompt includes `prompt walters` that adds an annoying
       # "current path" info to the right of the terminal line, which makes
@@ -111,12 +112,18 @@
       system.defaults.dock.tilesize = 35;
       system.defaults.finder._FXShowPosixPathInTitle = true;
       system.defaults.finder.AppleShowAllExtensions = true;
+      system.defaults.finder.AppleShowAllFiles = true;
+      system.defaults.finder.ShowPathbar = true;
+      system.defaults.finder.ShowStatusBar = true;
       system.defaults.finder.FXPreferredViewStyle = "clmv";
       system.defaults.loginwindow.GuestEnabled = true;
-      system.defaults.NSGlobalDomain._HIHideMenuBar = false;
+      system.defaults.finder.FXDefaultSearchScope = "SCcf"; # search current folder by default
       system.defaults.NSGlobalDomain.AppleShowScrollBars = "Always";
+      system.defaults.NSGlobalDomain.AppleScrollerPagingBehavior = true;
+      system.defaults.finder.FXEnableExtensionChangeWarning = false;
       system.defaults.NSGlobalDomain.InitialKeyRepeat = 15;
       system.defaults.NSGlobalDomain.KeyRepeat = 2;
+      system.defaults.NSGlobalDomain.AppleKeyboardUIMode = 3;
       system.defaults.NSGlobalDomain.NSNavPanelExpandedStateForSaveMode = true;
       system.defaults.NSGlobalDomain.NSNavPanelExpandedStateForSaveMode2 = true;
       system.defaults.NSGlobalDomain.NSTableViewDefaultSizeMode = 2;
