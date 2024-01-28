@@ -3,11 +3,12 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.11-darwin";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, nixpkgs-unstable }:
   let
     configuration = { pkgs, ... }: {
 
@@ -39,7 +40,7 @@
         pkgs.tldr
         pkgs.unrar
         pkgs.wget
-        # (import (import /Users/zupo/.dotfiles/pins/nixpkgs_unstable.nix) {}).yt-dlp
+        (nixpkgs-unstable.legacyPackages.${pkgs.system}.yt-dlp)
       ];
 
       # Use nix from pinned nixpkgs.
