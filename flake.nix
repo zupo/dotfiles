@@ -87,7 +87,15 @@
         "/share/nix-direnv"
       ];
       environment.extraInit = ''
-        echo 'source /run/current-system/sw/share/nix-direnv/direnvrc' > /Users/zupo/.config/nix-direnv/direnvrc
+        cat > /Users/zupo/.config/nix-direnv/direnvrc << EOF
+        # This is managed by ~/.dotfiles/flake.nix, any change will be overwritten      
+        source /run/current-system/sw/share/nix-direnv/direnvrc
+        EOF
+
+        cat > /Users/zupo/.zshrc << EOF
+        # This is managed by ~/.dotfiles/flake.nix, any change will be overwritten      
+        source /Users/zupo/.oh-my-zsh/oh-my-zsh.sh
+        EOF
       '';
 
       # Sane vim defaults
@@ -97,6 +105,53 @@
       # Create /etc/zshrc that loads the nix-darwin environment.
       programs.zsh.enable = true;
       programs.zsh.enableSyntaxHighlighting = true;
+      programs.zsh.interactiveShellInit = ''        
+        # Which plugins would you like to load?
+        # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+        # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+        # Example format: plugins=(rails git textmate ruby lighthouse)
+        # Add wisely, as too many plugins slow down shell startup.
+        plugins=(git python sudo direnv history)
+
+        # By default, when you exit zsh this particular instance of zsh
+        # will overwrite an existing history file with its history. So
+        # when you have multiple tabs open, they will all overwrite
+        # each others’ histories eventually. Tell zsh to use a single,
+        # shared history file across the sessions and append to it
+        # rather than overwrite. Additionally, append as soon as commands are entered
+        # rather than waiting until the shell exits
+        setopt INC_APPEND_HISTORY
+
+        # Tell zsh to update the history file after every command,
+        # rather than waiting for the shell to exit:
+        setopt INC_APPEND_HISTORY
+
+        # Change /etc/hosts and flush DNS cache
+        function edithosts {
+            sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
+            sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
+        }
+      '';
+      programs.zsh.variables = {
+        EDITOR = "~/.dotfiles/editor.sh";
+        LC_ALL = "en_US.UTF-8";
+        LANG = "en_US.UTF-8";
+        PATH = "$PATH:$HOME/bin";
+
+        # Enable OMZ
+        ZSH = "/Users/zupo/.oh-my-zsh";
+
+        # Use the default theme that comes with oh-my-zsh
+        ZSH_THEME = "robbyrussell";
+
+        # Enable a few neat features
+        HYPHEN_INSENSITIVE = "true";
+        COMPLETION_WAITING_DOTS = "true";
+
+        # Disable generation of .pyc files
+        # https://docs.python-guide.org/writing/gotchas/#disabling-bytecode-pyc-files
+        PYTHONDONTWRITEBYTECODE = "0";
+      };
 
       # Don't show the "Last login" message for every new terminal.
       environment.etc.hushlogin.enable = true;
@@ -105,6 +160,35 @@
       # "current path" info to the right of the terminal line, which makes
       # copy/pasting terminal output a pain
       programs.zsh.promptInit = "autoload -U promptinit && promptinit";
+
+      # Show alternative progress bar for Axel downloader
+      environment.shellAliases.axel = "axel -a";
+
+      # rsync sane defaults
+      environment.shellAliases.rsync = "rsync -avzhP";
+
+      # Force strong passwords
+      environment.shellAliases.pwgen = "pwgen --ambiguous 20";
+
+      # Open GitX from Terminal, taken from
+      # https://stackoverflow.com/questions/11625836/make-gitx-open-via-terminal-for-the-repo-laying-at-the-current-path
+      environment.shellAliases.gitx = "open -a GitX .";
+
+      # Better alternatives of common CLI commands
+      # (Inspired by https://remysharp.com/2018/08/23/cli-improved)
+      #
+      # Escape hatch: use `\`
+      # \cat # ignore aliases named "cat"
+      environment.shellAliases.cat = "bat";
+      environment.shellAliases.ping = "prettyping --nolegend";
+      environment.shellAliases.diff = "diff-so-fancy";
+      environment.shellAliases.man = "tldr";
+      environment.shellAliases.subl = "code";
+
+      # nix-darwin shortcuts
+      environment.shellAliases.nixre = "darwin-rebuild switch --flake ~/.dotfiles#zbook";
+      environment.shellAliases.nixgc = "nix-collect-garbage -d";
+      environment.shellAliases.nixcfg = "code ~/.nixpkgs/darwin-configuration.nix";
 
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
