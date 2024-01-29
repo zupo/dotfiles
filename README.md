@@ -18,6 +18,7 @@ It targets a macOS systems, but some of it should work on \*nix as well.
 ```
 $ git clone https://github.com/zupo/dotfiles.git ~/.dotfiles
 $ ln -sv ~/.dotfiles/vscode ~/Library/Application\ Support/Code/User
+$ echo 'machine niteo.cachix.org password <CACHIX AUTH TOKEN>' >> ~/.config/nix/netrc
 ```
 
 1. `nix-channel`s are implicit and bad, so I remove them and instead use flakes to pin to exact nixpkgs commit hashes:
@@ -25,6 +26,7 @@ $ ln -sv ~/.dotfiles/vscode ~/Library/Application\ Support/Code/User
 ```
 $ rm ~/.nix-channels
 $ rm ~/.nix-defexpr/channels
+$ rm ~/.nixpkgs/
 ```
 
 1. What to do with `/etc/zshrc` and `/etc/zprofile`?

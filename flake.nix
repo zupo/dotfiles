@@ -12,7 +12,7 @@
   let
     configuration = { pkgs, ... }: {
 
-      # Software I can't live without:
+      # Software I can't live without
       environment.systemPackages =[
         pkgs.asciinema
         pkgs.axel
@@ -80,6 +80,14 @@
       # Allow remote builders to use caches
       nix.extraOptions = ''
         builders-use-substitutes = true
+      '';
+
+      # Enable nix-direnv
+      environment.pathsToLink = [
+        "/share/nix-direnv"
+      ];
+      environment.extraInit = ''
+        echo 'source /run/current-system/sw/share/nix-direnv/direnvrc' > /Users/zupo/.config/nix-direnv/direnvrc
       '';
 
       # Sane vim defaults
