@@ -172,7 +172,7 @@
 
       # Open GitX from Terminal, taken from
       # https://stackoverflow.com/questions/11625836/make-gitx-open-via-terminal-for-the-repo-laying-at-the-current-path
-      environment.shellAliases.gitx = "open -a GitX .";
+      # environment.shellAliases.gitx = "open -a GitX .";
 
       # Better alternatives of common CLI commands
       # (Inspired by https://remysharp.com/2018/08/23/cli-improved)
