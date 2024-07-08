@@ -2,7 +2,7 @@
   description = "zupo's macOS/Darwin system configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.11-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -27,7 +27,7 @@
         pkgs.inetutils  # telnet
         pkgs.jq
         pkgs.keybase
-        pkgs.ncdu
+        # pkgs.ncdu  # uncomment when this is fixed: https://github.com/NixOS/nixpkgs/issues/287861
         pkgs.ngrok
         pkgs.nix-direnv
         pkgs.nmap

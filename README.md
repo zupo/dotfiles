@@ -67,6 +67,13 @@ lrwxr-xr-x  1 root  wheel  17 Sep 20 11:30 zshrc -> /etc/static/zshrc
 Related: https://github.com/LnL7/nix-darwin/issues/193
 
 
+## Updating
+
+When a new nixpkgs channel is released, do the following:
+* update the `nixpkgs.url` input in `flake.nix` to the new channel
+* run `darwin-rebuild check --flake ~/.dotfiles#zbook`
+* run `nixre`
+
 ## Additional resources
 
 - [Getting started with dotfiles](https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789)
