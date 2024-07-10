@@ -18,7 +18,7 @@
         pkgs.axel
         pkgs.bat
         pkgs.cachix
-        pkgs.devenv
+        (nixpkgs-unstable.legacyPackages.${pkgs.system}.devenv)
         pkgs.direnv
         pkgs.git
         pkgs.gitAndTools.diff-so-fancy
