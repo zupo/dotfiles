@@ -49,5 +49,6 @@
     "workbench.activityBar.location": "top",
     "editor.multiCursorModifier": "ctrlCmd",
     "python.analysis.autoImportCompletions": true,
-    "github.copilot.editor.enableAutoCompletions": true
+    "github.copilot.editor.enableAutoCompletions": true,
+    "editor.snippetSuggestions": "top"
 }

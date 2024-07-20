@@ -13,7 +13,7 @@
 	// 	"description": "Log output to console"
 	// }
 
-	"Print to console": {
+	"PDB breakpoint": {
 		"prefix": "pdb",
 		"body": "breakpoint()",
 		"description": "PDB set trace"
