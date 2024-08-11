@@ -9,7 +9,7 @@ It targets a macOS systems, but some of it should work on \*nix as well.
 
 1. Use the official Nix installer for macOS: https://nixos.org/download.html#nix-install-macos
 
-1. Follow `Install` steps for nix-darwin: https://github.com/LnL7/nix-darwin
+1. Follow `Flakes` install steps for nix-darwin: https://github.com/LnL7/nix-darwin
 
 1. Another great resource is: https://nixcademy.com/2024/01/15/nix-on-macos/
 
