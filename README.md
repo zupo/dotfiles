@@ -74,6 +74,12 @@ When a new nixpkgs channel is released, do the following:
 * run `darwin-rebuild check --flake ~/.dotfiles#zbook`
 * run `nixre`
 
+## Troubleshooting
+
+### `Problem with the SSL CA cert (path? access rights?)`
+
+If you see this error when trying to reinstall, follow https://discourse.nixos.org/t/ssl-ca-cert-error-on-macos/31171/5.
+
 ## Additional resources
 
 - [Getting started with dotfiles](https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789)
