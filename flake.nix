@@ -189,7 +189,7 @@
       # nix-darwin shortcuts
       environment.shellAliases.nixre = "darwin-rebuild switch --flake ~/.dotfiles#zbook";
       environment.shellAliases.nixgc = "nix-collect-garbage -d";
-      environment.shellAliases.nixcfg = "code ~/.nixpkgs/darwin-configuration.nix";
+      environment.shellAliases.nixcfg = "code ~/.nixpkgs/flake.nix";
 
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
