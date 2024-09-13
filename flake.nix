@@ -89,12 +89,12 @@
       ];
       environment.extraInit = ''
         cat > /Users/zupo/.config/nix-direnv/direnvrc << EOF
-        # This is managed by ~/.dotfiles/flake.nix, any change will be overwritten      
+        # This is managed by ~/.dotfiles/flake.nix, any change will be overwritten
         source /run/current-system/sw/share/nix-direnv/direnvrc
         EOF
 
         cat > /Users/zupo/.zshrc << EOF
-        # This is managed by ~/.dotfiles/flake.nix, any change will be overwritten      
+        # This is managed by ~/.dotfiles/flake.nix, any change will be overwritten
         source /Users/zupo/.oh-my-zsh/oh-my-zsh.sh
         EOF
       '';
@@ -106,7 +106,7 @@
       # Create /etc/zshrc that loads the nix-darwin environment.
       programs.zsh.enable = true;
       programs.zsh.enableSyntaxHighlighting = true;
-      programs.zsh.interactiveShellInit = ''        
+      programs.zsh.interactiveShellInit = ''
         # Which plugins would you like to load?
         # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
         # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -123,9 +123,6 @@
         # rather than waiting until the shell exits
         setopt INC_APPEND_HISTORY
 
-        # Tell zsh to update the history file after every command,
-        # rather than waiting for the shell to exit:
-        setopt INC_APPEND_HISTORY
 
         # Change /etc/hosts and flush DNS cache
         function edithosts {
@@ -295,6 +292,6 @@
     };
 
     # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."simple".pkgs;
+    darwinPackages = self.darwinConfigurations."zbook".pkgs;
   };
 }
