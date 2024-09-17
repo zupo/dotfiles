@@ -50,6 +50,11 @@
         pkgs.yt-dlp
       ];
 
+      programs.vim = {
+        enable = true;
+        defaultEditor = true;
+      };
+
       programs.git = {
         enable = true;
         diff-so-fancy.enable = true;
@@ -218,10 +223,6 @@
         EOF
       '';
 
-      # Sane vim defaults
-      programs.vim.enable = true;
-      programs.vim.enableSensible = true;
-
       # Create /etc/zshrc that loads the nix-darwin environment.
       programs.zsh.enable = true;
       programs.zsh.enableSyntaxHighlighting = true;
@@ -250,7 +251,7 @@
         }
       '';
       programs.zsh.variables = {
-        EDITOR = "~/.dotfiles/editor.sh";
+        # EDITOR = "~/.dotfiles/editor.sh";
         LC_ALL = "en_US.UTF-8";
         LANG = "en_US.UTF-8";
         PATH = "$PATH:$HOME/bin";
