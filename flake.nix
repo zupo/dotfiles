@@ -13,8 +13,7 @@
   let
     secrets = import /Users/zupo/.dotfiles/secrets.nix;
 
-    home-config = { pkgs, lib, ... }: {
-      home.username = "zupo";
+    homeconfig = { pkgs, lib, ... }: {
       home.homeDirectory = lib.mkForce "/Users/zupo";
       home.stateVersion = "23.11";
       programs.home-manager.enable = true;
@@ -26,7 +25,6 @@
         pkgs.bat
         pkgs.cachix
         pkgs.devenv
-        pkgs.direnv
         pkgs.gnumake
         pkgs.gnupg
         pkgs.hyperfine
@@ -35,7 +33,6 @@
         pkgs.keybase
         pkgs.ncdu
         pkgs.ngrok
-        pkgs.nix-direnv
         pkgs.nmap
         pkgs.pdfcrack
         pkgs.pgweb
@@ -50,9 +47,68 @@
         pkgs.yt-dlp
       ];
 
+      programs.direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+      };
+
       programs.vim = {
         enable = true;
         defaultEditor = true;
+      };
+
+      programs.zsh = {
+        enable = true;
+        autosuggestion.enable = true;
+        enableCompletion = true;
+        oh-my-zsh = {
+          enable = true;
+          theme = "robbyrussell";
+          plugins = ["git" "python" "sudo" "direnv"];
+        };
+        sessionVariables = {
+          LC_ALL = "en_US.UTF-8";
+          LANG = "en_US.UTF-8";
+
+          # Needed for synologycloudsyncdecryptiontool
+          PATH = "$PATH:$HOME/bin";
+
+          # Enable a few neat OMZ features
+          HYPHEN_INSENSITIVE = "true";
+          COMPLETION_WAITING_DOTS = "true";
+
+          # Disable generation of .pyc files
+          # https://docs.python-guide.org/writing/gotchas/#disabling-bytecode-pyc-files
+          PYTHONDONTWRITEBYTECODE = "0";
+        };
+        shellAliases = {
+          axel = "axel -a";
+          rsync = "rsync -avzhP";
+          pwgen = "pwgen --ambiguous 20";
+          cat = "bat";
+          ping = "prettyping --nolegend";
+          diff = "diff-so-fancy";
+          man = "tldr";
+          subl = "code";
+          nixre = "darwin-rebuild switch --flake ~/.dotfiles#zbook --impure";
+          nixgc = "nix-collect-garbage -d";
+          nixcfg = "code ~/.dotfiles/flake.nix";
+        };
+        history = {
+          append = true;
+          share = true;
+        };
+        initExtra = ''
+          function edithosts {
+              sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
+              sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
+          }
+        '';
+      };
+
+      # Don't show the "Last login" message for every new terminal.
+      home.file.".hushlogin" = {
+        text = "";
       };
 
       programs.git = {
@@ -159,14 +215,7 @@
       };
     };
 
-    system-config = { pkgs, ... }: {
-
-      # Use Home Manger to configure the user environment
-      home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        users.zupo = home-config;
-      };
+    configuration = { pkgs, ... }: {
 
       # Use nix from pinned nixpkgs
       services.nix-daemon.enable = true;
@@ -207,103 +256,8 @@
         builders-use-substitutes = true
       '';
 
-      # Enable nix-direnv
-      environment.pathsToLink = [
-        "/share/nix-direnv"
-      ];
-      environment.extraInit = ''
-        cat > /Users/zupo/.config/nix-direnv/direnvrc << EOF
-        # This is managed by ~/.dotfiles/flake.nix, any change will be overwritten
-        source /run/current-system/sw/share/nix-direnv/direnvrc
-        EOF
-
-        cat > /Users/zupo/.zshrc << EOF
-        # This is managed by ~/.dotfiles/flake.nix, any change will be overwritten
-        source /Users/zupo/.oh-my-zsh/oh-my-zsh.sh
-        EOF
-      '';
-
       # Create /etc/zshrc that loads the nix-darwin environment.
       programs.zsh.enable = true;
-      programs.zsh.enableSyntaxHighlighting = true;
-      programs.zsh.interactiveShellInit = ''
-        # Which plugins would you like to load?
-        # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-        # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-        # Example format: plugins=(rails git textmate ruby lighthouse)
-        # Add wisely, as too many plugins slow down shell startup.
-        plugins=(git python sudo direnv history)
-
-        # By default, when you exit zsh this particular instance of zsh
-        # will overwrite an existing history file with its history. So
-        # when you have multiple tabs open, they will all overwrite
-        # each others’ histories eventually. Tell zsh to use a single,
-        # shared history file across the sessions and append to it
-        # rather than overwrite. Additionally, append as soon as commands are entered
-        # rather than waiting until the shell exits
-        setopt INC_APPEND_HISTORY
-
-
-        # Change /etc/hosts and flush DNS cache
-        function edithosts {
-            sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
-            sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
-        }
-      '';
-      programs.zsh.variables = {
-        # EDITOR = "~/.dotfiles/editor.sh";
-        LC_ALL = "en_US.UTF-8";
-        LANG = "en_US.UTF-8";
-        PATH = "$PATH:$HOME/bin";
-
-        # Enable OMZ
-        ZSH = "/Users/zupo/.oh-my-zsh";
-
-        # Use the default theme that comes with oh-my-zsh
-        ZSH_THEME = "robbyrussell";
-
-        # Enable a few neat features
-        HYPHEN_INSENSITIVE = "true";
-        COMPLETION_WAITING_DOTS = "true";
-
-        # Disable generation of .pyc files
-        # https://docs.python-guide.org/writing/gotchas/#disabling-bytecode-pyc-files
-        PYTHONDONTWRITEBYTECODE = "0";
-      };
-
-      # Don't show the "Last login" message for every new terminal.
-      environment.etc.hushlogin.enable = true;
-
-      # Default prompt includes `prompt walters` that adds an annoying
-      # "current path" info to the right of the terminal line, which makes
-      # copy/pasting terminal output a pain
-      programs.zsh.promptInit = "autoload -U promptinit && promptinit";
-
-      # Show alternative progress bar for Axel downloader
-      environment.shellAliases.axel = "axel -a";
-
-      # rsync sane defaults
-      environment.shellAliases.rsync = "rsync -avzhP";
-
-      # Force strong passwords
-      environment.shellAliases.pwgen = "pwgen --ambiguous 20";
-
-      # Better alternatives of common CLI commands
-      # (Inspired by https://remysharp.com/2018/08/23/cli-improved)
-      #
-      # Escape hatch: use `\`
-      # \cat # ignore aliases named "cat"
-      environment.shellAliases.cat = "bat";
-      environment.shellAliases.ping = "prettyping --nolegend";
-      environment.shellAliases.diff = "diff-so-fancy";
-      environment.shellAliases.man = "tldr";
-      environment.shellAliases.subl = "code";
-
-      # nix-darwin shortcuts
-      # we need --impure because we're using flakes and secrets.nix
-      environment.shellAliases.nixre = "darwin-rebuild switch --flake ~/.dotfiles#zbook --impure";
-      environment.shellAliases.nixgc = "nix-collect-garbage -d";
-      environment.shellAliases.nixcfg = "code ~/.dotfiles/flake.nix";
 
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
@@ -360,7 +314,14 @@
     # $ darwin-rebuild build --flake .
     # $ nix run nix-darwin -- switch --flake .#zbook
     darwinConfigurations."zbook" = nix-darwin.lib.darwinSystem {
-      modules = [ system-config home-manager.darwinModule ];
+      modules = [
+        configuration
+        home-manager.darwinModules.home-manager  {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.zupo = homeconfig;
+        }
+      ];
     };
 
     # Expose the package set, including overlays, for convenience.
