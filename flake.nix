@@ -11,22 +11,15 @@
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager }:
   let
-    configuration = { pkgs, ... }: {
 
-      # Home environment
-      home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        users.zupo = { config, lib, ... }: {
-          home.username = "zupo";
-          home.homeDirectory = lib.mkForce "/Users/zupo";
-          home.stateVersion = "23.11";
-          programs.home-manager.enable = true;
-        };
-      };
+    home-config = { pkgs, lib, ... }: {
+      home.username = "zupo";
+      home.homeDirectory = lib.mkForce "/Users/zupo";
+      home.stateVersion = "23.11";
+      programs.home-manager.enable = true;
 
       # Software I can't live without
-      environment.systemPackages =[
+      home.packages = with pkgs; [
         pkgs.asciinema
         pkgs.axel
         pkgs.bat
@@ -57,8 +50,18 @@
         pkgs.wget
         pkgs.yt-dlp
       ];
+    };
 
-      # Use nix from pinned nixpkgs.
+    system-config = { pkgs, ... }: {
+
+      # Use Home Manger to configure the user environment
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        users.zupo = home-config;
+      };
+
+      # Use nix from pinned nixpkgs
       services.nix-daemon.enable = true;
       nix.settings.trusted-users = [ "root" "zupo" ];
       nix.package = pkgs.nix;
@@ -302,7 +305,7 @@
     # $ darwin-rebuild build --flake .
     # $ nix run nix-darwin -- switch --flake .#zbook
     darwinConfigurations."zbook" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration home-manager.darwinModule ];
+      modules = [ system-config home-manager.darwinModule ];
     };
 
     # Expose the package set, including overlays, for convenience.
