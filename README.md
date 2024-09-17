@@ -97,8 +97,3 @@ If you see this error when trying to reinstall, follow https://discourse.nixos.o
 - [@webpro's dotfiles](https://github.com/webpro/dotfiles)
 - [Dotfiles community](https://dotfiles.github.io).
 - [Awesome Dotfiles](https://github.com/webpro/awesome-dotfiles)
-
-
-# ToDo
-
-* Home manager
