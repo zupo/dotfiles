@@ -57,6 +57,15 @@
         defaultEditor = true;
       };
 
+      programs.ssh = {
+        enable = true;
+        addKeysToAgent = "yes";
+        extraConfig = ''
+          IgnoreUnknown UseKeychain
+          UseKeychain yes
+        '';
+      };
+
       programs.zsh = {
         enable = true;
         autosuggestion.enable = true;
