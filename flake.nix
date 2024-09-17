@@ -13,6 +13,18 @@
   let
     configuration = { pkgs, ... }: {
 
+      # Home environment
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        users.zupo = { config, lib, ... }: {
+          home.username = "zupo";
+          home.homeDirectory = lib.mkForce "/Users/zupo";
+          home.stateVersion = "23.11";
+          programs.home-manager.enable = true;
+        };
+      };
+
       # Software I can't live without
       environment.systemPackages =[
         pkgs.asciinema
@@ -290,15 +302,7 @@
     # $ darwin-rebuild build --flake .
     # $ nix run nix-darwin -- switch --flake .#zbook
     darwinConfigurations."zbook" = nix-darwin.lib.darwinSystem {
-      modules = [
-        configuration
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.zupo = import ./home.nix;
-        }
-      ];
+      modules = [ configuration home-manager.darwinModule ];
     };
 
     # Expose the package set, including overlays, for convenience.
