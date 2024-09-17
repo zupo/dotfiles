@@ -47,14 +47,11 @@
         pkgs.yt-dlp
       ];
 
+      programs.vim.enable = true;
+
       programs.direnv = {
         enable = true;
         nix-direnv.enable = true;
-      };
-
-      programs.vim = {
-        enable = true;
-        defaultEditor = true;
       };
 
       programs.ssh = {
@@ -78,6 +75,7 @@
         sessionVariables = {
           LC_ALL = "en_US.UTF-8";
           LANG = "en_US.UTF-8";
+          EDITOR = "zed --wait";
 
           # Needed for synologycloudsyncdecryptiontool
           PATH = "$PATH:$HOME/bin";
