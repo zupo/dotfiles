@@ -2,13 +2,14 @@
   description = "zupo's macOS/Darwin system configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nixpkgs-unstable }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager }:
   let
     configuration = { pkgs, ... }: {
 
@@ -18,7 +19,7 @@
         pkgs.axel
         pkgs.bat
         pkgs.cachix
-        (nixpkgs-unstable.legacyPackages.${pkgs.system}.devenv)
+        pkgs.devenv
         pkgs.direnv
         pkgs.git
         pkgs.gitAndTools.diff-so-fancy
@@ -42,7 +43,7 @@
         pkgs.tldr
         pkgs.unrar
         pkgs.wget
-        (nixpkgs-unstable.legacyPackages.${pkgs.system}.yt-dlp)
+        pkgs.yt-dlp
       ];
 
       # Use nix from pinned nixpkgs.
@@ -289,7 +290,15 @@
     # $ darwin-rebuild build --flake .
     # $ nix run nix-darwin -- switch --flake .#zbook
     darwinConfigurations."zbook" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
+      modules = [
+        configuration
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.zupo = import ./home.nix;
+        }
+      ];
     };
 
     # Expose the package set, including overlays, for convenience.
