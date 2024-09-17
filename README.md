@@ -21,6 +21,17 @@ $ ln -sv ~/.dotfiles/vscode ~/Library/Application\ Support/Code/User
 $ echo 'machine niteo.cachix.org password <CACHIX AUTH TOKEN>' >> ~/.config/nix/netrc
 ```
 
+1. Create a `secrets.nix` file in your `.dotfiles` directory:
+
+```nix
+{
+  email = "your.email@example.com";
+  github = {
+    token = "secret";
+  };
+}
+```
+
 1. `nix-channel`s are implicit and bad, so I remove them and instead use flakes to pin to exact nixpkgs commit hashes:
 
 ```
