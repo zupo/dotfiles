@@ -96,16 +96,16 @@
           ping = "prettyping --nolegend";
           diff = "diff-so-fancy";
           man = "tldr";
+          subl = "code";
           nixre = "darwin-rebuild switch --flake ~/.dotfiles#zbook --impure";
           nixgc = "nix-collect-garbage -d";
-          nixcfg = "zed ~/.dotfiles/flake.nix";
+          nixcfg = "code ~/.dotfiles/flake.nix";
         };
         history = {
           append = true;
           share = true;
         };
         initExtra = ''
-          bindkey '\t' autosuggest-accept
           function edithosts {
               sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
               sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
