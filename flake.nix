@@ -45,6 +45,7 @@
         pkgs.unrar
         pkgs.wget
         pkgs.yt-dlp
+        pkgs.nixd
       ];
 
       programs.vim.enable = true;
