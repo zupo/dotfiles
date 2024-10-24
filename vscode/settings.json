@@ -42,13 +42,18 @@
         "**/node_modules": true,
         "**/selenium_screenshots": true,
         "**/htmlcov": true,
-        "**/result": true
+        "**/result": true,
+        "**/.devenv*": true
     },
     "extensions.ignoreRecommendations": true,
     "elmLS.elmReviewDiagnostics": "warning",
     "workbench.activityBar.location": "top",
     "editor.multiCursorModifier": "ctrlCmd",
     "python.analysis.autoImportCompletions": true,
+    "elmLand.compilerFilepath": "lamdera",
     "github.copilot.editor.enableAutoCompletions": true,
-    "editor.snippetSuggestions": "top"
+    "editor.snippetSuggestions": "top",
+    "[elm]": {
+        "editor.defaultFormatter": "elm-land.elm-land"
+    }
 }

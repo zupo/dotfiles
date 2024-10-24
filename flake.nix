@@ -101,6 +101,7 @@
           nixre = "darwin-rebuild switch --flake ~/.dotfiles#zbook --impure";
           nixgc = "nix-collect-garbage -d";
           nixcfg = "code ~/.dotfiles/flake.nix";
+          yt-dlp-lowres = "yt-dlp -S res:720";
         };
         history = {
           append = true;
