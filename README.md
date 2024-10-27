@@ -80,6 +80,9 @@ Related: https://github.com/LnL7/nix-darwin/issues/193
 
 ## Updating
 
+To update to the latest release in the currently used channel, run 
+`nix flake update` followed by `nixre`. 
+
 When a new nixpkgs channel is released, do the following:
 * update the `nixpkgs.url` input in `flake.nix` to the new channel
 * run `darwin-rebuild check --flake ~/.dotfiles#zbook`
