@@ -290,7 +290,7 @@
       # Then, to revert back to using it with nix build, run:
       # $ sudo chmod 600 /etc/nix/builder_ed25519
       nix.linux-builder = {
-        enable = true;
+        enable = false;
         ephemeral = true;
         maxJobs = 4;
         config = {
