@@ -83,7 +83,7 @@
         sessionVariables = {
           LC_ALL = "en_US.UTF-8";
           LANG = "en_US.UTF-8";
-          EDITOR = "zed --wait";
+          EDITOR = "~/.editor";
 
           # Needed for synologycloudsyncdecryptiontool
           PATH = "$PATH:$HOME/bin";
@@ -125,6 +125,16 @@
       # Don't show the "Last login" message for every new terminal.
       home.file.".hushlogin" = {
         text = "";
+      };
+
+      home.file.".editor" = {
+        executable = true;
+        text = ''
+          #!/bin/bash
+          # https://github.com/microsoft/vscode/issues/68579#issuecomment-463039009
+          code --wait "$@"
+          open -a Terminal
+        '';
       };
 
       programs.git = {
