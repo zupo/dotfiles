@@ -62,6 +62,9 @@
           IgnoreUnknown UseKeychain
           UseKeychain yes
 
+          # Support connecting to RouterOS v6 Mikrotik devices
+          PubkeyAcceptedAlgorithms +ssh-rsa
+
           Host linux-builder
             User builder
             Hostname localhost
