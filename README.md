@@ -69,7 +69,7 @@ I override this one with my personal settings using flake.nix
 In the end, the `/etc` folder should be like this:
 
 ```
-/etc ➜ ls -l z
+/etc ➜ ls -l z*
 lrwxr-xr-x  1 root  wheel  20 Sep 14 18:17 zprofile -> /etc/static/zprofile
 lrwxr-xr-x  1 root  wheel  18 Apr  7  2020 zshenv -> /etc/static/zshenv
 lrwxr-xr-x  1 root  wheel  17 Sep 20 11:30 zshrc -> /etc/static/zshrc
