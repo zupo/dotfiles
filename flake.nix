@@ -33,6 +33,9 @@
         pkgs.keybase
         pkgs.ncdu
         pkgs.ngrok
+        pkgs.nix-init
+        pkgs.nixd
+        pkgs.nixfmt-rfc-style
         pkgs.nmap
         pkgs.pdfcrack
         pkgs.pgweb
@@ -45,7 +48,6 @@
         pkgs.unrar
         pkgs.wget
         pkgs.yt-dlp
-        pkgs.nixd
       ];
 
       programs.vim.enable = true;
@@ -65,12 +67,10 @@
           # Support connecting to RouterOS v6 Mikrotik devices
           PubkeyAcceptedAlgorithms +ssh-rsa
 
-          Host linux-builder
-            User builder
-            Hostname localhost
-            HostKeyAlias linux-builder
-            IdentityFile /etc/nix/builder_ed25519
-            Port 31022
+          # Skip host key checking for NixOS Tests VMs
+          Host localhost
+              StrictHostKeyChecking no
+              UserKnownHostsFile /dev/null
         '';
       };
 
@@ -248,7 +248,7 @@
 
       # Use nix from pinned nixpkgs
       services.nix-daemon.enable = true;
-      nix.settings.trusted-users = [ "root" "zupo" ];
+      nix.settings.trusted-users = [ "@admin" ];
       nix.package = pkgs.nix;
 
       # Using flakes instead of channels
@@ -278,19 +278,8 @@
       nix.settings.netrc-file = "/Users/zupo/.config/nix/netrc";
 
       # Support for building Linux binaries
-      # Note: the `Host linux-builder` section in ssh config above is required
-      # for this to work. 
-      # To test, run: 
-      # nix build --impure --expr '(with import <nixpkgs> { system = "aarch64-linux"; }; runCommand "foo" {} "uname -a > $out")'
-      # Or:
-      # nix -L build github:tfc/nixos-integration-test-example
-      # To SSH directly into the builder, run:
-      # $ sudo chmod 644 /etc/nix/builder_ed25519
-      # $ ssh builder@linux-builder
-      # Then, to revert back to using it with nix build, run:
-      # $ sudo chmod 600 /etc/nix/builder_ed25519
       nix.linux-builder = {
-        enable = false;
+        enable = true;
         ephemeral = true;
         maxJobs = 4;
         config = {
