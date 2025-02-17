@@ -377,5 +377,8 @@
 
     # Expose the package set, including overlays, for convenience.
     darwinPackages = self.darwinConfigurations."zbook".pkgs;
+
+    # Support using the homemanager config elsewhere
+    homeconfig = homeconfig;
   };
 }
