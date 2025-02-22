@@ -14,7 +14,7 @@
     secrets = import ~/.dotfiles/secrets.nix;
 
     homeconfig = { pkgs, lib, ... }: {
-      # home.homeDirectory = lib.mkForce "/Users/zupo";
+      home.homeDirectory = lib.mkForce "/root";
       home.stateVersion = "23.11";
       programs.home-manager.enable = true;
 
