@@ -275,7 +275,7 @@
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "niteo.cachix.org-1:GUFNjJDCE199FDtgkG3ECLrAInFZEDJW2jq2BUQBFYY="
       ];
-      nix.settings.netrc-file = "/Users/zupo/.config/nix/netrc";
+      nix.settings.netrc-file = "~/.config/nix/netrc";
 
       # Support for building Linux binaries
       nix.linux-builder = {
