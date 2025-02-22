@@ -11,10 +11,10 @@
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager }:
   let
-    secrets = import /Users/zupo/.dotfiles/secrets.nix;
+    secrets = import ~/.dotfiles/secrets.nix;
 
     homeconfig = { pkgs, lib, ... }: {
-      home.homeDirectory = lib.mkForce "/Users/zupo";
+      # home.homeDirectory = lib.mkForce "/Users/zupo";
       home.stateVersion = "23.11";
       programs.home-manager.enable = true;
 
