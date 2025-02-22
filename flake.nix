@@ -11,7 +11,7 @@
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager }:
   let
-    secrets = import ~/.dotfiles/secrets.nix;
+    # secrets = import ~/.dotfiles/secrets.nix;
 
     homeconfig = { pkgs, lib, ... }: {
       home.homeDirectory = lib.mkForce "/root";
@@ -144,7 +144,7 @@
         enable = true;
         diff-so-fancy.enable = true;
         userName = "Neyts Zupan";
-        userEmail = secrets.email;
+        # userEmail = secrets.email;
         attributes = [
           "*.bmml binary" # Prevent XML diffs for Balsamiq Mockups files
         ];
@@ -229,7 +229,7 @@
           };
           github = {
             user = "zupo";
-            token = secrets.github.token;
+            # token = secrets.github.token;
           };
           help = {
             autocorrect = 1;
