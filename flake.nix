@@ -45,7 +45,7 @@
         pkgs.s3cmd
         pkgs.tailscale
         pkgs.tldr
-        pkgs.unrar
+        # pkgs.unrar
         pkgs.wget
         pkgs.yt-dlp
       ];
