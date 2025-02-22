@@ -32,7 +32,7 @@
         pkgs.jq
         pkgs.keybase
         pkgs.ncdu
-        pkgs.ngrok
+        # pkgs.ngrok
         pkgs.nix-init
         pkgs.nixd
         pkgs.nixfmt-rfc-style
