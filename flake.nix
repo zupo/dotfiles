@@ -3,13 +3,14 @@
 
     inputs = {
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
+      nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
       nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
       home-manager.url = "github:nix-community/home-manager/release-24.11";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager }:
+    outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager }:
     let
       secrets = import /Users/zupo/.dotfiles/secrets.nix;
 
@@ -127,11 +128,11 @@
 
         # Software I can't live without
         home.packages = with pkgs; [
+          (import nixpkgs-unstable { system = "aarch64-darwin"; }).devenv
           pkgs.asciinema
           pkgs.axel
           pkgs.bat
           pkgs.cachix
-          pkgs.devenv
           pkgs.gnumake
           pkgs.gnupg
           pkgs.hyperfine
