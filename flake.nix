@@ -308,6 +308,13 @@
           };
         };
 
+        # Increase file descriptor limits
+        launchd.daemons.limit-maxfiles = {
+          command = "launchctl limit maxfiles 65536 524288";
+          serviceConfig.RunAtLoad = true;
+          serviceConfig.KeepAlive = false;
+        };
+
         # Allow remote builders to use caches
         nix.extraOptions = ''
           builders-use-substitutes = true
