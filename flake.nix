@@ -129,6 +129,7 @@
         # Software I can't live without
         home.packages = with pkgs; [
           (import nixpkgs-unstable { system = "aarch64-darwin"; }).devenv
+          (import nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; }).claude-code
           pkgs.asciinema
           pkgs.axel
           pkgs.bat
