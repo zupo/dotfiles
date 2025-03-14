@@ -2,19 +2,17 @@
   description = "flake for desktop";
 
   inputs = {
-    nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-24.11";
-    };
+    nixpkgs.url = "path:/home/zupo/nixpkgs";
   };
 
   outputs = { self, nixpkgs }: {
-    nixosConfigurations = {
-      desktop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./configuration.nix
-        ];
+      nixosConfigurations = {
+        desktop = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            ./configuration.nix
+          ];
+        };
       };
-    };
   };
 }
