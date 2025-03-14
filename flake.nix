@@ -169,6 +169,16 @@
         programs.ssh = {
           enable = true;
           addKeysToAgent = "yes";
+
+          # OK so this one is a bit convoluted:
+          # I want to forward the agent to my desktop, but not to other hosts.
+          # However, homemanager puts `Host *` with ForwardAgent at the top of the
+          # ssh config file, and that takes precedence over the more specific
+          # `Host desktop` configuration lower in the file.
+          # The solution is to disable ForwardAgent for all hosts, and then enable
+          # it for the desktop host, and then disable again it for all other hosts.
+          forwardAgent = true;
+
           extraConfig = ''
             IgnoreUnknown UseKeychain
             UseKeychain yes
@@ -176,10 +186,22 @@
             # Support connecting to RouterOS v6 Mikrotik devices
             PubkeyAcceptedAlgorithms +ssh-rsa
 
+            # Enable SSH agent forwarding to the desktop VM
+            Host desktop
+              ForwardAgent yes
+
+            # Disable SSH agent forwarding for all other hosts
+            Host *
+              ForwardAgent no
+
             # Skip host key checking for NixOS Tests VMs
             Host localhost
-                StrictHostKeyChecking no
-                UserKnownHostsFile /dev/null
+              StrictHostKeyChecking no
+              UserKnownHostsFile /dev/null
+
+            # Save IP of the desktop VM
+            Host desktop
+              HostName 192.168.64.10
           '';
         };
 
