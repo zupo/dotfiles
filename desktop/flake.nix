@@ -6,13 +6,14 @@
   };
 
   outputs = { self, nixpkgs }: {
-      nixosConfigurations = {
-        desktop = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          modules = [
-            ./configuration.nix
-          ];
-        };
+      nixosConfigurations = 
+        let 
+          # skip doing "nix flake update" on every change in /home/zupo/nixpkgs
+          pkgs = import /home/zupo/nixpkgs {system="aarch64-linux";};
+
+        in 
+        { 
+          desktop = pkgs.nixos ./configuration.nix;
       };
   };
 }
