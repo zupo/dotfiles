@@ -94,6 +94,22 @@ When a new nixpkgs channel is released, do the following:
 
 If you see this error when trying to reinstall, follow https://discourse.nixos.org/t/ssl-ca-cert-error-on-macos/31171/5.
 
+### `No space left on device`
+
+If you see an error like this:
+
+```console
+> mkdir: cannot create directory '/nix/store/31k835115bylz5qb3k7vhcvfgrl4cwpl-nixos-disk-image/nix-support': No space left on device
+```
+
+The problem might not be with your macOS disk space, but with the nix-darwin's linux-builder disk space. Fix it like this:
+
+```console
+$ sudo ssh linux-builder
+[builder@nixos:~]$ nix-collect-garbage
+```
+
+
 ## Additional resources
 
 - [Getting started with dotfiles](https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789)
