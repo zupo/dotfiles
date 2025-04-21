@@ -243,6 +243,7 @@
             nixgc = "nix-collect-garbage -d";
             nixcfg = "code ~/.dotfiles/flake.nix";
             yt-dlp-lowres = "yt-dlp -S res:720";
+            yt-dlp-audio = "yt-dlp --extract-audio --audio-format mp3";
           };
           history = {
             append = true;
