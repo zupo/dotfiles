@@ -140,6 +140,7 @@
           pkgs.inetutils  # telnet
           pkgs.jq
           pkgs.keybase
+          pkgs.mkcert
           pkgs.ncdu
           pkgs.ngrok
           pkgs.nix-init
