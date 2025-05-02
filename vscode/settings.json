@@ -46,6 +46,7 @@
         "**/result": true,
         "**/.devenv*": true
     },
+    "files.trimTrailingWhitespace": true,
     "extensions.ignoreRecommendations": true,
     "elmLS.elmReviewDiagnostics": "warning",
     "workbench.activityBar.location": "top",
