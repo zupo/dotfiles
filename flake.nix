@@ -130,6 +130,7 @@
         home.packages = with pkgs; [
           (import nixpkgs-unstable { system = "aarch64-darwin"; }).devenv
           (import nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; }).claude-code
+          (import nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; }).codex
           pkgs.asciinema
           pkgs.axel
           pkgs.bat
