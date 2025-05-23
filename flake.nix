@@ -4,13 +4,14 @@
     inputs = {
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
       nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+      nixpkgs-master.url = "github:NixOS/nixpkgs/master";
       nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
       home-manager.url = "github:nix-community/home-manager/release-24.11";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager }:
+    outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nixpkgs-master, nix-darwin, home-manager }:
     let
       secrets = import /Users/zupo/.dotfiles/secrets.nix;
 
@@ -129,7 +130,7 @@
         # Software I can't live without
         home.packages = with pkgs; [
           (import nixpkgs-unstable { system = "aarch64-darwin"; }).devenv
-          (import nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; }).claude-code
+          (import nixpkgs-master { system = "aarch64-darwin"; config.allowUnfree = true; }).claude-code
           (import nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; }).codex
           pkgs.asciinema
           pkgs.axel
@@ -231,6 +232,9 @@
             # Disable generation of .pyc files
             # https://docs.python-guide.org/writing/gotchas/#disabling-bytecode-pyc-files
             PYTHONDONTWRITEBYTECODE = "0";
+
+            # OpenAI Codex
+            OPENAI_API_KEY = secrets.openai_api_key;
           };
           shellAliases = {
             axel = "axel -a";
@@ -273,7 +277,7 @@
             open -a Terminal
           '';
         };
-        
+
       };
 
       configuration = { pkgs, ... }: {
