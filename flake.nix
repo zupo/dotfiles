@@ -2,16 +2,15 @@
     description = "zupo's macOS/Darwin system configuration";
 
     inputs = {
-      nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
+      nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
       nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-      nixpkgs-master.url = "github:NixOS/nixpkgs/master";
-      nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
+      nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-      home-manager.url = "github:nix-community/home-manager/release-24.11";
+      home-manager.url = "github:nix-community/home-manager/release-25.05";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nixpkgs-master, nix-darwin, home-manager }:
+    outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager }:
     let
       secrets = import /Users/zupo/.dotfiles/secrets.nix;
 
@@ -130,7 +129,7 @@
         # Software I can't live without
         home.packages = with pkgs; [
           (import nixpkgs-unstable { system = "aarch64-darwin"; }).devenv
-          (import nixpkgs-master { system = "aarch64-darwin"; config.allowUnfree = true; }).claude-code
+          (import nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; }).claude-code
           (import nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; }).codex
           pkgs.asciinema
           pkgs.axel
@@ -155,7 +154,7 @@
           pkgs.pwgen
           pkgs.python3
           pkgs.s3cmd
-          pkgs.tailscale
+          # pkgs.tailscale  # broken in 25.05
           pkgs.tldr
           pkgs.unrar
           pkgs.wget
@@ -245,7 +244,7 @@
             diff = "diff-so-fancy";
             man = "tldr";
             subl = "code";
-            nixre = "darwin-rebuild switch --flake ~/.dotfiles#zbook --impure";
+            nixre = "sudo darwin-rebuild switch --flake ~/.dotfiles#zbook --impure";
             nixgc = "nix-collect-garbage -d";
             nixcfg = "code ~/.dotfiles/flake.nix";
             yt-dlp-lowres = "yt-dlp -S res:720";
@@ -255,7 +254,7 @@
             append = true;
             share = true;
           };
-          initExtra = ''
+          initContent = ''
             function edithosts {
                 sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
                 sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
@@ -283,7 +282,6 @@
       configuration = { pkgs, ... }: {
 
         # Use nix from pinned nixpkgs
-        services.nix-daemon.enable = true;
         nix.settings.trusted-users = [ "@admin" ];
         nix.package = pkgs.nix;
 
@@ -332,6 +330,9 @@
 
         };
 
+        # Migration to 25.05, remove after clean reinstall
+        ids.gids.nixbld = 350;
+
         # Enable logging for the linux builder
         launchd.daemons.linux-builder = {
           serviceConfig = {
@@ -363,13 +364,14 @@
         nixpkgs.hostPlatform = "aarch64-darwin";
 
         # Use TouchID for sudo
-        security.pam.enableSudoTouchIdAuth = true;
+        security.pam.services.sudo_local.touchIdAuth = true;
 
         # make sure firewall is up & running
         system.defaults.alf.globalstate = 1;
         system.defaults.alf.stealthenabled = 1;
 
         # Personalization
+        system.primaryUser = "zupo";
         networking.hostName = "zbook";
         system.defaults.dock.autohide = true;
         system.defaults.dock.orientation = "right";
