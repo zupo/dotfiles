@@ -112,7 +112,7 @@ $ sudo ssh linux-builder
 
 ## Additional resources
 
-- [Getting started with dotfiles](https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789)
+- [Getting started with dotfiles](https://webpro.nl/articles/getting-started-with-dotfiles)
 - [@webpro's dotfiles](https://github.com/webpro/dotfiles)
 - [Dotfiles community](https://dotfiles.github.io).
 - [Awesome Dotfiles](https://github.com/webpro/awesome-dotfiles)
