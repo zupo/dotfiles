@@ -203,7 +203,7 @@
 
             # Save IP of the desktop VM
             Host desktop
-              HostName 192.168.64.10
+              HostName 192.168.65.4
           '';
         };
 
