@@ -234,6 +234,9 @@
 
             # OpenAI Codex
             OPENAI_API_KEY = secrets.openai_api_key;
+
+            # devenv cache support
+            CACHIX_AUTH_TOKEN=secrets.cachix_auth_token;
           };
           shellAliases = {
             axel = "axel -a";
@@ -282,7 +285,7 @@
       configuration = { pkgs, ... }: {
 
         # Use nix from pinned nixpkgs
-        nix.settings.trusted-users = [ "@admin" ];
+        nix.settings.trusted-users = [ "@admin zupo" ];
         nix.package = pkgs.nix;
 
         # Using flakes instead of channels
