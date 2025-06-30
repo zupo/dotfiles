@@ -234,9 +234,6 @@
 
             # OpenAI Codex
             OPENAI_API_KEY = secrets.openai_api_key;
-
-            # devenv cache support
-            CACHIX_AUTH_TOKEN=secrets.cachix_auth_token;
           };
           shellAliases = {
             axel = "axel -a";
