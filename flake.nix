@@ -128,9 +128,10 @@
 
         # Software I can't live without
         home.packages = with pkgs; [
-          (import nixpkgs-unstable { system = "aarch64-darwin"; }).devenv
           (import nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; }).claude-code
           (import nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; }).codex
+          (import nixpkgs-unstable { system = "aarch64-darwin"; }).devenv
+          (import nixpkgs-unstable { system = "aarch64-darwin"; }).tailscale
           pkgs.asciinema
           pkgs.axel
           pkgs.bat
@@ -154,7 +155,6 @@
           pkgs.pwgen
           pkgs.python3
           pkgs.s3cmd
-          # pkgs.tailscale  # broken in 25.05
           pkgs.tldr
           pkgs.unrar
           pkgs.wget
