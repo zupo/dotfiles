@@ -134,6 +134,7 @@
           (import nixpkgs-unstable { system = "aarch64-darwin"; }).tailscale
           pkgs.asciinema
           pkgs.axel
+          pkgs.atuin
           pkgs.bat
           pkgs.cachix
           pkgs.gnumake
@@ -255,6 +256,8 @@
             share = true;
           };
           initContent = ''
+            eval "$(atuin init zsh)"
+
             function edithosts {
                 sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
                 sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
