@@ -428,6 +428,16 @@
         ];
       };
 
+      # Build nixos flake using:
+      # $ nixos-rebuild build --flake .
+      # $ nix run nixpkgs#nixos-rebuild -- switch --flake .#desktop
+      nixosConfigurations."desktop" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          /etc/nixos/configuration.nix
+        ];
+      };
+
       # Expose the package set, including overlays, for convenience.
       darwinPackages = self.darwinConfigurations."zbook".pkgs;
 
