@@ -193,6 +193,11 @@
             Host desktop
               ForwardAgent yes
 
+            # Enable SSH agent forwarding to cruncher
+            Host cruncher
+              HostName ${secrets.cruncher.ip}
+              ForwardAgent yes
+
             # Disable SSH agent forwarding for all other hosts
             # Add support for Secretive SSH agent
             Host *
@@ -207,10 +212,6 @@
             # Save IP of the desktop VM
             Host desktop
               HostName 192.168.65.4
-
-            # Shortcut to cruncher
-            Host cruncher
-              HostName ${secrets.cruncher.ip}
           '';
         };
 
