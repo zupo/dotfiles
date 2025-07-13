@@ -194,8 +194,10 @@
               ForwardAgent yes
 
             # Disable SSH agent forwarding for all other hosts
+            # Add support for Secretive SSH agent
             Host *
               ForwardAgent no
+            	IdentityAgent /Users/zupo/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
 
             # Skip host key checking for NixOS Tests VMs
             Host localhost
