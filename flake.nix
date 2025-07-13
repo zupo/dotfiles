@@ -262,7 +262,7 @@
             share = true;
           };
           initContent = ''
-            eval "$(atuin init zsh)"
+            eval "$(atuin init zsh --disable-up-arrow)"
 
             function edithosts {
                 sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
