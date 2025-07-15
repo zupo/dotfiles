@@ -173,15 +173,6 @@
           enable = true;
           addKeysToAgent = "yes";
 
-          # OK so this one is a bit convoluted:
-          # I want to forward the agent to my desktop, but not to other hosts.
-          # However, homemanager puts `Host *` with ForwardAgent at the top of the
-          # ssh config file, and that takes precedence over the more specific
-          # `Host desktop` configuration lower in the file.
-          # The solution is to disable ForwardAgent for all hosts, and then enable
-          # it for the desktop host, and then disable again it for all other hosts.
-          forwardAgent = true;
-
           extraConfig = ''
             IgnoreUnknown UseKeychain
             UseKeychain yes
@@ -191,27 +182,26 @@
 
             # Enable SSH agent forwarding to the desktop VM
             Host desktop
+              HostName 192.168.65.4
               ForwardAgent yes
 
             # Enable SSH agent forwarding to cruncher
+            # Change the Terminal Theme after connecting
             Host cruncher
               HostName ${secrets.cruncher.ip}
               ForwardAgent yes
-
-            # Disable SSH agent forwarding for all other hosts
-            # Add support for Secretive SSH agent
-            Host *
-              ForwardAgent no
-            	IdentityAgent /Users/zupo/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
+              PermitLocalCommand yes
+              LocalCommand osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Novel"'
 
             # Skip host key checking for NixOS Tests VMs
             Host localhost
               StrictHostKeyChecking no
               UserKnownHostsFile /dev/null
 
-            # Save IP of the desktop VM
-            Host desktop
-              HostName 192.168.65.4
+            # Add support for Secretive SSH agent
+            # TODO: Rewrite to programs.ssh.idenityAgent = ... when 25.11 is released
+            Host *
+            	IdentityAgent /Users/zupo/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
           '';
         };
 
