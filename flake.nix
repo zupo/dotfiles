@@ -173,6 +173,29 @@
           enable = true;
           addKeysToAgent = "yes";
 
+          matchBlocks = {
+            "localhost" = {
+              extraOptions = {
+                "StrictHostKeyChecking" = "no";
+                "UserKnownHostsFile" = "/dev/null";
+              };
+            };
+            "desktop" = {
+              hostname = "192.168.65.4";
+              forwardAgent = true;
+            };
+            "cruncher" = {
+              hostname= secrets.cruncher.ip;
+              forwardAgent = true;
+              extraOptions = {
+                "PermitLocalCommand" = "yes";
+                "LocalCommand" = ''
+                osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Novel"'
+              '';
+              };
+            };
+          };
+
           extraConfig = ''
             IgnoreUnknown UseKeychain
             UseKeychain yes
@@ -180,25 +203,6 @@
             # Support connecting to RouterOS v6 Mikrotik devices
             PubkeyAcceptedAlgorithms +ssh-rsa
 
-            # Enable SSH agent forwarding to the desktop VM
-            Host desktop
-              HostName 192.168.65.4
-              ForwardAgent yes
-
-            # Enable SSH agent forwarding to cruncher
-            # Change the Terminal Theme after connecting
-            Host cruncher
-              HostName ${secrets.cruncher.ip}
-              ForwardAgent yes
-              PermitLocalCommand yes
-              LocalCommand osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Novel"'
-
-            # Skip host key checking for NixOS Tests VMs
-            Host localhost
-              StrictHostKeyChecking no
-              UserKnownHostsFile /dev/null
-
-            # Add support for Secretive SSH agent
             # TODO: Rewrite to programs.ssh.idenityAgent = ... when 25.11 is released
             Host *
             	IdentityAgent /Users/zupo/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
