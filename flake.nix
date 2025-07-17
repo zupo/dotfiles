@@ -8,9 +8,11 @@
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
       home-manager.url = "github:nix-community/home-manager/release-25.05";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
+      mcp-nixos.url = "github:utensils/mcp-nixos";
+      mcp-nixos.inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager }:
+    outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager, mcp-nixos }:
     let
 
       gitconfig = { email }: import ./gitconfig.nix {
@@ -20,6 +22,7 @@
       tools = { pkgs, pkgsUnstable, ... }: import ./tools.nix {
         pkgs = pkgs;
         pkgsUnstable = pkgsUnstable;
+        mcp-nixos = mcp-nixos;
       };
 
       direnv = { ... }: import ./direnv.nix { };
@@ -303,8 +306,9 @@
       };
 
       # Support using parts of the config elsewhere
-      gitconfig = gitconfig;
       direnv = direnv;
+      files = files;
+      gitconfig = gitconfig;
       tools = tools;
       vim = vim;
       zsh = zsh;

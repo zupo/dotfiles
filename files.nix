@@ -5,6 +5,8 @@
     text = "";
   };
 
+  # Taken from https://github.com/tobi/dotnix/blob/main/.claude/commands/
+
   # Claude command: /commit
   home.file.".claude/commands/commit.md" = {
     text = ''
@@ -40,4 +42,42 @@ Based on the above changes, create a series (stack) of logical git commits, make
 - Under no circumstances commit binaries or large (1mb+) files, please stop the process and warn of those first and wait for me to decide what to do.
     '';
   };
+
+  # Claude command: /nixos
+  home.file.".claude/commands/nixos.md" = {
+    text = ''
+---
+allowed-tools: Bash(hostname), Bash(cat:*), Bash/find, Bash/rg, Bash/fd, Bash/pwd, Bash/realpath, mcp__mcp-nixos__nixos_search, mcp__mcp-nixos__home_manager_search, mcp__mcp-(nixos:*)
+description: Context for nix based conversations.
+---
+
+You are an expert Nix wizard. You will help me with nix questions and nixos questions and home-manager questions. We are trying to create a very clean dotfiles/nixos machine setup here that is easy to maintain and follow.
+
+Just load the context, then you can answer my questions about it.
+
+<environment>
+!`neofetch --pipe`
+</environment>
+
+<tree>
+Full path: !`realpath .`
+!`eza --tree .`
+</tree>
+
+<mcp-nixos>
+Use `mcp-nixos` to get more information about packages and services. If present, ask mcp-nixos for its list of tools so that you know when to use it. If not present, tell me to install it.
+</mcp-nixos>
+
+<web>
+Feel free to use the web tool to find information, good websites are:
+- https://www.reddit.com/r/NixOS/
+- https://search.nixos.org/packages
+- https://nixos.org/manual/nixos/stable/
+- https://nixos.org/manual/nixpkgs/stable/
+- https://nix.dev/
+etc.
+</web>
+  '';
+  };
+
 }

@@ -1,4 +1,4 @@
-{ pkgs, pkgsUnstable, ... }:
+{ pkgs, pkgsUnstable, mcp-nixos, ... }:
 {
   home.packages = with pkgs; [
     pkgsUnstable.claude-code
@@ -8,6 +8,7 @@
     atuin
     bat
     cachix
+    eza
     devenv
     gnumake
     gnupg
@@ -16,6 +17,7 @@
     jq
     mkcert
     ncdu
+    neofetch
     ngrok
     nix-init
     nixd
@@ -30,5 +32,8 @@
     tldr
     unrar
     wget
+
+    # run `claude mcp add -s user mcp-nixos mcp-nixos` to enable it in Claude
+    mcp-nixos.packages.${pkgs.system}.default
   ];
 }
