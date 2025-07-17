@@ -57,5 +57,6 @@
     "editor.snippetSuggestions": "top",
     "[elm]": {
         "editor.defaultFormatter": "elm-land.elm-land"
-    }
+    },
+    "github.copilot.nextEditSuggestions.enabled": true
 }

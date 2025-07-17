@@ -28,6 +28,8 @@
 
       zsh = { ... }: import ./zsh.nix { };
 
+      files = { ... }: import ./files.nix { };
+
       homeconfig = let
 
           # I want to keep my secrets out of git, so I need to run flakes
@@ -44,6 +46,7 @@
           direnv
           vim
           zsh
+          files
           (tools { pkgs = pkgs; pkgsUnstable = pkgsUnstable; })
           (gitconfig { email = secrets.email; })
         ];
@@ -95,10 +98,6 @@
           yt-dlp
         ];
 
-        # Don't show the "Last login" message for every new terminal.
-        home.file.".hushlogin" = {
-          text = "";
-        };
 
         # Use VSCode as the default editor on the Mac
         home.file.".editor" = {

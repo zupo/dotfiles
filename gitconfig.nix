@@ -79,6 +79,9 @@
 
       # Secrets
       "ssh_config_private"
+
+      # AI tooling
+      "**/.claude/settings.local.json"
     ];
     extraConfig = {
       branch = {
