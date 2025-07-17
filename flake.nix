@@ -12,164 +12,109 @@
 
     outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager }:
     let
-      secrets = import /Users/zupo/.dotfiles/secrets.nix;
 
-      gitconfig = { lib, ... }:{
-        programs.git = {
-          enable = true;
-          diff-so-fancy.enable = true;
-          userName = "Neyts Zupan";
-          userEmail = secrets.email;
-          attributes = [
-            "*.bmml binary" # Prevent XML diffs for Balsamiq Mockups files
-          ];
-          aliases = {
-            ap = "add -p";
-            cdiff = "diff --cached";
-            sdiff = "diff --staged";
-            st = "status";
-            ci = "commit";
-            cia = "commit -v -a";
-            cp = "cherry-pick";
-            br = "branch --sort=-committerdate";
-            co = "checkout";
-            df = "diff";
-            dfs = "diff --staged";
-            l = "log";
-            ll = "log -p";
-            rehab = "reset origin/main --hard";
-            pom = "push origin main";
-            latest = "for-each-ref --sort=-committerdate refs/heads/";
-            cod = "checkout src/mayet/demo/";
-            addd = "add src/mayet/demo/";
-
-            # A log of commits indicating where various branches are currently pointing.
-            lga = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative --branches --remotes";
-
-            # "git weburl" prints the URL of the github project page for repositories hosted on github.
-            weburl = "!git config --get remote.origin.url | sed -e 's/git:\\/\\/github.com/https:\\/\\/github.com/' -e 's/git@github.com:/https:\\/\\/github.com\\//' -e 's/\\.git$//'";
-            # "git browse" opens the github project page of this repository in the browser.
-            browse = "!open `git weburl`";
-
-            # search for a specific line of code in all commits in the repo.
-            # Example: to find when the line "constraint=someMethod," was commented out, use:
-            # git search '#constraint=someMethod,'
-            search = "!f() { git log -S$1 --pretty=oneline --abbrev-commit; }; f";
-            demo-start = "checkout demo-start";
-            demo-next = "!git checkout `git rev-list HEAD..demo-end | tail -1`";
-            demo-prev = "checkout HEAD^";
-            demo-diff = "diff HEAD^";
-            demo-msg = "log -1 --pretty=%B";
-          };
-          ignores = [
-            # Packages: it's better to unpack these files and commit the raw source
-            # git has its own built in compression methods
-            "*.7z"
-            "*.dmg"
-            "*.gz"
-            "*.iso"
-            "*.jar"
-            "*.rar"
-            "*.tar"
-            "*.zip"
-
-            # OS generated files
-            ".DS_Store"
-            ".DS_Store?"
-            "ehthumbs.db"
-            "Icon?"
-            "Thumbs.db"
-
-            # Sublime
-            "sublime/*.cache"
-            "sublime/oscrypto-ca-bundle.crt"
-            "sublime/Package Control.last-run"
-            "sublime/Package Control.merged-ca-bundle"
-            "sublime/Package Control.user-ca-bundle"
-
-            # VS Code
-            "vscode/History/"
-            "vscode/globalStorage/"
-            "vscode/workspaceStorage/"
-
-            # Secrets
-            "ssh_config_private"
-          ];
-          extraConfig = {
-            branch = {
-              autosetuprebase = "always";
-            };
-            credential = {
-              helper = "osxkeychain";
-            };
-            github = {
-              user = "zupo";
-              token = secrets.github.token;
-            };
-            help = {
-              autocorrect = 1;
-            };
-            init = {
-              defaultBranch = "main";
-            };
-            push = {
-              default = "simple";
-            };
-          };
-        };
+      gitconfig = { lib, secretsPath }: import ./gitconfig.nix {
+        lib = lib;
+        secretsPath = secretsPath;
       };
 
-      homeconfig = { pkgs, lib, ... }: {
+      tools = { pkgs, pkgsUnstable, ... }: import ./tools.nix {
+        pkgs = pkgs;
+        pkgsUnstable = pkgsUnstable;
+      };
+
+      direnv = { ... }: import ./direnv.nix { };
+
+      vim = { ... }: import ./vim.nix { };
+
+      zsh = { ... }: import ./zsh.nix { };
+
+      homeconfig = { pkgs, lib, pkgsUnstable, ... }: {
         home.homeDirectory = lib.mkForce "/Users/zupo";
         home.stateVersion = "23.11";
         programs.home-manager.enable = true;
 
-        imports = [ gitconfig ];
+        imports = [
+          direnv
+          vim
+          zsh
+          (tools { pkgs = pkgs; pkgsUnstable = pkgsUnstable; })
 
-        # Software I can't live without
-        home.packages = with pkgs; [
-          (import nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; }).claude-code
-          (import nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; }).codex
-          (import nixpkgs-unstable { system = "aarch64-darwin"; }).devenv
-          (import nixpkgs-unstable { system = "aarch64-darwin"; }).tailscale
-          pkgs.asciinema
-          pkgs.axel
-          pkgs.atuin
-          pkgs.bat
-          pkgs.cachix
-          pkgs.gnumake
-          pkgs.gnupg
-          pkgs.hyperfine
-          pkgs.inetutils  # telnet
-          pkgs.jq
-          pkgs.keybase
-          pkgs.mkcert
-          pkgs.ncdu
-          pkgs.ngrok
-          pkgs.nix-init
-          pkgs.nixd
-          pkgs.nixfmt-rfc-style
-          pkgs.nmap
-          pkgs.pdfcrack
-          pkgs.pgweb
-          pkgs.prettyping
-          pkgs.pwgen
-          pkgs.python3
-          pkgs.s3cmd
-          pkgs.tldr
-          pkgs.unrar
-          pkgs.wget
-          pkgs.yt-dlp
+          # I want to keep my secrets out of git, so I need to run flakes
+          # with the --impure flag.
+          (gitconfig { lib = lib; secretsPath = /Users/zupo/.dotfiles/secrets.nix; })
         ];
 
-        programs.vim.enable = true;
+        # Darwin-specific zsh configuration
+        programs.zsh = let
+          secrets = import /Users/zupo/.dotfiles/secrets.nix;
+        in
+        {
 
-        programs.direnv = {
-          enable = true;
-          nix-direnv.enable = true;
+          sessionVariables = {
+            # Use VSCode as the default editor, but wrapped so it returns focus
+            # to the terminal after editing.
+            EDITOR = "~/.editor";
+
+            # Needed for synologycloudsyncdecryptiontool
+            PATH = "$PATH:$HOME/bin";
+
+            # OpenAI Codex
+            OPENAI_API_KEY = secrets.openai_api_key;
+          };
+
+          shellAliases = {
+            subl = "code";
+            nixre = "sudo darwin-rebuild switch --flake ~/.dotfiles#zbook --impure";
+            nixgc = "nix-collect-garbage -d";
+            nixcfg = "code ~/.dotfiles/flake.nix";
+            yt-dlp-lowres = "yt-dlp -S res:720";
+            yt-dlp-audio = "yt-dlp --extract-audio --audio-format mp3";
+          };
+
+          initContent = ''
+            function edithosts {
+               sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
+               sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
+           }
+          '';
         };
 
-        programs.ssh = {
+        # Darwin-specific git configuration
+        programs.git.extraConfig = {
+          credential = {
+            helper = "osxkeychain";
+          };
+        };
+
+        # Additional software I use on my Mac
+        home.packages = with pkgs; [
+          pkgsUnstable.tailscale
+          keybase
+          yt-dlp
+        ];
+
+        # Don't show the "Last login" message for every new terminal.
+        home.file.".hushlogin" = {
+          text = "";
+        };
+
+        # Use VSCode as the default editor on the Mac
+        home.file.".editor" = {
+          executable = true;
+          text = ''
+            #!/bin/bash
+            # https://github.com/microsoft/vscode/issues/68579#issuecomment-463039009
+            code --wait "$@"
+            open -a Terminal
+          '';
+        };
+
+        # SSH client config on the Mac
+        programs.ssh =
+        let
+          secrets = import /Users/zupo/.dotfiles/secrets.nix;
+        in {
           enable = true;
           addKeysToAgent = "yes";
 
@@ -206,78 +151,6 @@
             # TODO: Rewrite to programs.ssh.idenityAgent = ... when 25.11 is released
             Host *
             	IdentityAgent /Users/zupo/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
-          '';
-        };
-
-        programs.zsh = {
-          enable = true;
-          autosuggestion.enable = true;
-          enableCompletion = true;
-          oh-my-zsh = {
-            enable = true;
-            theme = "robbyrussell";
-            plugins = ["git" "python" "sudo" "direnv"];
-          };
-          sessionVariables = {
-            LC_ALL = "en_US.UTF-8";
-            LANG = "en_US.UTF-8";
-            EDITOR = "~/.editor";
-
-            # Needed for synologycloudsyncdecryptiontool
-            PATH = "$PATH:$HOME/bin";
-
-            # Enable a few neat OMZ features
-            HYPHEN_INSENSITIVE = "true";
-            COMPLETION_WAITING_DOTS = "true";
-
-            # Disable generation of .pyc files
-            # https://docs.python-guide.org/writing/gotchas/#disabling-bytecode-pyc-files
-            PYTHONDONTWRITEBYTECODE = "0";
-
-            # OpenAI Codex
-            OPENAI_API_KEY = secrets.openai_api_key;
-          };
-          shellAliases = {
-            axel = "axel -a";
-            rsync = "rsync -avzhP";
-            pwgen = "pwgen --ambiguous 20";
-            cat = "bat";
-            ping = "prettyping --nolegend";
-            diff = "diff-so-fancy";
-            man = "tldr";
-            subl = "code";
-            nixre = "sudo darwin-rebuild switch --flake ~/.dotfiles#zbook --impure";
-            nixgc = "nix-collect-garbage -d";
-            nixcfg = "code ~/.dotfiles/flake.nix";
-            yt-dlp-lowres = "yt-dlp -S res:720";
-            yt-dlp-audio = "yt-dlp --extract-audio --audio-format mp3";
-          };
-          history = {
-            append = true;
-            share = true;
-          };
-          initContent = ''
-            eval "$(atuin init zsh --disable-up-arrow)"
-
-            function edithosts {
-                sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
-                sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
-            }
-          '';
-        };
-
-        # Don't show the "Last login" message for every new terminal.
-        home.file.".hushlogin" = {
-          text = "";
-        };
-
-        home.file.".editor" = {
-          executable = true;
-          text = ''
-            #!/bin/bash
-            # https://github.com/microsoft/vscode/issues/68579#issuecomment-463039009
-            code --wait "$@"
-            open -a Terminal
           '';
         };
 
@@ -410,7 +283,7 @@
     in
     {
       # Build darwin flake using:
-      # $ darwin-rebuild build --flake .
+      # $ darwin-rebuild build --flake . --impure
       # $ nix run nix-darwin -- switch --flake .#zbook
       darwinConfigurations."zbook" = nix-darwin.lib.darwinSystem {
         modules = [
@@ -419,25 +292,21 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.zupo = homeconfig;
+              home-manager.extraSpecialArgs = {
+                pkgsUnstable = import nixpkgs-unstable {
+                  system = "aarch64-darwin";
+                  config.allowUnfree = true;
+                };
+              };
           }
         ];
       };
 
-      # Build nixos flake using:
-      # $ nixos-rebuild build --flake .
-      # $ nix run nixpkgs#nixos-rebuild -- switch --flake .#desktop
-      nixosConfigurations."desktop" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          /etc/nixos/configuration.nix
-        ];
-      };
-
-      # Expose the package set, including overlays, for convenience.
-      darwinPackages = self.darwinConfigurations."zbook".pkgs;
-
       # Support using parts of the config elsewhere
-      homeconfig = homeconfig;
       gitconfig = gitconfig;
+      direnv = direnv;
+      tools = tools;
+      vim = vim;
+      zsh = zsh;
     };
   }
