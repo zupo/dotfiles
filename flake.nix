@@ -13,9 +13,8 @@
     outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager }:
     let
 
-      gitconfig = { lib, secretsPath }: import ./gitconfig.nix {
-        lib = lib;
-        secretsPath = secretsPath;
+      gitconfig = { email }: import ./gitconfig.nix {
+        email = email;
       };
 
       tools = { pkgs, pkgsUnstable, ... }: import ./tools.nix {
@@ -29,7 +28,14 @@
 
       zsh = { ... }: import ./zsh.nix { };
 
-      homeconfig = { pkgs, lib, pkgsUnstable, ... }: {
+      homeconfig = let
+
+          # I want to keep my secrets out of git, so I need to run flakes
+          # with the --impure flag.
+          secrets = import /Users/zupo/.dotfiles/secrets.nix;
+
+      in
+      { pkgs, lib, pkgsUnstable, ... }: {
         home.homeDirectory = lib.mkForce "/Users/zupo";
         home.stateVersion = "23.11";
         programs.home-manager.enable = true;
@@ -39,16 +45,11 @@
           vim
           zsh
           (tools { pkgs = pkgs; pkgsUnstable = pkgsUnstable; })
-
-          # I want to keep my secrets out of git, so I need to run flakes
-          # with the --impure flag.
-          (gitconfig { lib = lib; secretsPath = /Users/zupo/.dotfiles/secrets.nix; })
+          (gitconfig { email = secrets.email; })
         ];
 
-        # Darwin-specific zsh configuration
-        programs.zsh = let
-          secrets = import /Users/zupo/.dotfiles/secrets.nix;
-        in
+        # Additional Darwin-specific zsh configuration
+        programs.zsh =
         {
 
           sessionVariables = {
@@ -80,7 +81,7 @@
           '';
         };
 
-        # Darwin-specific git configuration
+        # Additional Darwin-specific git configuration
         programs.git.extraConfig = {
           credential = {
             helper = "osxkeychain";

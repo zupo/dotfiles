@@ -1,13 +1,10 @@
-{ lib, secretsPath, ... }:
-let
-  secrets = import secretsPath;
-in
+{ email, ... }:
 {
   programs.git = {
     enable = true;
     diff-so-fancy.enable = true;
     userName = "Neyts Zupan";
-    userEmail = secrets.email;
+    userEmail = email;
     attributes = [
       "*.bmml binary" # Prevent XML diffs for Balsamiq Mockups files
     ];
