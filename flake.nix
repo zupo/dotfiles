@@ -97,6 +97,7 @@
         # Additional software I use on my Mac
         home.packages = with pkgs; [
           pkgsUnstable.tailscale
+          harper
           keybase
           yt-dlp
         ];
