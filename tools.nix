@@ -4,12 +4,12 @@
     pkgsUnstable.claude-code
     pkgsUnstable.codex
     asciinema
-    axel
     atuin
+    axel
     bat
     cachix
-    eza
     devenv
+    eza
     gnumake
     gnupg
     hyperfine
@@ -26,8 +26,8 @@
     pdfcrack
     pgweb
     prettyping
-    pwgen
     python3
+    pwgen
     s3cmd
     tldr
     unrar
