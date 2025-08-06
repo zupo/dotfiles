@@ -1,7 +1,7 @@
-{ pkgs, pkgsUnstable, mcp-nixos, ... }:
+{ pkgs, pkgsUnstable, pkgsMaster,mcp-nixos, ... }:
 {
   home.packages = with pkgs; [
-    pkgsUnstable.claude-code
+    pkgsMaster.claude-code
     pkgsUnstable.codex
     asciinema
     atuin
@@ -34,6 +34,6 @@
     wget
 
     # run `claude mcp add -s user mcp-nixos mcp-nixos` to enable it in Claude
-    mcp-nixos.packages.${pkgs.system}.default
+    # mcp-nixos.packages.${pkgs.system}.default
   ];
 }
