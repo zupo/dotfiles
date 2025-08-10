@@ -4,26 +4,24 @@
     inputs = {
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
       nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-      nixpkgs-master.url = "github:NixOS/nixpkgs/master";
       nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
       nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
       home-manager.url = "github:nix-community/home-manager/release-25.05";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
       mcp-nixos.url = "github:utensils/mcp-nixos";
-      mcp-nixos.inputs.nixpkgs.follows = "nixpkgs";
+      mcp-nixos.inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nixpkgs-master, nix-darwin, home-manager, mcp-nixos }:
+    outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nix-darwin, home-manager, mcp-nixos }:
     let
 
       gitconfig = { email }: import ./gitconfig.nix {
         email = email;
       };
 
-      tools = { pkgs, pkgsUnstable, pkgsMaster,... }: import ./tools.nix {
+      tools = { pkgs, pkgsUnstable, ... }: import ./tools.nix {
         pkgs = pkgs;
         pkgsUnstable = pkgsUnstable;
-        pkgsMaster = pkgsMaster;
         mcp-nixos = mcp-nixos;
       };
 
@@ -42,7 +40,7 @@
           secrets = import /Users/zupo/.dotfiles/secrets.nix;
 
       in
-      { pkgs, lib, pkgsUnstable, pkgsMaster, ... }: {
+      { pkgs, lib, pkgsUnstable, ... }: {
         home.homeDirectory = lib.mkForce "/Users/zupo";
         home.stateVersion = "23.11";
         programs.home-manager.enable = true;
@@ -52,7 +50,7 @@
           vim
           zsh
           files
-          (tools { pkgs = pkgs; pkgsUnstable = pkgsUnstable; pkgsMaster = pkgsMaster; })
+          (tools { pkgs = pkgs; pkgsUnstable = pkgsUnstable; })
           (gitconfig { email = secrets.email; })
         ];
 
@@ -300,10 +298,6 @@
               home-manager.users.zupo = homeconfig;
               home-manager.extraSpecialArgs = {
                 pkgsUnstable = import nixpkgs-unstable {
-                  system = "aarch64-darwin";
-                  config.allowUnfree = true;
-                };
-                pkgsMaster = import nixpkgs-master {
                   system = "aarch64-darwin";
                   config.allowUnfree = true;
                 };
