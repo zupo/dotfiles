@@ -47,7 +47,7 @@ Based on the above changes, create a series (stack) of logical git commits, make
   home.file.".claude/commands/nixos.md" = {
     text = ''
 ---
-allowed-tools: Bash(hostname), Bash(cat:*), Bash(eza:*), Bash/find, Bash/rg, Bash/fd, Bash/pwd, Bash/realpath, mcp__mcp-nixos__*
+allowed-tools: Bash(hostname), Bash(cat:*), Bash(eza:*), Bash/find, Bash/rg, Bash/fd, Bash/pwd, Bash/realpath, Bash(neofetch:*), mcp__mcp-nixos__*
 description: Context for nix based conversations.
 ---
 

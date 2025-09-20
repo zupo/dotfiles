@@ -2,10 +2,48 @@
 
 These are my dotfiles. Take anything you want, but at your own risk.
 
-It targets a macOS systems, but some of it should work on \*nix as well.
+They are used for configuring several of my environments:
+ * MacBook with [nix-darwin](https://github.com/nix-darwin/nix-darwin),
+ * NixOS VM running via [UTM](https://mac.getutm.app/) on the MacBook,
+ * user account on a shared company NixOS server.
 
 
-## Install
+```
+  ~/.dotfiles/
+  ├── flake.nix                   # Define all machines
+  ├── flake.lock                  # Lock all dependencies
+  ├── secrets.nix                 # Private configuration (git-ignored)
+  │
+  ├── common/                     # Shared modules across all systems
+  │   ├── direnv.nix
+  │   ├── files.nix
+  │   ├── gitconfig.nix
+  │   ├── tools.nix
+  │   ├── vim.nix
+  │   └── zsh.nix
+  │
+  ├── macos/
+  │   ├── zbook.nix               # nix-darwin for my MacBook
+  │   └── home.nix                # Home Manager for my MacBook
+  │
+  ├── nixos/
+  │   └── utm/                    # UTM VM
+  │       ├── configuration.nix
+  │       ├── hardware-configuration.nix
+  │       └── home.nix
+  │
+  ├── mkcert/                     # development certificates
+  ├── vscode/                     # VS Code settings
+  └── ssh_config_private          # Private SSH configuration (git-ignored)
+```
+
+
+## UTM NixOS VM setup
+
+TODO...
+
+
+## MacBook setup
 
 1. Use the official Nix installer for macOS: https://nixos.org/download.html#nix-install-macos
 
@@ -21,11 +59,11 @@ $ ln -sv ~/.dotfiles/vscode ~/Library/Application\ Support/Code/User
 $ echo 'machine niteo.cachix.org password <CACHIX AUTH TOKEN>' >> ~/.config/nix/netrc
 ```
 
-1. Create a `secrets.nix` file in your `.dotfiles` directory:
+1. Create a `secrets.nix` file in the `.dotfiles` directory:
 
 ```nix
 {
-  email = "your.email@example.com";
+  email = "mail@example.com";
   github = {
     token = "secret";
   };
@@ -80,12 +118,11 @@ Related: https://github.com/LnL7/nix-darwin/issues/193
 
 ## Updating
 
-To update to the latest release in the currently used channel, run 
-`nix flake update` followed by `nixre`. 
+To update to the latest release in the currently used channel, run
+`nix flake update` followed by `nixre`.
 
 When a new nixpkgs channel is released, do the following:
 * update the `nixpkgs.url` input in `flake.nix` to the new channel
-* run `darwin-rebuild check --flake ~/.dotfiles#zbook`
 * run `nixre`
 
 ## Troubleshooting
