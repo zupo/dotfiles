@@ -72,13 +72,5 @@
 
     # Export common modules for use by other flakes (like your remote server)
     lib = commonModules;
-
-    # Legacy exports for backward compatibility
-    direnv = commonModules.direnv;
-    files = commonModules.files;
-    gitconfig = commonModules.gitconfig;
-    tools = commonModules.tools;
-    vim = commonModules.vim;
-    zsh = commonModules.zsh;
   };
 }
