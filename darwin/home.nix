@@ -1,4 +1,11 @@
-{ pkgs, lib, pkgsUnstable, commonModules, mcp-nixos, ... }:
+{
+  pkgs,
+  lib,
+  pkgsUnstable,
+  commonModules,
+  mcp-nixos,
+  ...
+}:
 {
   home.homeDirectory = lib.mkForce "/Users/zupo";
   home.stateVersion = "23.11";
@@ -9,7 +16,11 @@
     commonModules.vim
     commonModules.zsh
     commonModules.files
-    (commonModules.tools { pkgs = pkgs; pkgsUnstable = pkgsUnstable; mcp-nixos = mcp-nixos; })
+    (commonModules.tools {
+      inherit pkgs;
+      inherit pkgsUnstable;
+      inherit mcp-nixos;
+    })
     (commonModules.gitconfig { email = "zupo@users.noreply.github.com"; })
   ];
 
@@ -96,8 +107,8 @@
         extraOptions = {
           "PermitLocalCommand" = "yes";
           "LocalCommand" = ''
-          osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Novel"'
-        '';
+            osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Novel"'
+          '';
         };
       };
     };

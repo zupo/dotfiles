@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
@@ -7,7 +6,11 @@
     oh-my-zsh = {
       enable = true;
       theme = "robbyrussell";
-      plugins = ["git" "sudo" "direnv"];
+      plugins = [
+        "git"
+        "sudo"
+        "direnv"
+      ];
     };
     sessionVariables = {
       LC_ALL = "en_US.UTF-8";

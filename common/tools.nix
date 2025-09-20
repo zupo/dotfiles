@@ -1,4 +1,9 @@
-{ pkgs, pkgsUnstable, mcp-nixos, ... }:
+{
+  pkgs,
+  pkgsUnstable,
+  mcp-nixos,
+  ...
+}:
 {
   home.packages = with pkgs; [
     pkgsUnstable.claude-code
@@ -13,7 +18,7 @@
     gnumake
     gnupg
     hyperfine
-    inetutils  # telnet
+    inetutils # telnet
     jq
     mkcert
     ncdu

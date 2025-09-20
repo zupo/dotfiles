@@ -1,11 +1,12 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
   # Use nix from pinned nixpkgs
   nix.settings.trusted-users = [ "@admin zupo" ];
   nix.package = pkgs.nix;
 
   # Using flakes instead of channels
-  nix.settings.nix-path = ["nixpkgs=flake:nixpkgs"];
+  nix.settings.nix-path = [ "nixpkgs=flake:nixpkgs" ];
 
   # Allow licensed binaries
   nixpkgs.config.allowUnfree = true;
@@ -54,8 +55,8 @@
   # Enable logging for the linux builder
   launchd.daemons.linux-builder = {
     serviceConfig = {
-        StandardOutPath = "/var/log/darwin-builder.log";
-        StandardErrorPath = "/var/log/darwin-builder.log";
+      StandardOutPath = "/var/log/darwin-builder.log";
+      StandardErrorPath = "/var/log/darwin-builder.log";
     };
   };
 

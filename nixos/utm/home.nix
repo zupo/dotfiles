@@ -1,4 +1,10 @@
-{ pkgs, pkgsUnstable, commonModules, mcp-nixos, ... }:
+{
+  pkgs,
+  pkgsUnstable,
+  commonModules,
+  mcp-nixos,
+  ...
+}:
 {
   imports = [
     commonModules.direnv

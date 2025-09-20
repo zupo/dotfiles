@@ -3,7 +3,11 @@
 # when you first install NixOS in the VM.
 # For now, this is a placeholder that will work for most UTM setups.
 
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  lib,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [
@@ -11,7 +15,12 @@
   ];
 
   # Boot configuration
-  boot.initrd.availableKernelModules = [ "virtio_pci" "virtio_scsi" "ahci" "sd_mod" ];
+  boot.initrd.availableKernelModules = [
+    "virtio_pci"
+    "virtio_scsi"
+    "ahci"
+    "sd_mod"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];

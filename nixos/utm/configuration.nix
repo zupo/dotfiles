@@ -1,4 +1,8 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -57,7 +61,10 @@
   users.users.zupo = {
     isNormalUser = true;
     description = "Neyts Zupan";
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGrPamqqGqV9sf/hhyt/aSF0Osdqf/vjz++60j+p208vweE4KSHLvncxlFHLdzMdOUMsYO7bStxDoAenJ9nirQY= zupo@secretive.zbook.local"
@@ -81,7 +88,10 @@
   services.openssh.settings.PasswordAuthentication = false;
 
   # Enable Nix flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

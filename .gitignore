@@ -3,3 +3,5 @@
 mkcert
 vscode/History
 result
+.direnv/
+.pre-commit-config.yaml
