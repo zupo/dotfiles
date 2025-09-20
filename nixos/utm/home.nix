@@ -10,13 +10,12 @@
     commonModules.direnv
     commonModules.files
     commonModules.vim
+    commonModules.gitconfig
     commonModules.zsh
     (commonModules.tools {
       inherit pkgs pkgsUnstable mcp-nixos;
     })
-    (commonModules.gitconfig {
-      email = "zupo@users.noreply.github.com";
-    })
+
   ];
 
   home.stateVersion = "25.05";

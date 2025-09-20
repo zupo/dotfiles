@@ -1,10 +1,9 @@
-{ email, ... }:
-{
+_: {
   programs.git = {
     enable = true;
     diff-so-fancy.enable = true;
     userName = "Neyts Zupan";
-    userEmail = email;
+    userEmail = "zupo@users.noreply.github.com";
     attributes = [
       "*.bmml binary" # Prevent XML diffs for Balsamiq Mockups files
     ];

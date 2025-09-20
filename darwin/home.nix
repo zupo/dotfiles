@@ -13,15 +13,16 @@
 
   imports = [
     commonModules.direnv
+    commonModules.files
+    commonModules.gitconfig
     commonModules.vim
     commonModules.zsh
-    commonModules.files
     (commonModules.tools {
       inherit pkgs;
       inherit pkgsUnstable;
       inherit mcp-nixos;
     })
-    (commonModules.gitconfig { email = "zupo@users.noreply.github.com"; })
+
   ];
 
   # Additional Darwin-specific zsh configuration
