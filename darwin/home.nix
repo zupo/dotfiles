@@ -1,9 +1,5 @@
 { pkgs, lib, pkgsUnstable, commonModules, mcp-nixos, ... }:
-let
-  # I want to keep my secrets out of git, so I need to run flakes
-  # with the --impure flag.
-  secrets = import /Users/zupo/.dotfiles/secrets.nix;
-in {
+{
   home.homeDirectory = lib.mkForce "/Users/zupo";
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;
@@ -14,7 +10,7 @@ in {
     commonModules.zsh
     commonModules.files
     (commonModules.tools { pkgs = pkgs; pkgsUnstable = pkgsUnstable; mcp-nixos = mcp-nixos; })
-    (commonModules.gitconfig { email = secrets.email; })
+    (commonModules.gitconfig { email = "zupo@users.noreply.github.com"; })
   ];
 
   # Additional Darwin-specific zsh configuration
@@ -27,13 +23,13 @@ in {
       # Needed for synologycloudsyncdecryptiontool
       PATH = "$PATH:$HOME/bin";
 
-      # OpenAI Codex
-      OPENAI_API_KEY = secrets.openai_api_key;
+      # OpenAI API key is loaded from .secrets.env
     };
 
+    # Additional Mac-specific aliases
     shellAliases = {
       subl = "code";
-      nixre = "sudo darwin-rebuild switch --flake ~/.dotfiles#zbook --impure";
+      nixre = "sudo darwin-rebuild switch --flake ~/.dotfiles#zbook";
       nixgc = "nix-collect-garbage -d";
       nixcfg = "code ~/.dotfiles/flake.nix";
       yt-dlp-lowres = "yt-dlp -S res:720";
@@ -41,6 +37,9 @@ in {
     };
 
     initContent = ''
+      # Source secrets if available
+      [[ -f ~/.dotfiles/.secrets.env ]] && source ~/.dotfiles/.secrets.env
+
       function edithosts {
          sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
          sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
@@ -48,7 +47,7 @@ in {
     '';
   };
 
-  # Additional Darwin-specific git configuration
+  # Additional Mac-specific git configuration
   programs.git.extraConfig = {
     credential = {
       helper = "osxkeychain";
@@ -92,7 +91,7 @@ in {
         forwardAgent = true;
       };
       "cruncher" = {
-        hostname= secrets.cruncher.ip;
+        # hostname comes from .secrets.ssh
         forwardAgent = true;
         extraOptions = {
           "PermitLocalCommand" = "yes";
@@ -104,6 +103,9 @@ in {
     };
 
     extraConfig = ''
+      # Include private SSH config
+      Include ~/.dotfiles/.secrets.ssh
+
       IgnoreUnknown UseKeychain
       UseKeychain yes
 

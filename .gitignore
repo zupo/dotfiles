@@ -1,4 +1,5 @@
-secrets.nix
+.secrets.env
+.secrets.ssh
 mkcert
 vscode/History
 result

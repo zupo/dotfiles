@@ -12,7 +12,6 @@ They are used for configuring several of my environments:
   ~/.dotfiles/
   ├── flake.nix                   # Define all machines
   ├── flake.lock                  # Lock all dependencies
-  ├── secrets.nix                 # Private configuration (git-ignored)
   │
   ├── common/                     # Shared modules across all systems
   │   ├── direnv.nix
@@ -32,9 +31,10 @@ They are used for configuring several of my environments:
   │       ├── hardware-configuration.nix
   │       └── home.nix
   │
+  ├── .secrets.env                # Environment variables for secrets (git-ignored)
+  ├── .secrets.ssh                # Private SSH hosts configuration (git-ignored)
   ├── mkcert/                     # development certificates
-  ├── vscode/                     # VS Code settings
-  └── ssh_config_private          # Private SSH configuration (git-ignored)
+  └── vscode/                     # VS Code settings
 ```
 
 
@@ -59,16 +59,19 @@ $ ln -sv ~/.dotfiles/vscode ~/Library/Application\ Support/Code/User
 $ echo 'machine niteo.cachix.org password <CACHIX AUTH TOKEN>' >> ~/.config/nix/netrc
 ```
 
-1. Create a `secrets.nix` file in the `.dotfiles` directory:
+1. Create secret files in the `.dotfiles` directory:
 
-```nix
-{
-  email = "mail@example.com";
-  github = {
-    token = "secret";
-  };
-}
-```
+   `.secrets.env` for environment variables:
+   ```bash
+   export OPENAI_API_KEY="sk-proj-..."
+   export CACHIX_AUTH_TOKEN="..."
+   ```
+
+   `.secrets.ssh` for SSH hosts:
+   ```
+   Host cruncher
+       HostName 192.168.1.100
+   ```
 
 1. `nix-channel`s are implicit and bad, so I remove them and instead use flakes to pin to exact nixpkgs commit hashes:
 
