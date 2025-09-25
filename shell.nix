@@ -49,10 +49,5 @@ pkgs.mkShell {
     # Install pre-commit hooks
     pre-commit install --install-hooks
     pre-commit install --hook-type pre-push
-
-    echo "✨ Pre-commit hooks installed! The following tools will run on commit:"
-    echo "  - nixfmt-rfc-style (formatter)"
-    echo "  - deadnix (removes unused code)"
-    echo "  - statix (static analysis and fixes)"
   '';
 }
