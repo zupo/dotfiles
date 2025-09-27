@@ -103,7 +103,7 @@
         forwardAgent = true;
       };
       "cruncher" = {
-        # hostname comes from .secrets.ssh
+        hostname = "cruncher.niteo.co";
         forwardAgent = true;
         extraOptions = {
           "PermitLocalCommand" = "yes";
