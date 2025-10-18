@@ -19,13 +19,27 @@
     "window.commandCenter": false,
     "git.openRepositoryInParentFolders": "always",
     "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true,
+        "editor.defaultFormatter": "charliermarsh.ruff"
     },
-    "black-formatter.importStrategy": "fromEnvironment",
-    "autoflake-extension.remove-duplicate-keys": true,
-    "autoflake-extension.remove-unused-variables": true,
-    "autoflake-extension.remove-all-unused-imports": true,
+    "ruff.enable": true,
+    "ruff.configuration": {
+        "target-version": "py313",
+        "exclude": [".git", ".venv"],
+        "line-length": 88,
+        "lint": {
+            "select": ["ALL"],
+            "pydocstyle": {
+                "convention": "pep257"
+            },
+            "isort": {
+                "force-single-line": true,
+                "no-sections": true,
+                "from-first": true,
+                "lines-between-types": 1
+            }
+        }
+    },
     "workbench.list.horizontalScrolling": true,
     "files.exclude": {
         "**/__pycache__": true,
