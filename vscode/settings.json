@@ -13,22 +13,28 @@
         80,
         72
     ],
-    "apc.activityBar": {
-        "position": "top"
-    },
     "window.commandCenter": false,
     "git.openRepositoryInParentFolders": "always",
     "[python]": {
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "charliermarsh.ruff"
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.inlayHints.enabled": "off"
     },
     "ruff.enable": true,
     "ruff.configuration": {
         "target-version": "py313",
-        "exclude": [".git", ".venv"],
+        "exclude": [
+            ".git",
+            ".venv"
+        ],
         "line-length": 88,
         "lint": {
-            "select": ["ALL"],
+            "select": [
+                "ALL"
+            ],
+            "ignore": [
+                "D202"
+            ],
             "pydocstyle": {
                 "convention": "pep257"
             },
@@ -62,15 +68,13 @@
     },
     "files.trimTrailingWhitespace": true,
     "extensions.ignoreRecommendations": true,
-    "elmLS.elmReviewDiagnostics": "warning",
     "workbench.activityBar.location": "top",
     "editor.multiCursorModifier": "ctrlCmd",
-    "python.analysis.autoImportCompletions": true,
-    "elmLand.compilerFilepath": "lamdera",
-    "github.copilot.editor.enableAutoCompletions": true,
     "editor.snippetSuggestions": "top",
     "[elm]": {
-        "editor.defaultFormatter": "elm-land.elm-land"
+        "editor.defaultFormatter": "elm-land.elm-land",
+        "editor.formatOnSave": true
     },
+    "elmLand.executablePath": "elm-land",
     "github.copilot.nextEditSuggestions.enabled": true
 }
