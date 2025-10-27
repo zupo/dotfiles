@@ -14,6 +14,7 @@
     bat
     cachix
     devenv
+    dig
     eza
     gnumake
     gnupg
