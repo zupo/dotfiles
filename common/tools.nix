@@ -15,12 +15,12 @@
     cachix
     devenv
     dig
-    eza
     gnumake
     gnupg
     hyperfine
     inetutils # telnet
     jq
+    lsd
     mkcert
     ncdu
     neofetch

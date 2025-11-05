@@ -26,12 +26,13 @@ _: {
     };
     shellAliases = {
       axel = "axel -a";
-      rsync = "rsync -avzhP";
-      pwgen = "pwgen --ambiguous 20";
       cat = "bat";
-      ping = "prettyping --nolegend";
       diff = "diff-so-fancy";
+      ls = "lsd";
       man = "tldr";
+      ping = "prettyping --nolegend";
+      pwgen = "pwgen --ambiguous 20";
+      rsync = "rsync -avzhP";
     };
     history = {
       append = true;
