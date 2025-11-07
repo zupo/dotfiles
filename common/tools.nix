@@ -34,6 +34,7 @@
     prettyping
     python3
     pwgen
+    rclone
     s3cmd
     tldr
     unrar
