@@ -89,7 +89,7 @@
   programs.ssh = {
     enable = true;
     addKeysToAgent = "yes";
-    # controlPath = "~/.ssh/master-%C";
+    controlPath = "~/.ssh/master-%C";
 
     matchBlocks = {
       "localhost" = {

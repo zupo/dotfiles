@@ -24,8 +24,8 @@ _: {
       rehab = "reset origin/main --hard";
       pom = "push origin main";
       latest = "for-each-ref --sort=-committerdate refs/heads/";
-      cod = "checkout src/mayet/demo/";
-      addd = "add src/mayet/demo/";
+      co-sql = "checkout '*.sql'";
+      add-sql = "add '*.sql'";
 
       # A log of commits indicating where various branches are currently pointing.
       lga = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative --branches --remotes";

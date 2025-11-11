@@ -13,8 +13,9 @@
     axel
     bat
     cachix
-    devenv
+    pkgsUnstable.devenv
     dig
+    eza
     gnumake
     gnupg
     hyperfine
