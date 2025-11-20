@@ -85,6 +85,12 @@
     '';
   };
 
+  # Ghostty terminal configuration
+  home.file.".config/ghostty/config".text = ''
+    theme = Dark Modern
+    window-inherit-working-directory = false
+  '';
+
   # SSH client config on the Mac
   programs.ssh = {
     enable = true;
