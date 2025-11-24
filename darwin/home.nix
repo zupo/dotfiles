@@ -88,7 +88,9 @@
   # Ghostty terminal configuration
   home.file.".config/ghostty/config".text = ''
     theme = Dark Modern
-    window-inherit-working-directory = false
+
+    # Uncomment when https://github.com/ghostty-org/ghostty/issues/1392 is fixed
+    # window-inherit-working-directory = false
   '';
 
   # SSH client config on the Mac
