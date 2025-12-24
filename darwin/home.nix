@@ -81,17 +81,9 @@
       #!/bin/bash
       # https://github.com/microsoft/vscode/issues/68579#issuecomment-463039009
       code --wait "$@"
-      open -a Ghostty
+      open -a Terminal
     '';
   };
-
-  # Ghostty terminal configuration
-  home.file.".config/ghostty/config".text = ''
-    theme = Dark Modern
-
-    # Uncomment when https://github.com/ghostty-org/ghostty/issues/1392 is fixed
-    # window-inherit-working-directory = false
-  '';
 
   # SSH client config on the Mac
   programs.ssh = {
