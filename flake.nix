@@ -15,7 +15,6 @@
 
     # MCP NixOS tool
     mcp-nixos.url = "github:utensils/mcp-nixos";
-    mcp-nixos.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   outputs =
