@@ -7,15 +7,17 @@
 }:
 {
   imports = [
+    (commonModules.ai {
+      inherit pkgs pkgsUnstable mcp-nixos;
+    })
     commonModules.direnv
     commonModules.files
     commonModules.vim
     commonModules.gitconfig
     commonModules.zsh
     (commonModules.tools {
-      inherit pkgs pkgsUnstable mcp-nixos;
+      inherit pkgs pkgsUnstable;
     })
-
   ];
 
   home.stateVersion = "25.05";
@@ -41,7 +43,7 @@
   ];
 
   # Git configuration adjustments for VM
-  programs.git.extraConfig = {
+  programs.git.settings = {
     safe.directory = "/home/zupo/.dotfiles";
   };
 }

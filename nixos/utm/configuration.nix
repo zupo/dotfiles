@@ -38,8 +38,8 @@
 
   # X11/Wayland - minimal desktop (you can change this based on preference)
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap
   services.xserver.xkb = {
@@ -48,7 +48,7 @@
   };
 
   # Enable sound
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -75,8 +75,8 @@
   programs.zsh.enable = true;
 
   # Enable automatic login for convenience in VM
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "zupo";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "zupo";
 
   # Workaround for GNOME autologin
   systemd.services."getty@tty1".enable = false;

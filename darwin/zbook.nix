@@ -83,8 +83,8 @@
   security.pam.services.sudo_local.touchIdAuth = true;
 
   # make sure firewall is up & running
-  system.defaults.alf.globalstate = 1;
-  system.defaults.alf.stealthenabled = 1;
+  networking.applicationFirewall.enable = true;
+  networking.applicationFirewall.enableStealthMode = true;
 
   # Personalization
   system.primaryUser = "zupo";

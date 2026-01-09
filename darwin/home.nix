@@ -12,17 +12,17 @@
   programs.home-manager.enable = true;
 
   imports = [
+    (commonModules.ai {
+      inherit pkgs pkgsUnstable mcp-nixos;
+    })
     commonModules.direnv
     commonModules.files
     commonModules.gitconfig
     commonModules.vim
     commonModules.zsh
     (commonModules.tools {
-      inherit pkgs;
-      inherit pkgsUnstable;
-      inherit mcp-nixos;
+      inherit pkgs pkgsUnstable;
     })
-
   ];
 
   # Additional Darwin-specific zsh configuration
@@ -60,7 +60,7 @@
   };
 
   # Additional Mac-specific git configuration
-  programs.git.extraConfig = {
+  programs.git.settings = {
     credential = {
       helper = "osxkeychain";
     };
@@ -88,10 +88,20 @@
   # SSH client config on the Mac
   programs.ssh = {
     enable = true;
-    addKeysToAgent = "yes";
-    controlPath = "~/.ssh/master-%C";
+    enableDefaultConfig = false;
 
     matchBlocks = {
+      "*" = {
+        addKeysToAgent = "yes";
+        controlPath = "~/.ssh/master-%C";
+        identityAgent = "/Users/zupo/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
+        extraOptions = {
+          "IgnoreUnknown" = "UseKeychain";
+          "UseKeychain" = "yes";
+          # Support connecting to RouterOS v6 Mikrotik devices
+          "PubkeyAcceptedAlgorithms" = "+ssh-rsa";
+        };
+      };
       "localhost" = {
         extraOptions = {
           "StrictHostKeyChecking" = "no";
@@ -117,16 +127,6 @@
     extraConfig = ''
       # Include private SSH config
       Include ~/.dotfiles/.secrets.ssh
-
-      IgnoreUnknown UseKeychain
-      UseKeychain yes
-
-      # Support connecting to RouterOS v6 Mikrotik devices
-      PubkeyAcceptedAlgorithms +ssh-rsa
-
-      # TODO: Rewrite to programs.ssh.idenityAgent = ... when 25.11 is released
-      Host *
-      	IdentityAgent /Users/zupo/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
     '';
   };
 }

@@ -2,15 +2,15 @@
   description = "zupo's multi-system configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     # Darwin support
-    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home Manager
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # MCP NixOS tool
@@ -29,6 +29,7 @@
     let
       # Common modules that can be imported by any system
       commonModules = {
+        ai = import ./common/ai.nix;
         gitconfig = import ./common/gitconfig.nix;
         tools = import ./common/tools.nix;
         direnv = import ./common/direnv.nix;
