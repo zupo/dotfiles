@@ -1,6 +1,7 @@
 {
   pkgsUnstable,
   mcp-nixos,
+  claude-plugins,
   pkgs,
   ...
 }:
@@ -11,6 +12,9 @@
 
     # Commands are stored as markdown files in the claude/ directory
     commandsDir = ../claude;
+
+    # Code-simplifier agent from official plugins
+    agentsDir = "${claude-plugins}/plugins/code-simplifier/agents";
 
     # MCP servers configuration
     mcpServers = {

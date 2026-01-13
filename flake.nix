@@ -15,6 +15,10 @@
 
     # MCP NixOS tool
     mcp-nixos.url = "github:utensils/mcp-nixos";
+
+    # Claude Code plugins
+    claude-plugins.url = "github:anthropics/claude-plugins-official";
+    claude-plugins.flake = false;
   };
 
   outputs =
@@ -25,6 +29,7 @@
       nix-darwin,
       home-manager,
       mcp-nixos,
+      claude-plugins,
     }:
     let
       # Common modules that can be imported by any system
@@ -59,7 +64,7 @@
             home-manager.users.zupo = import ./darwin/home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = mkPkgsUnstable "aarch64-darwin";
-              inherit commonModules mcp-nixos;
+              inherit commonModules mcp-nixos claude-plugins;
             };
           }
         ];
@@ -77,7 +82,7 @@
             home-manager.users.zupo = import ./nixos/utm/home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = mkPkgsUnstable "aarch64-linux";
-              inherit commonModules mcp-nixos;
+              inherit commonModules mcp-nixos claude-plugins;
             };
           }
         ];

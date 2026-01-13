@@ -4,6 +4,7 @@
   pkgsUnstable,
   commonModules,
   mcp-nixos,
+  claude-plugins,
   ...
 }:
 {
@@ -13,7 +14,12 @@
 
   imports = [
     (commonModules.ai {
-      inherit pkgs pkgsUnstable mcp-nixos;
+      inherit
+        pkgs
+        pkgsUnstable
+        mcp-nixos
+        claude-plugins
+        ;
     })
     commonModules.direnv
     commonModules.files
