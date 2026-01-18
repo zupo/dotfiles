@@ -19,7 +19,7 @@
     # MCP servers configuration
     mcpServers = {
       mcp-nixos = {
-        command = "${mcp-nixos.packages.${pkgs.system}.default}/bin/mcp-nixos";
+        command = "${mcp-nixos.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/mcp-nixos";
       };
     };
   };

@@ -86,6 +86,12 @@
   networking.applicationFirewall.enable = true;
   networking.applicationFirewall.enableStealthMode = true;
 
+  # Nerd Fonts for terminal icons (lsd, etc.)
+  fonts.packages = with pkgs; [
+    nerd-fonts.meslo-lg # same as default macOS "Menlo" font
+    # Terminal -> Settings -> Text -> Font: MesloLGS Nerd Font Regular 12
+  ];
+
   # Personalization
   system.primaryUser = "zupo";
   networking.hostName = "zbook";
