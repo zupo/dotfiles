@@ -1,8 +1,9 @@
 {
   pkgsUnstable,
-  mcp-nixos,
+  niteo-claude,
   claude-plugins,
   pkgs,
+  lib,
   ...
 }:
 {
@@ -10,19 +11,21 @@
     enable = true;
     package = pkgsUnstable.claude-code;
 
-    # Commands are stored as markdown files in the claude/ directory
-    commandsDir = ../claude;
-
     # Code-simplifier agent from official plugins
     agentsDir = "${claude-plugins}/plugins/code-simplifier/agents";
 
-    # MCP servers configuration
-    mcpServers = {
-      mcp-nixos = {
-        command = "${mcp-nixos.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/mcp-nixos";
-      };
+    # Merge Niteo MCPs with personal MCPs
+    mcpServers = niteo-claude.lib.mcpServers pkgs // {
+      # Personal MCPs can be added here
     };
   };
+
+  # Shared rules from Niteo (written to ~/.claude/rules/)
+  # Convert this to programs.claude-code.rules when upgrading to 26.05
+  home.file = lib.mapAttrs' (name: content: {
+    name = ".claude/rules/${name}.md";
+    value.text = content;
+  }) niteo-claude.lib.rules;
 
   # Additional AI tools
   home.packages = [

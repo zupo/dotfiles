@@ -1,8 +1,9 @@
 {
   pkgs,
+  lib,
   pkgsUnstable,
   commonModules,
-  mcp-nixos,
+  niteo-claude,
   claude-plugins,
   ...
 }:
@@ -12,8 +13,9 @@
       inherit
         pkgs
         pkgsUnstable
-        mcp-nixos
+        niteo-claude
         claude-plugins
+        lib
         ;
     })
     commonModules.direnv

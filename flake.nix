@@ -13,8 +13,8 @@
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # MCP NixOS tool
-    mcp-nixos.url = "github:utensils/mcp-nixos";
+    # Shared Claude Code configuration for Niteo
+    niteo-claude.url = "git+ssh://git@github.com/teamniteo/claude";
 
     # Claude Code plugins
     claude-plugins.url = "github:anthropics/claude-plugins-official";
@@ -28,7 +28,7 @@
       nixpkgs-unstable,
       nix-darwin,
       home-manager,
-      mcp-nixos,
+      niteo-claude,
       claude-plugins,
     }:
     let
@@ -64,7 +64,7 @@
             home-manager.users.zupo = import ./darwin/home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = mkPkgsUnstable "aarch64-darwin";
-              inherit commonModules mcp-nixos claude-plugins;
+              inherit commonModules niteo-claude claude-plugins;
             };
           }
         ];
@@ -82,7 +82,7 @@
             home-manager.users.zupo = import ./nixos/utm/home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = mkPkgsUnstable "aarch64-linux";
-              inherit commonModules mcp-nixos claude-plugins;
+              inherit commonModules niteo-claude claude-plugins;
             };
           }
         ];

@@ -5,6 +5,8 @@
 }:
 {
   home.packages = with pkgs; [
+    imapsync
+
     asciinema
     atuin
     axel
