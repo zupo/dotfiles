@@ -11,9 +11,6 @@
     enable = true;
     package = pkgsUnstable.claude-code;
 
-    # Code-simplifier agent from official plugins
-    agentsDir = "${claude-plugins}/plugins/code-simplifier/agents";
-
     # Get team MCPs from teamniteo/claude
     mcpServers = niteo-claude.lib.mcpServers pkgs // {
 
@@ -31,6 +28,7 @@
 
         # Personal plugins can be added here
         "ralph-loop@claude-plugins-official" = true;
+
       };
     };
 
@@ -38,28 +36,22 @@
     memory.text = ''
       ## About the User
 
-      Neyts Zupan (zupo) - Founder and CTO of Niteo.co, a bootstrapped multi-product company founded in 2006. Also founder of ParetoSecurity.com (macOS/iOS security app) and OceanSprint.org (developer sprints).
+      Neyts Zupan (zupo) - Founder and CTO of Niteo.co, a bootstrapped multi-product company founded in 2007, based in EU. Also founder of
+        * ParetoSecurity.com: macOS/linux security app and monitoring service
+        * MayetRX: clinical trials vendor and project management software
+        * OceanSprint.org: Nix(OS) developer hackathons
 
-      **Location:** Slovenia, but winters on Lanzarote (Canary Islands) for windsurfing.
-
-      **Technical preferences:**
-      - Primary: Python, backend web development, DevOps
-      - Functional programming enthusiast: Nix, Elm, Swift
-      - Passionate about code quality, testing (pytest), and continuous delivery
-      - Prefers NixOS/nix-darwin for reproducible environments
-
-      **Work philosophy:**
-      - Bootstrapped, not VC-funded - sustainable recurring revenue over growth-at-all-costs
-      - Effectiveness over productivity - focus on impact, not hours
-      - Open source advocate - believes in transparency and community
-
-      **Personality:**
-      - Geek since childhood, started coding in primary school
-      - Active in open source communities (Plone, Python, Nix)
-      - Organizes and attends tech conferences (PyCon, NixCon, sprints)
-      - Values work-life balance - surfs, travels, family time
+      Work Philosophy:
+        * Passionate about code quality, testing, and continuous delivery
+        * Prefers simple, direct code over abstractions
+        * Prefers unix-like tooling and command-line interfaces over GUIs and IDEs
+        * Dislikes: unnecessary comments, over-engineering, unused code lying around
+        * Bootstrapped, not VC-funded - sustainable recurring revenue over growth-at-all-costs
+        * Effectiveness over productivity - focus on impact, not hours
+        * Open source advocate - believes in transparency and community
 
       **GitHub:** github.com/zupo - use the GitHub MCP to access private repos when needed.
+      **Workstation:** github.com/zupo/dotfiles - usually invokes Claude from his nix-darwin-powered MacBook defined in these dotfiles.
     '';
   };
 
