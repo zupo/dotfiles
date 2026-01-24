@@ -79,11 +79,11 @@
         "mcp-nixos": "mcp-nixos"
       },
       "locked": {
-        "lastModified": 1769174726,
-        "narHash": "sha256-igLIdmAx86YXqoSvpqTSWloemB5gCqbJL0UArjPOqGg=",
+        "lastModified": 1769292000,
+        "narHash": "sha256-+LOFt74hfnmqbXDWNxNLpKBNRFtTZSzJE9QmwsiFoBU=",
         "ref": "refs/heads/main",
-        "rev": "60645e363e09e960e79ad6030f80322d40eb6343",
-        "revCount": 3,
+        "rev": "bd8e8f2c0d9b79fc4bdaf472b50c8051edf3bf9d",
+        "revCount": 8,
         "type": "git",
         "url": "ssh://git@github.com/teamniteo/claude"
       },
@@ -146,11 +146,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1767364772,
-        "narHash": "sha256-fFUnEYMla8b7UKjijLnMe+oVFOz6HjijGGNS1l7dYaQ=",
+        "lastModified": 1769237874,
+        "narHash": "sha256-saOixpqPT4fiE/M8EfHv9I98f3sSEvt6nhMJ/z0a7xI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "16c7794d0a28b5a37904d55bcca36003b9109aaa",
+        "rev": "523257564973361cc3e55e3df3e77e68c20b0b80",
         "type": "github"
       },
       "original": {

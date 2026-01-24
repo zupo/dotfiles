@@ -61,6 +61,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
             home-manager.users.zupo = import ./darwin/home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = mkPkgsUnstable "aarch64-darwin";
@@ -79,6 +80,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
             home-manager.users.zupo = import ./nixos/utm/home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = mkPkgsUnstable "aarch64-linux";
