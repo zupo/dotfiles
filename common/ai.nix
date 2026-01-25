@@ -22,14 +22,22 @@
 
     };
 
-    # Get team Plugins from teamniteo/claude
     settings = {
+
+      # Get team Plugins from teamniteo/claude
       enabledPlugins = niteo-claude.lib.enabledPlugins // {
 
         # Personal plugins can be added here
         "ralph-loop@claude-plugins-official" = true;
 
       };
+
+      # Get team Permissions from teamniteo/claude
+      permissions.allow = niteo-claude.lib.permissions.allow ++ [
+
+        # Personal permissions can be added here
+        "mcp__clinical-trials__*"
+      ];
     };
 
     # Personal CLAUDE.md content
