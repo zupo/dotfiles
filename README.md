@@ -14,6 +14,7 @@ They are used for configuring several of my environments:
   ├── flake.lock                  # Lock all dependencies
   │
   ├── common/                     # Shared modules across all systems
+  │   ├── ai.nix
   │   ├── direnv.nix
   │   ├── files.nix
   │   ├── gitconfig.nix
@@ -21,7 +22,7 @@ They are used for configuring several of my environments:
   │   ├── vim.nix
   │   └── zsh.nix
   │
-  ├── macos/
+  ├── darwin/
   │   ├── zbook.nix               # nix-darwin for my MacBook
   │   └── home.nix                # Home Manager for my MacBook
   │
@@ -36,6 +37,13 @@ They are used for configuring several of my environments:
   ├── mkcert/                     # development certificates
   └── vscode/                     # VS Code settings
 ```
+
+## Conventions
+
+- Common modules go in `common/`, system-specific overrides in `darwin/` or `nixos/`
+- Packages from unstable nixpkgs use `pkgsUnstable` (passed via `extraSpecialArgs`)
+- Claude Code config is shared from `teamniteo/claude` repo via the `niteo-claude` flake input; personal overrides go in `common/ai.nix`
+- No imperative changes — everything is declarative through Nix
 
 
 ## UTM NixOS VM setup
@@ -129,6 +137,10 @@ When a new nixpkgs channel is released, do the following:
 * run `nixre`
 
 ## Troubleshooting
+
+### Debugging MCP Servers
+
+MCP server logs are at `~/Library/Caches/claude-cli-nodejs/<project-path>/mcp-logs-<server-name>/` where `<project-path>` is the working directory with slashes replaced by dashes (e.g., `-Users-zupo--dotfiles`). Each directory contains `.jsonl` files with timestamped entries. Session debug logs are at `~/.claude/debug/` with a `latest` symlink.
 
 ### `Problem with the SSL CA cert (path? access rights?)`
 

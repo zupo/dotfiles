@@ -28,7 +28,7 @@
       enabledPlugins = niteo-claude.lib.enabledPlugins // {
 
         # Personal plugins can be added here
-        "ralph-loop@claude-plugins-official" = true;
+        "ralph-wiggum@claude-plugins-official" = true;
 
       };
 
@@ -37,6 +37,39 @@
 
         # Personal permissions can be added here
         "mcp__clinical-trials__*"
+
+        # Auto-allow read-only commands in common directories
+        "Read(~/.dotfiles/*)"
+        "Read(~/work/*)"
+        "Read(~/tmp/*)"
+        "Bash(cat ~/.dotfiles/*)"
+        "Bash(cat ~/work/*)"
+        "Bash(cat /tmp/*)"
+        "Bash(head ~/.dotfiles/*)"
+        "Bash(head ~/work/*)"
+        "Bash(head /tmp/*)"
+        "Bash(ls ~/.dotfiles/*)"
+        "Bash(ls ~/work/*)"
+        "Bash(ls /tmp/*)"
+        "Bash(tail ~/.dotfiles/*)"
+        "Bash(tail ~/work/*)"
+        "Bash(tail /tmp/*)"
+        "Bash(wc ~/.dotfiles/*)"
+        "Bash(wc ~/work/*)"
+        "Bash(wc /tmp/*)"
+        "Bash(git branch*)"
+        "Bash(git diff*)"
+        "Bash(git log*)"
+        "Bash(git remote*)"
+        "Bash(git show*)"
+        "Bash(git status*)"
+        "Bash(git tag*)"
+        "Bash(nix eval *)"
+        "Bash(nix flake metadata*)"
+        "Bash(nix flake show*)"
+        "Bash(nix path-info *)"
+        "Bash(nix search *)"
+        "Bash(which *)"
       ];
     };
 
