@@ -61,11 +61,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1769459141,
-        "narHash": "sha256-hXFkZGdAfjLZ2j1BNfUwGvxYEHprZMeeZUkDazlrZAs=",
+        "lastModified": 1769469790,
+        "narHash": "sha256-VJI4KvK2AWtjPdNqanQ43MUydnU9qwN+HTDXrAtS2bI=",
         "owner": "utensils",
         "repo": "mcp-nixos",
-        "rev": "697cca9a1ef7ddd94b6a1536bdd03bc18560b9aa",
+        "rev": "af7b82497af2229893d0a5e4edaad4165f45eec7",
         "type": "github"
       },
       "original": {
@@ -79,11 +79,11 @@
         "mcp-nixos": "mcp-nixos"
       },
       "locked": {
-        "lastModified": 1769464985,
-        "narHash": "sha256-eI1+FW0ilniSmNIxgOd1jwpTtGk6fseo8jo1JkTbfSI=",
+        "lastModified": 1769536062,
+        "narHash": "sha256-Oe0xyCqXiMaOiC4CdCNIszAlo5gpKQRuVAbA5mw69Dg=",
         "ref": "refs/heads/main",
-        "rev": "b79b4558a8eafe1285368fea92fa9a5d3f92eb72",
-        "revCount": 14,
+        "rev": "a673246200c48f98b8a07ad6a95e1c1b7043b3db",
+        "revCount": 16,
         "type": "git",
         "url": "ssh://git@github.com/teamniteo/claude"
       },
