@@ -48,16 +48,16 @@
     # Additional Mac-specific aliases
     shellAliases = {
       subl = "code";
-      nixre = "sudo darwin-rebuild switch --flake ~/.dotfiles#zbook";
+      nixre = "sudo darwin-rebuild switch --flake ~/work/dotfiles#zbook";
       nixgc = "nix-collect-garbage --delete-older-than 30d";
-      nixcfg = "code ~/.dotfiles/flake.nix";
+      nixcfg = "code ~/work/dotfiles/flake.nix";
       yt-dlp-lowres = "yt-dlp -S res:720";
       yt-dlp-audio = "yt-dlp --extract-audio --audio-format mp3";
     };
 
     initContent = ''
       # Source secrets if available
-      [[ -f ~/.dotfiles/.secrets.env ]] && source ~/.dotfiles/.secrets.env
+      [[ -f ~/work/dotfiles/.secrets.env ]] && source ~/work/dotfiles/.secrets.env
 
       function edithosts {
          sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
@@ -133,7 +133,7 @@
 
     extraConfig = ''
       # Include private SSH config
-      Include ~/.dotfiles/.secrets.ssh
+      Include ~/work/dotfiles/.secrets.ssh
     '';
   };
 }

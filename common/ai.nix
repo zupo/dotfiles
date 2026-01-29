@@ -38,19 +38,14 @@
         "mcp__clinical-trials__*"
 
         # Auto-allow read-only commands in common directories
-        "Read(~/.dotfiles/*)"
         "Read(~/work/*)"
         "Read(~/tmp/*)"
-        "Bash(cat ~/.dotfiles/*)"
         "Bash(cat ~/work/*)"
         "Bash(cat /tmp/*)"
-        "Bash(head ~/.dotfiles/*)"
         "Bash(head ~/work/*)"
         "Bash(head /tmp/*)"
-        "Bash(ls ~/.dotfiles/*)"
         "Bash(ls ~/work/*)"
         "Bash(ls /tmp/*)"
-        "Bash(tail ~/.dotfiles/*)"
         "Bash(tail ~/work/*)"
         "Bash(tail /tmp/*)"
       ];

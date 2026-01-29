@@ -9,7 +9,7 @@ They are used for configuring several of my environments:
 
 
 ```
-  ~/.dotfiles/
+  ~/work/dotfiles/
   ├── flake.nix                   # Define all machines
   ├── flake.lock                  # Lock all dependencies
   │
@@ -62,12 +62,12 @@ TODO...
 1. Get my dotfiles and link them to places where they are used:
 
 ```
-$ git clone https://github.com/zupo/dotfiles.git ~/.dotfiles
-$ ln -sv ~/.dotfiles/vscode ~/Library/Application\ Support/Code/User
+$ git clone https://github.com/zupo/dotfiles.git ~/work/dotfiles
+$ ln -sv ~/work/dotfiles/vscode ~/Library/Application\ Support/Code/User
 $ echo 'machine niteo.cachix.org password <CACHIX AUTH TOKEN>' >> ~/.config/nix/netrc
 ```
 
-1. Create secret files in the `.dotfiles` directory:
+1. Create secret files in the `dotfiles` directory:
 
    `.secrets.env` for environment variables:
    ```bash

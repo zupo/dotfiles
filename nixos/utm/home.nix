@@ -38,9 +38,9 @@
     };
 
     shellAliases = {
-      nixre = "sudo nixos-rebuild switch --flake /home/zupo/.dotfiles#utm";
+      nixre = "sudo nixos-rebuild switch --flake /home/zupo/work/dotfiles#utm";
       nixgc = "nix-collect-garbage --delete-older-than 30d";
-      nixcfg = "vim /home/zupo/.dotfiles/nixos/utm/configuration.nix";
+      nixcfg = "vim /home/zupo/work/dotfiles/nixos/utm/configuration.nix";
     };
   };
 
@@ -52,6 +52,6 @@
 
   # Git configuration adjustments for VM
   programs.git.settings = {
-    safe.directory = "/home/zupo/.dotfiles";
+    safe.directory = "/home/zupo/work/dotfiles";
   };
 }
