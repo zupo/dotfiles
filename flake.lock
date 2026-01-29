@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "claude-plugins": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1768259115,
-        "narHash": "sha256-8l3d6awoeiJSIsIJDYqLUt/3EqxecxAy7C9TcVU+/Ac=",
-        "owner": "anthropics",
-        "repo": "claude-plugins-official",
-        "rev": "f70b65538da094ff474a855e7a679fb2c2c8064f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "anthropics",
-        "repo": "claude-plugins-official",
-        "type": "github"
-      }
-    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
@@ -178,7 +162,6 @@
     },
     "root": {
       "inputs": {
-        "claude-plugins": "claude-plugins",
         "home-manager": "home-manager",
         "niteo-claude": "niteo-claude",
         "nix-darwin": "nix-darwin",

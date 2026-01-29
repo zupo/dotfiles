@@ -33,7 +33,6 @@ They are used for configuring several of my environments:
   │       └── home.nix
   │
   ├── .secrets.env                # Environment variables for secrets (git-ignored)
-  ├── .secrets.ssh                # Private SSH hosts configuration (git-ignored)
   ├── mkcert/                     # development certificates
   └── vscode/                     # VS Code settings
 ```
@@ -73,12 +72,6 @@ $ echo 'machine niteo.cachix.org password <CACHIX AUTH TOKEN>' >> ~/.config/nix/
    ```bash
    export OPENAI_API_KEY="sk-proj-..."
    export CACHIX_AUTH_TOKEN="..."
-   ```
-
-   `.secrets.ssh` for SSH hosts:
-   ```
-   Host cruncher
-       HostName 192.168.1.100
    ```
 
 1. `nix-channel`s are implicit and bad, so I remove them and instead use flakes to pin to exact nixpkgs commit hashes:

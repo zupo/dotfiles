@@ -1,7 +1,6 @@
 {
   pkgsUnstable,
   niteo-claude,
-  claude-plugins,
   pkgs,
   ...
 }:

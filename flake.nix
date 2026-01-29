@@ -15,10 +15,6 @@
 
     # Shared Claude Code configuration for Niteo
     niteo-claude.url = "git+ssh://git@github.com/teamniteo/claude";
-
-    # Claude Code plugins
-    claude-plugins.url = "github:anthropics/claude-plugins-official";
-    claude-plugins.flake = false;
   };
 
   outputs =
@@ -29,7 +25,6 @@
       nix-darwin,
       home-manager,
       niteo-claude,
-      claude-plugins,
     }:
     let
       # Common modules that can be imported by any system
@@ -65,7 +60,7 @@
             home-manager.users.zupo = import ./darwin/home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = mkPkgsUnstable "aarch64-darwin";
-              inherit commonModules niteo-claude claude-plugins;
+              inherit commonModules niteo-claude;
             };
           }
         ];
@@ -84,7 +79,7 @@
             home-manager.users.zupo = import ./nixos/utm/home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = mkPkgsUnstable "aarch64-linux";
-              inherit commonModules niteo-claude claude-plugins;
+              inherit commonModules niteo-claude;
             };
           }
         ];

@@ -4,7 +4,6 @@
   pkgsUnstable,
   commonModules,
   niteo-claude,
-  claude-plugins,
   ...
 }:
 {
@@ -18,7 +17,6 @@
         pkgs
         pkgsUnstable
         niteo-claude
-        claude-plugins
         lib
         ;
     })
@@ -131,9 +129,5 @@
       };
     };
 
-    extraConfig = ''
-      # Include private SSH config
-      Include ~/work/dotfiles/.secrets.ssh
-    '';
   };
 }

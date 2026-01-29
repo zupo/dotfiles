@@ -4,7 +4,6 @@
   pkgsUnstable,
   commonModules,
   niteo-claude,
-  claude-plugins,
   ...
 }:
 {
@@ -14,7 +13,6 @@
         pkgs
         pkgsUnstable
         niteo-claude
-        claude-plugins
         lib
         ;
     })
