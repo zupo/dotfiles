@@ -49,7 +49,7 @@
     shellAliases = {
       subl = "code";
       nixre = "sudo darwin-rebuild switch --flake ~/.dotfiles#zbook";
-      nixgc = "nix-collect-garbage -d";
+      nixgc = "nix-collect-garbage --delete-older-than 30d";
       nixcfg = "code ~/.dotfiles/flake.nix";
       yt-dlp-lowres = "yt-dlp -S res:720";
       yt-dlp-audio = "yt-dlp --extract-audio --audio-format mp3";

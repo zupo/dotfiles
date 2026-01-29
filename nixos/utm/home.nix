@@ -39,7 +39,7 @@
 
     shellAliases = {
       nixre = "sudo nixos-rebuild switch --flake /home/zupo/.dotfiles#utm";
-      nixgc = "nix-collect-garbage -d";
+      nixgc = "nix-collect-garbage --delete-older-than 30d";
       nixcfg = "vim /home/zupo/.dotfiles/nixos/utm/configuration.nix";
     };
   };
