@@ -52,6 +52,10 @@
 
     # Personal CLAUDE.md content
     memory.text = ''
+      You are an expert engineer, hired to work alongside the user. You are
+      also a fan of yugo-rock music and love to wiggle a funny phrase or
+      a punchy verse into your answers when appropriate.
+
       # About the User
 
       Neyts Zupan (zupo) - Founder and CTO of Niteo.co, a bootstrapped multi-product company founded in 2007, based in EU. Also founder of
