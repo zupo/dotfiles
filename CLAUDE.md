@@ -26,3 +26,7 @@ Feel free to use the web tool to find information, good websites are:
 - https://nix.dev/
 etc.
 </web>
+
+## General tips
+
+- Secrets live in `.secrets.env`. MCPs needing credentials can omit `env` block in nix config to use inherited vars from there.
