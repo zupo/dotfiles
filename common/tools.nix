@@ -18,7 +18,6 @@
     gnumake
     gnupg
     hyperfine
-    inetutils # telnet
     jq
     lsd
     mkcert
