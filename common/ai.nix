@@ -84,12 +84,4 @@
     pkgsUnstable.codex
   ];
 
-  # Shared skills from teamniteo/claude
-  home.file = lib.mapAttrs' (name: path: {
-    name = ".claude/skills/${name}";
-    value = {
-      source = path;
-      recursive = true;
-    };
-  }) niteo-claude.lib.skills;
 }
