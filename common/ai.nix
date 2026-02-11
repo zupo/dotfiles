@@ -5,6 +5,16 @@
   lib,
   ...
 }:
+let
+  peonSounds = pkgs.stdenvNoCC.mkDerivation {
+    name = "peon-sounds";
+    src = ../sounds;
+    installPhase = ''
+      mkdir -p $out
+      cp *.ogg $out/
+    '';
+  };
+in
 {
   programs.claude-code = {
     enable = true;
@@ -22,6 +32,18 @@
     };
 
     settings = {
+
+      # Play a random Warcraft peon sound when Claude is waiting for input
+      hooks.Stop = [
+        {
+          hooks = [
+            {
+              type = "command";
+              command = "afplay $(ls ${peonSounds}/*.ogg | sort -R | head -1) &";
+            }
+          ];
+        }
+      ];
 
       # Get team Plugins from teamniteo/claude
       enabledPlugins = niteo-claude.lib.enabledPlugins // {
