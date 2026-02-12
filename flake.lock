@@ -63,17 +63,17 @@
         "mcp-nixos": "mcp-nixos"
       },
       "locked": {
-        "lastModified": 1770388821,
-        "narHash": "sha256-ssF/6iVIYOMQpfGCvYw9hfFcWX9kAAdf9RWZhIrtDYk=",
-        "ref": "refs/heads/main",
-        "rev": "715fbcde9f81f981807fb5b5aa8fe725775dd96c",
-        "revCount": 28,
-        "type": "git",
-        "url": "ssh://git@github.com/teamniteo/claude"
+        "lastModified": 1770882599,
+        "narHash": "sha256-o8SAzFL0SgP+gouoIy2cYTqo4mLwKkQr1M5aUFZkGIo=",
+        "owner": "teamniteo",
+        "repo": "claude",
+        "rev": "6120321122d99569ea360067b1f081ca6c02f9b1",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/teamniteo/claude"
+        "owner": "teamniteo",
+        "repo": "claude",
+        "type": "github"
       }
     },
     "nix-darwin": {

@@ -14,7 +14,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Shared Claude Code configuration for Niteo
-    niteo-claude.url = "git+ssh://git@github.com/teamniteo/claude";
+    niteo-claude.url = "github:teamniteo/claude";
   };
 
   outputs =
