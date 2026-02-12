@@ -14,6 +14,16 @@ let
       cp *.ogg $out/
     '';
   };
+  peonSoundHook = [
+    {
+      hooks = [
+        {
+          type = "command";
+          command = "afplay $(ls ${peonSounds}/*.ogg | sort -R | head -1) &";
+        }
+      ];
+    }
+  ];
 in
 {
   programs.claude-code = {
@@ -34,16 +44,8 @@ in
     settings = {
 
       # Play a random Warcraft peon sound when Claude is waiting for input
-      hooks.Stop = [
-        {
-          hooks = [
-            {
-              type = "command";
-              command = "afplay $(ls ${peonSounds}/*.ogg | sort -R | head -1) &";
-            }
-          ];
-        }
-      ];
+      hooks.Stop = peonSoundHook;
+      hooks.Notification = peonSoundHook;
 
       # Get team Plugins from teamniteo/claude
       enabledPlugins = niteo-claude.lib.enabledPlugins // {
