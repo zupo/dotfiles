@@ -58,6 +58,7 @@ _: {
         st = "status";
         ci = "commit";
         cia = "commit -v -a";
+        ciam = "commit --amend";
         cp = "cherry-pick";
         br = "branch --sort=-committerdate";
         co = "checkout";
