@@ -11,6 +11,17 @@
   # Allow licensed binaries
   nixpkgs.config.allowUnfree = true;
 
+  # Enable CGO for direnv (required for -linkmode=external)
+  nixpkgs.overlays = [
+    (_final: prev: {
+      direnv = prev.direnv.overrideAttrs (old: {
+        env = (old.env or { }) // {
+          CGO_ENABLED = 1;
+        };
+      });
+    })
+  ];
+
   # Save disk space
   nix.optimise.automatic = true;
 
