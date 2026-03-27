@@ -76,5 +76,6 @@
         "editor.formatOnSave": true
     },
     "elmLand.executablePath": "elm-land",
-    "github.copilot.nextEditSuggestions.enabled": true
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "diffEditor.renderSideBySide": false
 }

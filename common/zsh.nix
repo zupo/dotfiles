@@ -40,6 +40,23 @@ _: {
     };
     initContent = ''
       eval "$(atuin init zsh --disable-up-arrow)"
+
+      # Rewrite `git push -f` and `git push --force` to `git push --force-with-lease`
+      git() {
+        if [[ "$1" == "push" ]]; then
+          local args=("push")
+          shift
+          for arg in "$@"; do
+            case "$arg" in
+              -f|--force) args+=("--force-with-lease") ;;
+              *) args+=("$arg") ;;
+            esac
+          done
+          command git "''${args[@]}"
+        else
+          command git "$@"
+        fi
+      }
     '';
   };
 }
