@@ -11,13 +11,16 @@
   # Allow licensed binaries
   nixpkgs.config.allowUnfree = true;
 
-  # Enable CGO for direnv (required for -linkmode=external)
+  # Fix direnv build on macOS:
+  # - CGO_ENABLED=1 required for -linkmode=external
+  # - fish test gets SIGKILL'd in the sandbox
   nixpkgs.overlays = [
     (_final: prev: {
       direnv = prev.direnv.overrideAttrs (old: {
         env = (old.env or { }) // {
           CGO_ENABLED = 1;
         };
+        checkPhase = builtins.replaceStrings [ "test-fish" ] [ "" ] (old.checkPhase or "");
       });
     })
   ];
