@@ -4,6 +4,7 @@
   pkgsUnstable,
   commonModules,
   niteo-claude,
+  llm-agents,
   ...
 }:
 {
@@ -13,6 +14,7 @@
         pkgs
         pkgsUnstable
         niteo-claude
+        llm-agents
         lib
         ;
     })

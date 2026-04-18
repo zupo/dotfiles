@@ -1,6 +1,7 @@
 {
   pkgsUnstable,
   niteo-claude,
+  llm-agents,
   pkgs,
   lib,
   ...
@@ -28,7 +29,7 @@ in
 {
   programs.claude-code = {
     enable = true;
-    package = pkgsUnstable.claude-code;
+    package = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
 
     # Get team MCPs from teamniteo/claude
     mcpServers = niteo-claude.lib.mcpServers pkgs // {
@@ -115,7 +116,7 @@ in
 
   # Additional AI tools
   home.packages = [
-    pkgsUnstable.codex
+    llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
   ];
 
 }
