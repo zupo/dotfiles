@@ -58,11 +58,22 @@ in
       hooks.Stop = peonSoundHook;
       hooks.Notification = peonSoundHook;
 
+      # Register extra plugin marketplaces
+      extraKnownMarketplaces = {
+        hakuto = {
+          source = {
+            source = "github";
+            repo = "teamniteo/hakuto";
+          };
+        };
+      };
+
       # Get team Plugins from teamniteo/claude
       enabledPlugins = niteo-claude.lib.enabledPlugins // {
 
         # Personal plugins can be added here
         "ralph-wiggum@claude-plugins-official" = true;
+        "hakuto@hakuto" = true;
 
       };
 
