@@ -66,14 +66,20 @@ in
             repo = "teamniteo/hakuto";
           };
         };
+        anthropic-agent-skills = {
+          source = {
+            source = "github";
+            repo = "anthropics/skills";
+          };
+        };
       };
 
       # Get team Plugins from teamniteo/claude
       enabledPlugins = niteo-claude.lib.enabledPlugins // {
 
         # Personal plugins can be added here
-        "ralph-wiggum@claude-plugins-official" = true;
         "hakuto@hakuto" = true;
+        "example-skills@anthropic-agent-skills" = true;
 
       };
 
