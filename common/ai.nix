@@ -31,8 +31,8 @@ in
     enable = true;
     package = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
 
-    # Get team MCPs from teamniteo/claude
-    mcpServers = niteo-claude.lib.mcpServers pkgs // {
+    # Get team MCPs from teamniteo/claude (drop github MCP — use `gh` CLI instead)
+    mcpServers = lib.removeAttrs (niteo-claude.lib.mcpServers pkgs) [ "github" ] // {
 
       # Override imagesorcery-mcp to pin fastmcp<3 (v3.0 removed log_level kwarg from FastMCP())
       imagesorcery-mcp = {
@@ -83,11 +83,28 @@ in
 
       };
 
-      # Get team Permissions from teamniteo/claude
-      permissions.allow = niteo-claude.lib.permissions.allow ++ [
+      # Get team Permissions from teamniteo/claude (drop github MCP perm — replaced by `gh` CLI)
+      permissions.allow = (lib.filter (p: p != "mcp__github__*") niteo-claude.lib.permissions.allow) ++ [
 
         # Personal permissions can be added here
         "mcp__clinical-trials__*"
+
+        # Allow read-only `gh` commands (replacement for github MCP)
+        "Bash(gh auth status)"
+        "Bash(gh browse*)"
+        "Bash(gh issue list*)"
+        "Bash(gh issue view*)"
+        "Bash(gh pr checks*)"
+        "Bash(gh pr diff*)"
+        "Bash(gh pr list*)"
+        "Bash(gh pr view*)"
+        "Bash(gh release list*)"
+        "Bash(gh release view*)"
+        "Bash(gh repo view*)"
+        "Bash(gh run list*)"
+        "Bash(gh run view*)"
+        "Bash(gh search*)"
+        "Bash(gh api*)"
 
         # Auto-allow read-only commands in common directories
         "Read(~/work/*)"
@@ -126,14 +143,9 @@ in
       - Open source advocate - prefers contributing to and using open source software.
       - Effectiveness over productivity - focus on impact, not hours
 
-      **GitHub:** github.com/zupo - use the GitHub MCP to access private repos when needed.
+      **GitHub:** github.com/zupo - use the `gh` CLI (already authenticated) to access private repos when needed.
       **Workstation:** github.com/zupo/dotfiles - usually invokes Claude from his nix-darwin-powered MacBook defined in these dotfiles.
     '';
   };
-
-  # Additional AI tools
-  home.packages = [
-    llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
-  ];
 
 }

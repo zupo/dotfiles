@@ -15,6 +15,7 @@
     pkgsUnstable.devenv
     dig
     eza
+    gh
     gnumake
     gnupg
     hyperfine
