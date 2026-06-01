@@ -97,37 +97,31 @@
     enable = true;
     enableDefaultConfig = false;
 
-    matchBlocks = {
+    settings = {
       "*" = {
-        addKeysToAgent = "yes";
-        controlPath = "~/.ssh/master-%C";
-        identityAgent = "/Users/zupo/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
-        extraOptions = {
-          "IgnoreUnknown" = "UseKeychain";
-          "UseKeychain" = "yes";
-          # Support connecting to RouterOS v6 Mikrotik devices
-          "PubkeyAcceptedAlgorithms" = "+ssh-rsa";
-        };
+        AddKeysToAgent = "yes";
+        ControlPath = "~/.ssh/master-%C";
+        IdentityAgent = "/Users/zupo/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
+        IgnoreUnknown = "UseKeychain";
+        UseKeychain = "yes";
+        # Support connecting to RouterOS v6 Mikrotik devices
+        PubkeyAcceptedAlgorithms = "+ssh-rsa";
       };
       "localhost" = {
-        extraOptions = {
-          "StrictHostKeyChecking" = "no";
-          "UserKnownHostsFile" = "/dev/null";
-        };
+        StrictHostKeyChecking = "no";
+        UserKnownHostsFile = "/dev/null";
       };
       "desktop" = {
-        hostname = "192.168.65.8";
-        forwardAgent = true;
+        HostName = "192.168.65.8";
+        ForwardAgent = true;
       };
       "cruncher" = {
-        hostname = "cruncher.niteo.co";
-        forwardAgent = true;
-        extraOptions = {
-          "PermitLocalCommand" = "yes";
-          "LocalCommand" = ''
-            osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Novel"'
-          '';
-        };
+        HostName = "cruncher.niteo.co";
+        ForwardAgent = true;
+        PermitLocalCommand = "yes";
+        LocalCommand = ''
+          osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Novel"'
+        '';
       };
     };
 

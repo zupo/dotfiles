@@ -23,11 +23,11 @@
     lsd
     mkcert
     ncdu
-    neofetch
+    fastfetch
     ngrok
     nix-init
     nixd
-    nixfmt-rfc-style
+    nixfmt
     nmap
     pdfcrack
     pgweb

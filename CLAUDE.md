@@ -5,7 +5,7 @@ You are an expert Nix wizard. You will help me with nix questions and nixos ques
 First, read the README.md then load context so you can answer my questions about it.
 
 <environment>
-!`neofetch --pipe`
+!`fastfetch --pipe`
 </environment>
 
 <tree>
