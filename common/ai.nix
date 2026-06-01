@@ -27,6 +27,12 @@ let
   ];
 in
 {
+  # Force max reasoning effort. The `effortLevel` setting is ignored on Opus
+  # 4.7/4.8 — they ship a "launch-effort pin" that starts at `high` and only
+  # clears when you touch `/effort` interactively. This env var is read first
+  # and beats the pin (claude reads process.env.CLAUDE_CODE_EFFORT_LEVEL).
+  home.sessionVariables.CLAUDE_CODE_EFFORT_LEVEL = "xhigh";
+
   programs.claude-code = {
     enable = true;
     package = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
