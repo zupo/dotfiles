@@ -1,5 +1,4 @@
 {
-  pkgsUnstable,
   niteo-claude,
   llm-agents,
   pkgs,
@@ -39,16 +38,6 @@ in
 
     # Get team MCPs from teamniteo/claude (drop github MCP — use `gh` CLI instead)
     mcpServers = lib.removeAttrs (niteo-claude.lib.mcpServers pkgs) [ "github" ] // {
-
-      # Override imagesorcery-mcp to pin fastmcp<3 (v3.0 removed log_level kwarg from FastMCP())
-      imagesorcery-mcp = {
-        command = "${pkgsUnstable.uv}/bin/uvx";
-        args = [
-          "--with"
-          "fastmcp<3"
-          "imagesorcery-mcp"
-        ];
-      };
 
       # Personal MCPs can be added here
       clinical-trials = {
