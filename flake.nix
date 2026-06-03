@@ -14,7 +14,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Shared Claude Code configuration for Niteo
-    niteo-claude.url = "github:teamniteo/claude";
+    # TEMP: testing PR #28 (drop-github-mcp) — revert to "github:teamniteo/claude" when done
+    niteo-claude.url = "github:teamniteo/claude/drop-github-mcp";
 
     # LLM agents (claude-code, codex, etc.) - daily updated builds
     llm-agents.url = "github:numtide/llm-agents.nix";
