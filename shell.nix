@@ -10,7 +10,7 @@ in
 
 pkgs.mkShell {
   buildInputs = with pkgs; [
-    nixfmt-rfc-style
+    nixfmt
     deadnix
     statix
     pre-commit

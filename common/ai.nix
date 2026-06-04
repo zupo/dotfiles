@@ -36,8 +36,8 @@ in
     enable = true;
     package = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
 
-    # Get team MCPs from teamniteo/claude (drop github MCP — use `gh` CLI instead)
-    mcpServers = lib.removeAttrs (niteo-claude.lib.mcpServers pkgs) [ "github" ] // {
+    # Get team MCPs from teamniteo/claude
+    mcpServers = niteo-claude.lib.mcpServers pkgs // {
 
       # Personal MCPs can be added here
       clinical-trials = {
@@ -78,8 +78,8 @@ in
 
       };
 
-      # Get team Permissions from teamniteo/claude (drop github MCP perm — replaced by `gh` CLI)
-      permissions.allow = (lib.filter (p: p != "mcp__github__*") niteo-claude.lib.permissions.allow) ++ [
+      # Get team Permissions from teamniteo/claude
+      permissions.allow = niteo-claude.lib.permissions.allow ++ [
 
         # Personal permissions can be added here
         "mcp__clinical-trials__*"

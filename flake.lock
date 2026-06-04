@@ -188,16 +188,15 @@
         "mcp-nixos": "mcp-nixos"
       },
       "locked": {
-        "lastModified": 1780504059,
+        "lastModified": 1780563203,
         "narHash": "sha256-HE8iwCclsjaG78+b26liW1BVFr6rC7sibAYB119gZA8=",
         "owner": "teamniteo",
         "repo": "claude",
-        "rev": "d4b2c01c4655edb21331e294f79a21f099f61363",
+        "rev": "29ce1f919b90db7d0714c873c1e58c6489802925",
         "type": "github"
       },
       "original": {
         "owner": "teamniteo",
-        "ref": "drop-github-mcp",
         "repo": "claude",
         "type": "github"
       }
