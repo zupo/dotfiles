@@ -107,6 +107,12 @@
         # Support connecting to RouterOS v6 Mikrotik devices
         PubkeyAcceptedAlgorithms = "+ssh-rsa";
       };
+      # MikroTik RouterOS/SwOS devices (see ~/work/house/network) will never
+      # speak a post-quantum key exchange, so silence OpenSSH 10's noisy
+      # "store now, decrypt later" warning for them. Real servers still warn.
+      "router wifi_* switch_*" = {
+        WarnWeakCrypto = "no";
+      };
       "localhost" = {
         StrictHostKeyChecking = "no";
         UserKnownHostsFile = "/dev/null";
