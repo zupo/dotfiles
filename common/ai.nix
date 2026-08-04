@@ -49,6 +49,10 @@ in
 
     settings = {
 
+      # Flicker-free alt-screen renderer with virtualized scrollback,
+      # mouse support and auto-copy on select. Same as CLAUDE_CODE_NO_FLICKER=1.
+      tui = "fullscreen";
+
       # Play a random Warcraft peon sound when Claude is waiting for input
       hooks.Stop = peonSoundHook;
       hooks.Notification = peonSoundHook;
