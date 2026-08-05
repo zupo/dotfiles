@@ -2,6 +2,7 @@
   niteo-claude,
   llm-agents,
   pkgs,
+  pkgsUnstable,
   lib,
   ...
 }:
@@ -56,6 +57,19 @@ in
       # Play a random Warcraft peon sound when Claude is waiting for input
       hooks.Stop = peonSoundHook;
       hooks.Notification = peonSoundHook;
+
+      # Compress Bash output through rtk before it reaches the context window
+      hooks.PreToolUse = [
+        {
+          matcher = "Bash";
+          hooks = [
+            {
+              type = "command";
+              command = "${pkgsUnstable.rtk}/bin/rtk hook claude";
+            }
+          ];
+        }
+      ];
 
       # Register extra plugin marketplaces
       extraKnownMarketplaces = {
@@ -144,6 +158,19 @@ in
 
       **GitHub:** github.com/zupo - use the `gh` CLI (already authenticated) to access private repos when needed.
       **Workstation:** github.com/zupo/dotfiles - usually invokes Claude from his nix-darwin-powered MacBook defined in these dotfiles.
+
+
+      ## RTK
+
+      Bash calls are transparently rewritten through `rtk`, a proxy that
+      compresses command output to save context. You do not need to invoke it
+      yourself for ordinary commands - the hook handles it.
+
+      - `rtk proxy <cmd>` - run a command UNFILTERED. Use this when you suspect
+        the compression is hiding something you need (odd test output, a diff
+        that looks truncated, a parse that doesn't add up).
+      - `rtk gain` - token savings so far; `rtk discover` - missed opportunities.
+      - Only Bash goes through rtk. `Read`, `Grep` and `Glob` are untouched.
     '';
   };
 

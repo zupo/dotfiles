@@ -35,6 +35,7 @@
     python3
     pwgen
     rclone
+    pkgsUnstable.rtk
     s3cmd
     tldr
     unrar
