@@ -47,7 +47,7 @@ pkgs.mkShell {
     EOF
 
     # Install pre-commit hooks
-    pre-commit install --install-hooks
-    pre-commit install --hook-type pre-push
+    pre-commit install -f --install-hooks
+    pre-commit install -f --hook-type pre-push
   '';
 }
