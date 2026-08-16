@@ -13,14 +13,17 @@ pkgs.mkShell {
     nixfmt
     deadnix
     statix
-    pre-commit
+    prek
     gitMinimal
     gawk
   ];
 
   shellHook = ''
-    # Generate pre-commit config
-    cat > .pre-commit-config.yaml << 'EOF'
+    # Generate prek config (prek reads pre-commit.com config format).
+    # Always at the repo root, so entering the shell from a subdir does not
+    # leave a stray config that prek would discover as a separate project.
+    root=$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")
+    cat > "$root/.pre-commit-config.yaml" << 'EOF'
     repos:
       - repo: local
         hooks:
@@ -46,8 +49,7 @@ pkgs.mkShell {
             pass_filenames: true
     EOF
 
-    # Install pre-commit hooks
-    pre-commit install -f --install-hooks
-    pre-commit install -f --hook-type pre-push
+    # Install git hooks
+    prek install -f --hook-type pre-commit --hook-type pre-push
   '';
 }
