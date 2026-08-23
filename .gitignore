@@ -1,6 +1,8 @@
 .secrets.env
 mkcert
 vscode/History
+vscode/globalStorage/
+vscode/workspaceStorage/
 result
 .direnv/
 .pre-commit-config.yaml
