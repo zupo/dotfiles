@@ -25,6 +25,38 @@ let
       ];
     }
   ];
+
+  # Mitigations for the idle-CPU/RSS bug (anthropics/claude-code#22509, #17148,
+  # #19393, #86202 - all open). See SLOW.md for the full investigation.
+  #
+  # 2026-08-30: the BUN_JSC_* heap caps were REMOVED after they were measured
+  # doing active harm. They capped the heap at 1.5GB while the live heap was
+  # 11GB (peak 28GB on a `--resume` session), so JSC could never collect its
+  # way under the cap and sat in permanent emergency GC: 5 `Heap Helper Thread`
+  # at ~130% total, plus 8 `Bun Pool` threads at ~130% faulting the heap back
+  # out of swap. A memory bug turned into a permanent CPU bug.
+  #
+  # They measured as harmless on 2026-08-24 only because the heap was 350-500MB
+  # then - under the cap, so the cap was inert. The caps are safe right up until
+  # they are not, which is why the earlier A/B could not see them.
+  #
+  # The mimalloc pair stays: the purge visibly returns pages (RSS oscillated
+  # 2450 -> 1731 -> 1031MB under load). It has not been A/B'd on its own.
+  #
+  # The heap size itself is upstream's bug (#86202) and none of this fixes it.
+  # The levers that actually work are `/clear` and not resuming multi-MB
+  # transcripts.
+  claudeTuned = pkgs.symlinkJoin {
+    name = "claude-code-tuned";
+    paths = [ llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/claude \
+        --set MIMALLOC_PURGE_DELAY 0 \
+        --set MIMALLOC_ARENA_EAGER_COMMIT 0 \
+        --set BUN_GC_TIMER_INTERVAL 300
+    '';
+  };
 in
 {
   # Force max reasoning effort. The `effortLevel` setting is ignored on Opus
@@ -35,7 +67,7 @@ in
 
   programs.claude-code = {
     enable = true;
-    package = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
+    package = claudeTuned;
 
     # Get team MCPs from teamniteo/claude
     mcpServers = niteo-claude.lib.mcpServers pkgs // {
@@ -53,6 +85,14 @@ in
       # Flicker-free alt-screen renderer with virtualized scrollback,
       # mouse support and auto-copy on select. Same as CLAUDE_CODE_NO_FLICKER=1.
       tui = "fullscreen";
+
+      # The syntax highlighter runs Oniguruma over every visible block on every
+      # render frame. Reported as the single biggest CPU win in #22509 (208% ->
+      # ~50%), though it made no measurable difference here. See SLOW.md.
+      # NOTE: because settings.json is a read-only /nix/store symlink, runtime
+      # commands that persist settings (/tui, /model, theme) fail with EACCES.
+      # Change them here, not in the TUI.
+      syntaxHighlightingDisabled = true;
 
       # Play a random Warcraft peon sound when Claude is waiting for input
       hooks.Stop = peonSoundHook;
