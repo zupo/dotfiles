@@ -84,6 +84,9 @@ in
       # Prevent `Co-Authored-By: Claude` commit footer
       includeCoAuthoredBy = false;
 
+      # Prevent auto-starting Remote Control
+      remoteControlAtStartup = false;
+
       # Flicker-free alt-screen renderer with virtualized scrollback,
       # mouse support and auto-copy on select. Same as CLAUDE_CODE_NO_FLICKER=1.
       tui = "fullscreen";
