@@ -145,6 +145,14 @@
           osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Solid Colors"'
         '';
       };
+      "citwo" = {
+        HostName = "citwo.niteo.co";
+        ForwardAgent = true;
+        PermitLocalCommand = "yes";
+        LocalCommand = ''
+          osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Ocean"'
+        '';
+      };
     };
 
   };
