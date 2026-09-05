@@ -129,14 +129,6 @@
           osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Novel"'
         '';
       };
-      "lurcher" = {
-        HostName = "lurcher.niteo.co";
-        ForwardAgent = true;
-        PermitLocalCommand = "yes";
-        LocalCommand = ''
-          osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Clear Dark"'
-        '';
-      };
       "cione" = {
         HostName = "cione.niteo.co";
         ForwardAgent = true;
