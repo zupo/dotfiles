@@ -67,6 +67,19 @@
         "**/.devenv*": true
     },
     "files.trimTrailingWhitespace": true,
+    "files.associations": {
+        "*.hujson": "jsonc"
+    },
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "*.hujson"
+            ],
+            "schema": {
+                "allowTrailingCommas": true
+            }
+        }
+    ],
     "extensions.ignoreRecommendations": true,
     "workbench.activityBar.location": "top",
     "editor.multiCursorModifier": "ctrlCmd",
