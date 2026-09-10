@@ -75,7 +75,7 @@
 
   # Additional software I use on my Mac
   home.packages = with pkgs; [
-    # pkgsUnstable.tailscale
+    pkgsUnstable.tailscale
     harper
     keybase
     yt-dlp
@@ -122,7 +122,7 @@
         ForwardAgent = true;
       };
       "cruncher" = {
-        HostName = "cruncher.niteo.co";
+        HostName = "cruncher";
         ForwardAgent = true;
         PermitLocalCommand = "yes";
         LocalCommand = ''
