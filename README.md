@@ -15,6 +15,7 @@ They are used for configuring several of my environments:
   │
   ├── common/                     # Shared modules across all systems
   │   ├── ai.nix
+  │   ├── codex-config-merge.py  # keeps codex's config.toml writable
   │   ├── direnv.nix
   │   ├── files.nix
   │   ├── gitconfig.nix
@@ -42,6 +43,8 @@ They are used for configuring several of my environments:
 - Common modules go in `common/`, system-specific overrides in `darwin/` or `nixos/`
 - Packages from unstable nixpkgs use `pkgsUnstable` (passed via `extraSpecialArgs`)
 - Claude Code config is shared from `teamniteo/claude` repo via the `niteo-claude` flake input; personal overrides go in `common/ai.nix`
+- Codex is configured alongside Claude Code in `common/ai.nix`: it gets the same personal context (as `AGENTS.md`) and the same MCP servers, translated into codex's `config.toml` keys
+- Codex needs a writable `config.toml` (directory trust, `features enable`, `/model`), so Nix generates it and an activation script installs a real file instead of a store symlink, carrying codex's own `[projects]` trust entries across rebuilds
 - No imperative changes — everything is declarative through Nix
 
 
