@@ -104,13 +104,12 @@
         IdentityAgent = "/Users/zupo/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
         IgnoreUnknown = "UseKeychain";
         UseKeychain = "yes";
-        # Support connecting to RouterOS v6 Mikrotik devices
-        PubkeyAcceptedAlgorithms = "+ssh-rsa";
       };
       # MikroTik RouterOS/SwOS devices (see ~/work/house/network) will never
       # speak a post-quantum key exchange, so silence OpenSSH 10's noisy
       # "store now, decrypt later" warning for them. Real servers still warn.
-      "router wifi_* switch_*" = {
+      "router wifi_*" = {
+        PubkeyAcceptedAlgorithms = "+ssh-rsa";
         WarnWeakCrypto = "no";
       };
       "localhost" = {
@@ -130,7 +129,7 @@
         '';
       };
       "cione" = {
-        HostName = "cione.niteo.co";
+        HostName = "cione";
         ForwardAgent = true;
         PermitLocalCommand = "yes";
         LocalCommand = ''
@@ -138,11 +137,22 @@
         '';
       };
       "citwo" = {
-        HostName = "citwo.niteo.co";
+        HostName = "citwo";
         ForwardAgent = true;
         PermitLocalCommand = "yes";
         LocalCommand = ''
           osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Ocean"'
+        '';
+      };
+      "tailes" = {
+        HostName = "tailes";
+        IdentityAgent = "SSH_AUTH_SOCK";
+        IdentityFile = "~/.ssh/id_rsa";
+        IdentitiesOnly = true;
+        ForwardAgent = true;
+        PermitLocalCommand = "yes";
+        LocalCommand = ''
+          osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Red Sands"'
         '';
       };
     };
