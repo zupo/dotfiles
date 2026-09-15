@@ -155,6 +155,17 @@
           osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Red Sands"'
         '';
       };
+      "tailsi" = {
+        HostName = "tailsi";
+        IdentityAgent = "SSH_AUTH_SOCK";
+        IdentityFile = "~/.ssh/id_rsa";
+        IdentitiesOnly = true;
+        ForwardAgent = true;
+        PermitLocalCommand = "yes";
+        LocalCommand = ''
+          osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Grass"'
+        '';
+      };
     };
 
   };
