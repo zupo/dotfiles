@@ -123,26 +123,14 @@
       "cruncher" = {
         HostName = "cruncher";
         ForwardAgent = true;
-        PermitLocalCommand = "yes";
-        LocalCommand = ''
-          osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Novel"'
-        '';
       };
       "cione" = {
         HostName = "cione";
         ForwardAgent = true;
-        PermitLocalCommand = "yes";
-        LocalCommand = ''
-          osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Solid Colors"'
-        '';
       };
       "citwo" = {
         HostName = "citwo";
         ForwardAgent = true;
-        PermitLocalCommand = "yes";
-        LocalCommand = ''
-          osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Ocean"'
-        '';
       };
       "tailes" = {
         HostName = "tailes";
@@ -150,10 +138,6 @@
         IdentityFile = "~/.ssh/id_rsa";
         IdentitiesOnly = true;
         ForwardAgent = true;
-        PermitLocalCommand = "yes";
-        LocalCommand = ''
-          osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Red Sands"'
-        '';
       };
       "tailsi" = {
         HostName = "tailsi";
@@ -161,10 +145,6 @@
         IdentityFile = "~/.ssh/id_rsa";
         IdentitiesOnly = true;
         ForwardAgent = true;
-        PermitLocalCommand = "yes";
-        LocalCommand = ''
-          osascript -e 'tell application "Terminal" to set current settings of front window to settings set "Grass"'
-        '';
       };
     };
 
