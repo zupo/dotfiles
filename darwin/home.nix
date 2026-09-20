@@ -64,26 +64,24 @@
          sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
       }
 
-      # SSH into cruncher, optionally carrying GitHub PATs for agent sessions.
+      # `ssh cruncher` carries GitHub PATs for agent sessions on that host.
       # Tokens live only in 1Password on this Mac. The CLI authorization
       # (biometric prompt) lasts just long enough to read them -- signin,
       # read, signout -- then they ride along as env vars for the life of one
       # SSH session, never exported here, never written to disk anywhere.
       # Needs `AcceptEnv GH_TOKEN*` in cruncher's sshd config.
-      cruncher() {
-        local push=n
-        read -q "push?Push GitHub tokens into the session? [y/N] " && push=y; echo
-        if [[ $push == y ]]; then
+      ssh() {
+        if (( ''${@[(I)cruncher]} )); then
           local teamniteo mayetrx
           op signin --account niteo.1password.com || return
           teamniteo=$(op read "op://Employee/zupo-agent-cruncher-teamniteo/credential")
           mayetrx=$(op read "op://Employee/zupo-agent-cruncher-mayetrx/credential")
           op signout
-          [[ -n $teamniteo && -n $mayetrx ]] || { echo "cruncher: failed to read tokens" >&2; return 1; }
+          [[ -n $teamniteo && -n $mayetrx ]] || { echo "ssh: failed to read GitHub tokens from 1Password" >&2; return 1; }
           GH_TOKEN_TEAMNITEO=$teamniteo GH_TOKEN_MAYETRX=$mayetrx GH_TOKEN=$teamniteo \
-            ssh -o 'SendEnv GH_TOKEN*' cruncher
+            command ssh -o 'SendEnv GH_TOKEN*' "$@"
         else
-          ssh cruncher
+          command ssh "$@"
         fi
       }
     '';
