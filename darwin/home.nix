@@ -132,6 +132,10 @@
         HostName = "citwo";
         ForwardAgent = true;
       };
+      "lara" = {
+        HostName = "lara";
+        ForwardAgent = true;
+      };
       "tailes" = {
         HostName = "tailes";
         IdentityAgent = "SSH_AUTH_SOCK";
