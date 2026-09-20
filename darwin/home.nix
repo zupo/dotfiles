@@ -63,6 +63,29 @@
          sudo vim /etc/hosts && echo "* Successfully edited /etc/hosts"
          sudo dscacheutil -flushcache && echo "* Flushed local DNS cache"
       }
+
+      # SSH into cruncher, optionally carrying GitHub PATs for agent sessions.
+      # Tokens live only in 1Password on this Mac. The CLI authorization
+      # (biometric prompt) lasts just long enough to read them -- signin,
+      # read, signout -- then they ride along as env vars for the life of one
+      # SSH session, never exported here, never written to disk anywhere.
+      # Needs `AcceptEnv GH_TOKEN*` in cruncher's sshd config.
+      cruncher() {
+        local push=n
+        read -q "push?Push GitHub tokens into the session? [y/N] " && push=y; echo
+        if [[ $push == y ]]; then
+          local teamniteo mayetrx
+          op signin --account niteo.1password.com || return
+          teamniteo=$(op read "op://Employee/zupo-agent-cruncher-teamniteo/credential")
+          mayetrx=$(op read "op://Employee/zupo-agent-cruncher-mayetrx/credential")
+          op signout
+          [[ -n $teamniteo && -n $mayetrx ]] || { echo "cruncher: failed to read tokens" >&2; return 1; }
+          GH_TOKEN_TEAMNITEO=$teamniteo GH_TOKEN_MAYETRX=$mayetrx GH_TOKEN=$teamniteo \
+            ssh -o 'SendEnv GH_TOKEN*' cruncher
+        else
+          ssh cruncher
+        fi
+      }
     '';
   };
 
@@ -76,6 +99,9 @@
   # Additional software I use on my Mac
   home.packages = with pkgs; [
     pkgsUnstable.tailscale
+    # 1Password CLI; pairs with the desktop app (Settings -> Developer ->
+    # "Integrate with 1Password CLI") so `op read` unlocks via Touch ID.
+    pkgsUnstable._1password-cli
     harper
     keybase
     yt-dlp
