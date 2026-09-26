@@ -57,6 +57,18 @@ _: {
           command git "$@"
         fi
       }
+
+      # Print the env vars of a Fly app whose name contains a string, secrets
+      # included: the API only hands back digests, so read them from a throwaway
+      # Machine. Usage: flyenv <app> <part of a name>, e.g. flyenv pareto BASE
+      flyenv() {
+        if [[ $# -ne 2 ]]; then
+          echo "usage: flyenv <app> <part of a name>" >&2
+          return 1
+        fi
+        flyctl console -a "$1" --image alpine --vm-size shared-cpu-1x \
+          --vm-memory 256 -C env | grep -i -- "^[^=]*$2[^=]*=" | sort
+      }
     '';
   };
 }
