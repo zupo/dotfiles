@@ -12,6 +12,9 @@
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;
 
+  # Tools that install themselves, like herdr's own installer
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
   imports = [
     (commonModules.ai {
       inherit
@@ -147,6 +150,10 @@
       "cruncher" = {
         HostName = "cruncher";
         ForwardAgent = true;
+      };
+      "ai-zupo" = {
+        HostName = "ai-zupo.containers";
+        ProxyJump = "cruncher";
       };
       "cione" = {
         HostName = "cione";
