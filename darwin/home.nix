@@ -163,11 +163,15 @@
         HostName = "citwo";
         ForwardAgent = true;
       };
+      "cithree" = {
+        HostName = "cithree";
+        ForwardAgent = true;
+      };
       "lara" = {
-        HostName = "100.77.91.120";
-        IdentityAgent = "SSH_AUTH_SOCK";
-        IdentityFile = "~/.ssh/id_rsa";
-        IdentitiesOnly = true;
+        HostName = "lara";
+        # IdentityAgent = "SSH_AUTH_SOCK";
+        # IdentityFile = "~/.ssh/id_rsa";
+        # IdentitiesOnly = true;
         ForwardAgent = true;
       };
       "tailes" = {
