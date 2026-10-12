@@ -114,6 +114,19 @@ let
       url = "https://mcp.deepsense.ai/clinical_trials/mcp";
     };
 
+    # Slack's official server. It has no dynamic client registration, so the
+    # OAuth client is the one Slack publishes for Claude Code in
+    # github.com/slackapi/slack-mcp-plugin (.mcp.json). Log in with `/mcp`;
+    # a workspace admin must allow the Claude app first.
+    slack = {
+      type = "http";
+      url = "https://mcp.slack.com/mcp";
+      oauth = {
+        clientId = "1601185624273.8899143856786";
+        callbackPort = 3118;
+      };
+    };
+
   };
 
   # Codex reads the same servers from config.toml, but with different keys and -
@@ -160,7 +173,9 @@ let
 
   codexMcpServers =
     let
-      translated = toCodexMcp mcpServers;
+      # Slack's OAuth client is registered for Claude Code's callback, and
+      # Slack ships no codex client (its codex plugin declares no MCP servers).
+      translated = toCodexMcp (builtins.removeAttrs mcpServers [ "slack" ]);
     in
     translated
     // {
@@ -253,6 +268,18 @@ in
 
         # Personal permissions can be added here
         "mcp__clinical-trials__*"
+
+        # Read-only Slack tools; sending, drafting and reacting still prompt.
+        # home-manager serves its MCPs as a plugin, hence the prefix.
+        "mcp__plugin_claude-code-home-manager_slack__slack_search_messages"
+        "mcp__plugin_claude-code-home-manager_slack__slack_search_users"
+        "mcp__plugin_claude-code-home-manager_slack__slack_search_channels"
+        "mcp__plugin_claude-code-home-manager_slack__slack_list_user_channels"
+        "mcp__plugin_claude-code-home-manager_slack__slack_read_channel"
+        "mcp__plugin_claude-code-home-manager_slack__slack_read_thread"
+        "mcp__plugin_claude-code-home-manager_slack__slack_read_canvas"
+        "mcp__plugin_claude-code-home-manager_slack__slack_read_file"
+        "mcp__plugin_claude-code-home-manager_slack__slack_fetch_user_info"
 
         # Allow read-only `gh` commands (replacement for github MCP)
         "Bash(gh auth status)"
