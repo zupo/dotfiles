@@ -69,6 +69,7 @@ let
 
     Key overrides:
       - NEVER add Co-Authored-By footers to commits
+      - NEVER repeat the PR title in the PR body. Start the body with the description, across all projects.
 
 
     ## About the User
@@ -321,6 +322,10 @@ in
     package = agents.codex;
 
     settings = {
+      sandbox_mode = "workspace-write";
+      approval_policy = "on-request";
+      approvals_reviewer = "auto_review";
+
       mcp_servers = codexMcpServers;
 
       # config.toml is a read-only /nix/store symlink, so codex cannot persist
