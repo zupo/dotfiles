@@ -1,5 +1,5 @@
 {
-  niteo-claude,
+  niteo-agents,
   llm-agents,
   pkgs,
   pkgsUnstable,
@@ -107,7 +107,7 @@ let
     - Only Bash goes through rtk. `Read`, `Grep` and `Glob` are untouched.
   '';
 
-  mcpServers = niteo-claude.lib.mcpServers pkgs // {
+  mcpServers = niteo-agents.lib.mcpServers pkgs // {
 
     # Personal MCPs can be added here
     clinical-trials = {
@@ -200,7 +200,7 @@ in
     enable = true;
     package = claudeTuned;
 
-    # Get team MCPs from teamniteo/claude, plus personal ones
+    # Get team MCPs from teamniteo/agents, plus personal ones
     inherit mcpServers;
 
     settings = {
@@ -255,8 +255,8 @@ in
         };
       };
 
-      # Get team Plugins from teamniteo/claude
-      enabledPlugins = niteo-claude.lib.enabledPlugins // {
+      # Get team Plugins from teamniteo/agents
+      enabledPlugins = niteo-agents.lib.enabledPlugins // {
 
         # Personal plugins can be added here
         "hakuto@hakuto" = true;
@@ -264,8 +264,8 @@ in
 
       };
 
-      # Get team Permissions from teamniteo/claude
-      permissions.allow = niteo-claude.lib.permissions.allow ++ [
+      # Get team Permissions from teamniteo/agents
+      permissions.allow = niteo-agents.lib.permissions.allow ++ [
 
         # Personal permissions can be added here
         "mcp__clinical-trials__*"
