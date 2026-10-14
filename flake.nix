@@ -14,7 +14,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Shared Claude Code configuration for Niteo
-    niteo-claude.url = "github:teamniteo/claude";
+    niteo-agents.url = "github:teamniteo/agents";
 
     # LLM agents (claude-code, codex, etc.) - daily updated builds
     llm-agents.url = "github:numtide/llm-agents.nix";
@@ -27,7 +27,7 @@
       nixpkgs-unstable,
       nix-darwin,
       home-manager,
-      niteo-claude,
+      niteo-agents,
       llm-agents,
     }:
     let
@@ -64,7 +64,7 @@
             home-manager.users.zupo = import ./darwin/home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = mkPkgsUnstable "aarch64-darwin";
-              inherit commonModules niteo-claude llm-agents;
+              inherit commonModules niteo-agents llm-agents;
             };
           }
         ];
@@ -83,7 +83,7 @@
             home-manager.users.zupo = import ./nixos/utm/home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = mkPkgsUnstable "aarch64-linux";
-              inherit commonModules niteo-claude llm-agents;
+              inherit commonModules niteo-agents llm-agents;
             };
           }
         ];

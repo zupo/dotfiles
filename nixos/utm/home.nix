@@ -3,7 +3,7 @@
   lib,
   pkgsUnstable,
   commonModules,
-  niteo-claude,
+  niteo-agents,
   llm-agents,
   ...
 }:
@@ -13,7 +13,7 @@
       inherit
         pkgs
         pkgsUnstable
-        niteo-claude
+        niteo-agents
         llm-agents
         lib
         ;

@@ -37,7 +37,7 @@
     "devshell": {
       "inputs": {
         "nixpkgs": [
-          "niteo-claude",
+          "niteo-agents",
           "mcp-nixos",
           "nixpkgs"
         ]
@@ -158,7 +158,7 @@
         "type": "github"
       }
     },
-    "niteo-claude": {
+    "niteo-agents": {
       "inputs": {
         "mcp-nixos": "mcp-nixos"
       },
@@ -166,13 +166,13 @@
         "lastModified": 1791573082,
         "narHash": "sha256-eETZxzL6pIFzgyMTZjfAHv8i+o3L49t9h9gtd2Gw6OU=",
         "owner": "teamniteo",
-        "repo": "claude",
+        "repo": "agents",
         "rev": "f1d400ef81ee9d7e705415579f20bfdeaff172ce",
         "type": "github"
       },
       "original": {
         "owner": "teamniteo",
-        "repo": "claude",
+        "repo": "agents",
         "type": "github"
       }
     },
@@ -280,7 +280,7 @@
       "inputs": {
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
-        "niteo-claude": "niteo-claude",
+        "niteo-agents": "niteo-agents",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable"
