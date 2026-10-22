@@ -96,6 +96,15 @@
   # Use TouchID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
 
+  # Distrust roots of the compromised eMudhra intermediates (Oct 2026), as CLI
+  # tools reading /etc/ssl/certs/ca-certificates.crt never check revocation.
+  # Names as they appear in that file.
+  # https://paretosecurity.com/mac/checks/compromised-ca
+  security.pki.caCertificateBlacklist = [
+    "Comodo AAA Services root" # AAA Certificate Services
+    "emSign ECC Root CA - G3"
+  ];
+
   # make sure firewall is up & running
   networking.applicationFirewall.enable = true;
   networking.applicationFirewall.enableStealthMode = true;

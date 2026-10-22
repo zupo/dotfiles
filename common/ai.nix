@@ -49,6 +49,14 @@ let
   # The heap size itself is upstream's bug (#86202) and none of this fixes it.
   # The levers that actually work are `/clear` and not resuming multi-MB
   # transcripts.
+  #
+  # CLAUDE_CODE_CERT_STORE: llm-agents' wrapper sets it to `system`, which on
+  # darwin holds only the CA certificates in the login and System keychains,
+  # not Apple's built-in roots. With any certificate there (e.g. Xcode's signing
+  # intermediates) every TLS connection fails with UNABLE_TO_GET_ISSUER_CERT_LOCALLY.
+  # Restore Claude Code's default stores on darwin. Our wrapper runs first, so
+  # the inner `--set-default` leaves it alone.
+  # TODO: remove when https://github.com/numtide/llm-agents.nix/pull/11169 is merged
   claudeTuned = pkgs.symlinkJoin {
     name = "claude-code-tuned";
     paths = [ agents.claude-code ];
@@ -57,7 +65,8 @@ let
       wrapProgram $out/bin/claude \
         --set MIMALLOC_PURGE_DELAY 0 \
         --set MIMALLOC_ARENA_EAGER_COMMIT 0 \
-        --set BUN_GC_TIMER_INTERVAL 300
+        --set BUN_GC_TIMER_INTERVAL 300 \
+        ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin "--set-default CLAUDE_CODE_CERT_STORE bundled,system"}
     '';
   };
 
