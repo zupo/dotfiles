@@ -85,6 +85,12 @@ $ rm ~/.nix-defexpr/channels
 $ rm ~/.nixpkgs/
 ```
 
+1. The Nix installer also puts `nss-cacert` into the default profile. Nothing reads its CA bundle, since nix-darwin provides `/etc/ssl/certs/ca-certificates.crt` (honouring `security.pki.caCertificateBlacklist`), but it never gets updated, so it keeps trusting distrusted CAs and fails the [Pareto Security compromised CA check](https://paretosecurity.com/mac/checks/compromised-ca). Remove it:
+
+```
+$ sudo nix-env -p /nix/var/nix/profiles/default -e nss-cacert
+```
+
 1. What to do with `/etc/zshrc` and `/etc/zprofile`?
 
 MacOS comes with the following:
