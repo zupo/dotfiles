@@ -199,11 +199,11 @@ let
     };
 in
 {
-  # Force max reasoning effort. The `effortLevel` setting is ignored on Opus
+  # Pin reasoning effort to high. The `effortLevel` setting is ignored on Opus
   # 4.7/4.8 — they ship a "launch-effort pin" that starts at `high` and only
   # clears when you touch `/effort` interactively. This env var is read first
   # and beats the pin (claude reads process.env.CLAUDE_CODE_EFFORT_LEVEL).
-  home.sessionVariables.CLAUDE_CODE_EFFORT_LEVEL = "xhigh";
+  home.sessionVariables.CLAUDE_CODE_EFFORT_LEVEL = "high";
 
   programs.claude-code = {
     enable = true;
@@ -218,6 +218,10 @@ in
 
       # Prevent auto-starting Remote Control
       remoteControlAtStartup = false;
+
+      # Start every session on Fable. The bare alias tracks the newest Fable
+      # release (5.1 today), so it follows llm-agents bumps without editing.
+      model = "fable";
 
       # Flicker-free alt-screen renderer with virtualized scrollback,
       # mouse support and auto-copy on select. Same as CLAUDE_CODE_NO_FLICKER=1.
@@ -331,6 +335,12 @@ in
     package = agents.codex;
 
     settings = {
+      model = "gpt-6-astra";
+      model_reasoning_effort = "medium";
+      # Fast mode: `fast` maps to the `priority` service tier (2.5x subscription
+      # usage). The `features.fast_mode` flag it needs is on by default.
+      service_tier = "fast";
+
       sandbox_mode = "workspace-write";
       approval_policy = "on-request";
       approvals_reviewer = "auto_review";
