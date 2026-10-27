@@ -69,6 +69,15 @@ let
       url = "https://mcp.deepsense.ai/clinical_trials/mcp";
     };
 
+    # Rex docs, changelog and Beta Discord history. Behind Discord OAuth (log in
+    # with `/mcp`; needs Rex Beta Discord membership). Named `superlogical` as
+    # the docs ask, to avoid clashing with Rex skills and the `rex` CLI.
+    # https://www.superlogical.com/rex/docs/beta/community-mcp
+    superlogical = {
+      type = "http";
+      url = "https://www.superlogical.com/rex/community-mcp";
+    };
+
     # Slack's official server. It has no dynamic client registration, so the
     # OAuth client is the one Slack publishes for Claude Code in
     # github.com/slackapi/slack-mcp-plugin (.mcp.json). Log in with `/mcp`;
@@ -176,18 +185,39 @@ in
       # commands that persist settings (/tui, /model, /effort, theme) fail with
       # EACCES. Change them here, not in the TUI.
 
-      # Compress Bash output through rtk before it reaches the context window
-      hooks.PreToolUse = [
-        {
-          matcher = "Bash";
-          hooks = [
-            {
-              type = "command";
-              command = "${pkgsUnstable.rtk}/bin/rtk hook claude";
-            }
-          ];
-        }
-      ];
+      hooks = {
+        # Compress Bash output through rtk before it reaches the context window
+        PreToolUse = [
+          {
+            matcher = "Bash";
+            hooks = [
+              {
+                type = "command";
+                command = "${pkgsUnstable.rtk}/bin/rtk hook claude";
+              }
+            ];
+          }
+        ];
+
+        # Rex's agent hook: tells Claude it runs inside Rex and in which
+        # session/terminal. `rex skill setup` cannot write it here itself as
+        # settings.json is a read-only store symlink, so it is declared by hand,
+        # mirroring what Rex wrote to ~/.codex/hooks.json. `rex` is on PATH only
+        # inside Rex terminals (REX_BIN_DIR, see darwin/zbook.nix); elsewhere
+        # the `|| true` keeps the hook silent.
+        # https://www.superlogical.com/rex/docs/automate/agent-skill
+        SessionStart = [
+          {
+            hooks = [
+              {
+                type = "command";
+                command = "/bin/sh -c 'rex __internal session-start --agent claude 2>/dev/null || true'";
+                timeout = 5;
+              }
+            ];
+          }
+        ];
+      };
 
       # Register extra plugin marketplaces
       extraKnownMarketplaces = {

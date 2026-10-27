@@ -118,6 +118,15 @@
   networking.applicationFirewall.enable = true;
   networking.applicationFirewall.enableStealthMode = true;
 
+  # nix-darwin resets PATH to a fixed list on every shell start, which drops
+  # the `rex` CLI the Rex terminal injects. Put it back in every interactive
+  # bash and zsh, as its docs ask: https://www.superlogical.com/rex/docs/installation
+  environment.interactiveShellInit = ''
+    if [ -n "$REX_BIN_DIR" ]; then
+      export PATH="$REX_BIN_DIR:$PATH"
+    fi
+  '';
+
   # Nerd Fonts for terminal icons (lsd, etc.)
   fonts.packages = with pkgs; [
     nerd-fonts.meslo-lg # same as default macOS "Menlo" font
