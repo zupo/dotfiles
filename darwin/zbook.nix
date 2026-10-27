@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
 
   # Use nix from pinned nixpkgs
@@ -39,17 +44,20 @@
     "https://cache.nixos.org"
     "https://devenv.cachix.org"
     "https://niteo.cachix.org"
+    "https://cache.numtide.com"
   ];
   nix.settings.trusted-public-keys = [
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
     "niteo.cachix.org-1:GUFNjJDCE199FDtgkG3ECLrAInFZEDJW2jq2BUQBFYY="
+    "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
   ];
   nix.settings.netrc-file = "/Users/zupo/.config/nix/netrc";
 
-  # Support for building Linux binaries
+  # Support for building Linux binaries. Disabled for now; flip to true when
+  # an aarch64-linux build is needed.
   nix.linux-builder = {
-    enable = true;
+    enable = false;
     ephemeral = true;
     maxJobs = 4;
     config = {
@@ -66,8 +74,9 @@
   # Migration to 25.05, remove after clean reinstall
   ids.gids.nixbld = 350;
 
-  # Enable logging for the linux builder
-  launchd.daemons.linux-builder = {
+  # Enable logging for the linux builder. Only while the builder is on: on its
+  # own this would define a daemon with no program, which launchd rejects.
+  launchd.daemons.linux-builder = lib.mkIf config.nix.linux-builder.enable {
     serviceConfig = {
       StandardOutPath = "/var/log/darwin-builder.log";
       StandardErrorPath = "/var/log/darwin-builder.log";

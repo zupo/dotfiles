@@ -10,71 +10,9 @@
 let
   agents = llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
 
-  peonSounds = pkgs.stdenvNoCC.mkDerivation {
-    name = "peon-sounds";
-    src = ../sounds;
-    installPhase = ''
-      mkdir -p $out
-      cp *.ogg $out/
-    '';
-  };
-  peonSoundHook = [
-    {
-      hooks = [
-        {
-          type = "command";
-          command = "nohup afplay $(ls ${peonSounds}/*.ogg | sort -R | head -1) &>/dev/null &";
-        }
-      ];
-    }
-  ];
-
-  # Mitigations for the idle-CPU/RSS bug (anthropics/claude-code#22509, #17148,
-  # #19393, #86202 - all open). See SLOW.md for the full investigation.
-  #
-  # 2026-08-30: the BUN_JSC_* heap caps were REMOVED after they were measured
-  # doing active harm. They capped the heap at 1.5GB while the live heap was
-  # 11GB (peak 28GB on a `--resume` session), so JSC could never collect its
-  # way under the cap and sat in permanent emergency GC: 5 `Heap Helper Thread`
-  # at ~130% total, plus 8 `Bun Pool` threads at ~130% faulting the heap back
-  # out of swap. A memory bug turned into a permanent CPU bug.
-  #
-  # They measured as harmless on 2026-08-24 only because the heap was 350-500MB
-  # then - under the cap, so the cap was inert. The caps are safe right up until
-  # they are not, which is why the earlier A/B could not see them.
-  #
-  # The mimalloc pair stays: the purge visibly returns pages (RSS oscillated
-  # 2450 -> 1731 -> 1031MB under load). It has not been A/B'd on its own.
-  #
-  # The heap size itself is upstream's bug (#86202) and none of this fixes it.
-  # The levers that actually work are `/clear` and not resuming multi-MB
-  # transcripts.
-  #
-  # CLAUDE_CODE_CERT_STORE: llm-agents' wrapper sets it to `system`, which on
-  # darwin holds only the CA certificates in the login and System keychains,
-  # not Apple's built-in roots. With any certificate there (e.g. Xcode's signing
-  # intermediates) every TLS connection fails with UNABLE_TO_GET_ISSUER_CERT_LOCALLY.
-  # Restore Claude Code's default stores on darwin. Our wrapper runs first, so
-  # the inner `--set-default` leaves it alone.
-  # TODO: remove when https://github.com/numtide/llm-agents.nix/pull/11169 is merged
-  claudeTuned = pkgs.symlinkJoin {
-    name = "claude-code-tuned";
-    paths = [ agents.claude-code ];
-    nativeBuildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/claude \
-        --set MIMALLOC_PURGE_DELAY 0 \
-        --set MIMALLOC_ARENA_EAGER_COMMIT 0 \
-        --set BUN_GC_TIMER_INTERVAL 300 \
-        ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin "--set-default CLAUDE_CODE_CERT_STORE bundled,system"}
-    '';
-  };
-
   # Shared by Claude Code (CLAUDE.md) and codex (AGENTS.md).
   personalContext = ''
-    You are an expert engineer, hired to work alongside the user. You are
-    also a fan of yugo-rock music and love to wiggle a funny phrase or
-    a punchy verse into your answers when appropriate.
+    You are an expert engineer, hired to work alongside the user.
 
     Key overrides:
       - NEVER add Co-Authored-By footers to commits
@@ -98,11 +36,9 @@ let
     **Workstation:** github.com/zupo/dotfiles - usually invokes Claude from his nix-darwin-powered MacBook defined in these dotfiles.
   '';
 
-  # Claude-only: codex has a hook system, but rtk ships no codex processor yet
-  # (`rtk hook` knows claude/cursor/gemini/copilot/droid/vibe).
+  # Shared by Claude Code and codex: both run `rtk hook <agent>` as a
+  # PreToolUse hook on shell commands.
   rtkContext = ''
-
-
     ## RTK
 
     Bash calls are transparently rewritten through `rtk`, a proxy that
@@ -113,7 +49,16 @@ let
       the compression is hiding something you need (odd test output, a diff
       that looks truncated, a parse that doesn't add up).
     - `rtk gain` - token savings so far; `rtk discover` - missed opportunities.
-    - Only Bash goes through rtk. `Read`, `Grep` and `Glob` are untouched.
+    - Only shell commands go through rtk. File reads, edits and searches made
+      through the agent's own tools are untouched.
+  '';
+
+  # Claude-only. Codex has "/fast" mode enabled.
+  speedContext = ''
+    ## Speed
+
+    Time matters here: do not spend time that can be avoided, and the earlier
+    a correct result is obtained, the better.
   '';
 
   mcpServers = niteo-agents.lib.mcpServers pkgs // {
@@ -207,7 +152,7 @@ in
 
   programs.claude-code = {
     enable = true;
-    package = claudeTuned;
+    package = agents.claude-code;
 
     # Get team MCPs from teamniteo/agents, plus personal ones
     inherit mcpServers;
@@ -223,21 +168,13 @@ in
       # release (5.1 today), so it follows llm-agents bumps without editing.
       model = "fable";
 
-      # Flicker-free alt-screen renderer with virtualized scrollback,
-      # mouse support and auto-copy on select. Same as CLAUDE_CODE_NO_FLICKER=1.
+      # Fullscreen renderer: alternate-screen drawing with in-app scrolling,
+      # mouse support, copy on select and the /diff side panel.
       tui = "fullscreen";
 
-      # The syntax highlighter runs Oniguruma over every visible block on every
-      # render frame. Reported as the single biggest CPU win in #22509 (208% ->
-      # ~50%), though it made no measurable difference here. See SLOW.md.
-      # NOTE: because settings.json is a read-only /nix/store symlink, runtime
-      # commands that persist settings (/tui, /model, theme) fail with EACCES.
-      # Change them here, not in the TUI.
-      syntaxHighlightingDisabled = true;
-
-      # Play a random Warcraft peon sound when Claude is waiting for input
-      hooks.Stop = peonSoundHook;
-      hooks.Notification = peonSoundHook;
+      # NOTE: settings.json is a read-only /nix/store symlink, so runtime
+      # commands that persist settings (/tui, /model, /effort, theme) fail with
+      # EACCES. Change them here, not in the TUI.
 
       # Compress Bash output through rtk before it reaches the context window
       hooks.PreToolUse = [
@@ -327,7 +264,7 @@ in
     };
 
     # Personal CLAUDE.md content
-    context = personalContext + rtkContext;
+    context = personalContext + rtkContext + speedContext;
   };
 
   programs.codex = {
@@ -340,6 +277,29 @@ in
       # Fast mode: `fast` maps to the `priority` service tier (2.5x subscription
       # usage). The `features.fast_mode` flag it needs is on by default.
       service_tier = "fast";
+
+      # rtk records command history in its own SQLite store, which lives
+      # outside the workspace. Without this the hook still rewrites commands
+      # but every one of them fails to record (SQLITE_CANTOPEN).
+      sandbox_workspace_write.writable_roots = [
+        "${config.home.homeDirectory}/Library/Application Support/rtk"
+      ];
+
+      # Compress shell output through rtk before it reaches the context window.
+      # Declared inline here rather than in hooks.json so that the trust codex
+      # records for it (`[hooks.state.*]`, written to this same file) lives in
+      # one place. Codex skips new or changed hooks until trusted with `/hooks`.
+      hooks.PreToolUse = [
+        {
+          matcher = "Bash";
+          hooks = [
+            {
+              type = "command";
+              command = "${pkgsUnstable.rtk}/bin/rtk hook codex";
+            }
+          ];
+        }
+      ];
 
       sandbox_mode = "workspace-write";
       approval_policy = "on-request";
@@ -363,7 +323,8 @@ in
     };
 
     # Personal AGENTS.md content
-    context = personalContext;
+    context = personalContext + rtkContext;
+
   };
 
   # Codex writes to config.toml at runtime - directory trust, `features enable`,

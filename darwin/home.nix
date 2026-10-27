@@ -12,7 +12,7 @@
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;
 
-  # Tools that install themselves, like herdr's own installer
+  # Tools that install themselves (uv-managed pythons, …)
   home.sessionPath = [ "$HOME/.local/bin" ];
 
   imports = [
@@ -39,7 +39,7 @@
   programs.zsh = {
     sessionVariables = {
       # Use VSCode as the default editor, but wrapped so it returns focus
-      # to the terminal after editing.
+      # to Rex after editing.
       EDITOR = "~/.editor";
 
       # Needed for synologycloudsyncdecryptiontool
@@ -115,7 +115,8 @@
       #!/bin/bash
       # https://github.com/microsoft/vscode/issues/68579#issuecomment-463039009
       code --wait "$@"
-      open -a Terminal
+      # Rex, by bundle id so the app name ("Rex Beta" today) does not matter.
+      open -b com.superlogical.rex
     '';
   };
 
