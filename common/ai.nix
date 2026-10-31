@@ -295,12 +295,6 @@ in
 
     # Personal CLAUDE.md content
     context = personalContext + rtkContext + speedContext;
-
-    # Personal skills, one directory each (team skills come via plugins above)
-    skills = {
-      # /rex-open <name>: update or clone ~/work/<name>, ensure its Rex session
-      rex-open = ./skills/rex-open;
-    };
   };
 
   programs.codex = {

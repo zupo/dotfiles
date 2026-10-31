@@ -1,10 +1,15 @@
-#!/bin/sh
-# Open a ~/work project in Rex: update or clone it, then ensure its session.
-set -u
+# Open a ~/work project in the current Rex session: update or clone it, name
+# this session after it, then cd into it and start claude in this terminal.
+# Installed as `rex-open` via writeShellApplication (darwin/home.nix), which
+# runs it under `set -euo pipefail`; `rex` itself comes from the Rex terminal.
 
 name=${1:-}
 if [ -z "$name" ]; then
-  echo "FAILED: no project name given (usage: /rex-open vend)"
+  echo "usage: rex-open <project>   (a ~/work folder or a teamniteo/mayetrx repo)"
+  exit 1
+fi
+if ! command -v rex >/dev/null || [ -z "${REX_SESSION:-}" ] || [ -z "${REX_BLOCK:-}" ]; then
+  echo "FAILED: not inside a Rex terminal (need rex on PATH, REX_SESSION and REX_BLOCK)"
   exit 1
 fi
 dir="$HOME/work/$name"
@@ -19,10 +24,12 @@ if [ -d "$dir" ]; then
     exit 1
   fi
   echo "checked out: main"
-  if git pull -q --ff-only origin main 2>"$err"; then
+  # fetch + merge rather than `pull`, so pull.rebase in gitconfig cannot
+  # turn this into a rebase that balks at unrelated local changes.
+  if git fetch -q origin main 2>"$err" && git merge -q --ff-only origin/main 2>"$err"; then
     echo "pulled: origin/main ($(git rev-parse --short HEAD))"
   else
-    echo "FAILED: git pull --ff-only origin main: $(cat "$err")"
+    echo "FAILED: fast-forward to origin/main: $(cat "$err")"
     exit 1
   fi
   if [ -f .envrc ]; then
@@ -52,10 +59,15 @@ else
 fi
 
 if rex session ls --json | jq -e --arg l "$name" 'any(.sessions[]; .label == $l)' >/dev/null; then
-  echo "session: $name already exists"
-elif rex session new "$name" --cwd "$dir" >/dev/null; then
-  echo "session: created $name in $dir"
+  echo "note: another session is already labelled $name"
+fi
+if rex session rename "$REX_SESSION" "$name" >/dev/null; then
+  echo "session: renamed this session to $name"
 else
-  echo "FAILED: rex session new $name"
+  echo "FAILED: rex session rename $REX_SESSION $name"
   exit 1
 fi
+
+# A script cannot cd its parent shell, so type the last step into this very
+# terminal; it runs as soon as this script exits.
+rex send -b "$REX_BLOCK" "cd $(printf %q "$dir") && claude"$'\n'

@@ -106,6 +106,21 @@
     harper
     keybase
     yt-dlp
+
+    # `rex-open <name>`: bring ~/work/<name> to a fresh origin/main (or clone
+    # it from teamniteo/mayetrx), name the current Rex session after it, then
+    # cd there and start claude in this terminal.
+    # `rex` is not a nix package; it resolves from the PATH Rex injects.
+    (writeShellApplication {
+      name = "rex-open";
+      runtimeInputs = [
+        git
+        gh
+        jq
+        direnv
+      ];
+      text = builtins.readFile ./rex-open.sh;
+    })
   ];
 
   # Use VSCode as the default editor on the Mac
