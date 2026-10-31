@@ -32,7 +32,7 @@ let
     - Open source advocate - prefers contributing to and using open source software.
     - Effectiveness over productivity - focus on impact, not hours
 
-    **GitHub:** github.com/zupo - use the `gh` CLI (already authenticated) to access private repos when needed.
+    **GitHub:** github.com/zupo
     **Workstation:** github.com/zupo/dotfiles - usually invokes Claude from his nix-darwin-powered MacBook defined in these dotfiles.
   '';
 
@@ -241,6 +241,7 @@ in
         # Personal plugins can be added here
         "hakuto@hakuto" = true;
         "example-skills@anthropic-agent-skills" = true;
+        "cc-plugin-you-should-know@builtin" = true;
 
       };
 
