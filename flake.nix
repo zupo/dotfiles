@@ -54,6 +54,7 @@
     {
       # macOS configuration
       darwinConfigurations."zbook" = nix-darwin.lib.darwinSystem {
+        specialArgs.pkgsUnstable = mkPkgsUnstable "aarch64-darwin";
         modules = [
           ./darwin/zbook.nix
           home-manager.darwinModules.home-manager

@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  pkgsUnstable,
   ...
 }:
 {
@@ -54,14 +55,24 @@
   ];
   nix.settings.netrc-file = "/Users/zupo/.config/nix/netrc";
 
-  # Support for building Linux binaries. Disabled for now; flip to true when
-  # an aarch64-linux build is needed.
+  # Native ARM Linux builds and nested KVM for NixOS integration tests (M3+).
   nix.linux-builder = {
-    enable = false;
+    enable = true;
+    package = pkgsUnstable.darwin.linux-builder-vz;
     ephemeral = true;
     maxJobs = 4;
+    supportedFeatures = [
+      "kvm"
+      "nixos-test"
+      "benchmark"
+      "big-parallel"
+    ];
     config = {
       virtualisation = {
+        vz = {
+          nestedVirtualization = true;
+          rosetta.enable = false;
+        };
         darwin-builder = {
           diskSize = 40 * 1024;
           memorySize = 8 * 1024;
