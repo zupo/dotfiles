@@ -61,9 +61,8 @@ let
     a correct result is obtained, the better.
   '';
 
-  mcpServers = niteo-agents.lib.mcpServers pkgs // {
-
-    # Personal MCPs can be added here
+  # Personal MCPs can be added here
+  personalMcpServers = {
     clinical-trials = {
       type = "http";
       url = "https://mcp.deepsense.ai/clinical_trials/mcp";
@@ -93,64 +92,17 @@ let
 
   };
 
-  # Codex reads the same servers from config.toml, but with different keys and -
-  # crucially - no `${VAR}` expansion anywhere. Translate mechanically:
-  #   * `type` is dropped; codex infers stdio vs http from `command` / `url`
-  #   * `headers` becomes `http_headers`
-  #   * an env value that is a bare `${VAR}` becomes `env_vars`, codex's
-  #     whitelist for forwarding a shell variable (i.e. one from .secrets.env)
-  toCodexMcp =
-    let
-      placeholderVar =
-        v:
-        let
-          m = if builtins.isString v then builtins.match "\\$\\{([A-Za-z_][A-Za-z_0-9]*)\\}" v else null;
-        in
-        if m == null then null else builtins.head m;
+  mcpServers = niteo-agents.lib.mcpServers pkgs // personalMcpServers;
 
-      convert =
-        server:
-        let
-          env = server.env or { };
-          forwarded = lib.filterAttrs (_: v: placeholderVar v != null) env;
-          literal = builtins.removeAttrs env (builtins.attrNames forwarded);
-        in
-        builtins.removeAttrs server [
-          "type"
-          "env"
-          "headers"
-        ]
-        // lib.optionalAttrs (literal != { }) { env = literal; }
-        // lib.optionalAttrs (forwarded != { }) {
-          env_vars = lib.mapAttrsToList (_: placeholderVar) forwarded;
-        }
-        // lib.optionalAttrs (server ? headers) { http_headers = server.headers; };
-    in
-    lib.mapAttrs (_: convert);
-
-  # Sourcing .secrets.env directly, rather than trusting the spawned helper to
-  # inherit the shell environment (codex scrubs some vars from child processes).
-  prometheusAuthHelper = pkgs.writeShellScript "codex-prometheus-auth" ''
-    . "${config.home.homeDirectory}/work/dotfiles/.secrets.env"
-    printf '{"Authorization":"Basic %s"}' "$PROMETHEUS_AUTH"
-  '';
-
+  # Codex reads MCP servers with different keys and no `${VAR}` expansion;
+  # teamniteo/agents translates its own servers and exports the translation.
   codexMcpServers =
-    let
-      # Slack's OAuth client is registered for Claude Code's callback, and
-      # Slack ships no codex client (its codex plugin declares no MCP servers).
-      translated = toCodexMcp (builtins.removeAttrs mcpServers [ "slack" ]);
-    in
-    translated
-    // {
-      # `Basic ${PROMETHEUS_AUTH}` cannot survive that translation: codex never
-      # expands headers, and `bearer_token_env_var` hardcodes a `Bearer` scheme.
-      # `http_headers_helper` runs a command that prints the headers as JSON,
-      # which lets us keep using the one PROMETHEUS_AUTH already in .secrets.env.
-      prometheus = builtins.removeAttrs translated.prometheus [ "http_headers" ] // {
-        http_headers_helper = toString prometheusAuthHelper;
-      };
-    };
+    niteo-agents.lib.codexMcpServers pkgs {
+      secretsFile = "${config.home.homeDirectory}/work/dotfiles/.secrets.env";
+    }
+    # Slack's OAuth client is registered for Claude Code's callback, and
+    # Slack ships no codex client (its codex plugin declares no MCP servers).
+    // niteo-agents.lib.toCodexMcp pkgs (builtins.removeAttrs personalMcpServers [ "slack" ]);
 in
 {
   # Pin reasoning effort to high. The `effortLevel` setting is ignored on Opus
@@ -235,63 +187,12 @@ in
         };
       };
 
-      # Get team Plugins from teamniteo/agents
-      enabledPlugins = niteo-agents.lib.enabledPlugins // {
-
-        # Personal plugins can be added here
+      enabledPlugins = {
         "hakuto@hakuto" = true;
         "example-skills@anthropic-agent-skills" = true;
         "cc-plugin-you-should-know@builtin" = true;
 
       };
-
-      # Get team Permissions from teamniteo/agents
-      permissions.allow = niteo-agents.lib.permissions.allow ++ [
-
-        # Personal permissions can be added here
-        "mcp__clinical-trials__*"
-
-        # Read-only Slack tools; sending, drafting and reacting still prompt.
-        # home-manager serves its MCPs as a plugin, hence the prefix.
-        "mcp__plugin_claude-code-home-manager_slack__slack_search_messages"
-        "mcp__plugin_claude-code-home-manager_slack__slack_search_users"
-        "mcp__plugin_claude-code-home-manager_slack__slack_search_channels"
-        "mcp__plugin_claude-code-home-manager_slack__slack_list_user_channels"
-        "mcp__plugin_claude-code-home-manager_slack__slack_read_channel"
-        "mcp__plugin_claude-code-home-manager_slack__slack_read_thread"
-        "mcp__plugin_claude-code-home-manager_slack__slack_read_canvas"
-        "mcp__plugin_claude-code-home-manager_slack__slack_read_file"
-        "mcp__plugin_claude-code-home-manager_slack__slack_fetch_user_info"
-
-        # Allow read-only `gh` commands (replacement for github MCP)
-        "Bash(gh auth status)"
-        "Bash(gh browse*)"
-        "Bash(gh issue list*)"
-        "Bash(gh issue view*)"
-        "Bash(gh pr checks*)"
-        "Bash(gh pr diff*)"
-        "Bash(gh pr list*)"
-        "Bash(gh pr view*)"
-        "Bash(gh release list*)"
-        "Bash(gh release view*)"
-        "Bash(gh repo view*)"
-        "Bash(gh run list*)"
-        "Bash(gh run view*)"
-        "Bash(gh search*)"
-        "Bash(gh api*)"
-
-        # Auto-allow read-only commands in common directories
-        "Read(~/work/*)"
-        "Read(~/tmp/*)"
-        "Bash(cat ~/work/*)"
-        "Bash(cat /tmp/*)"
-        "Bash(head ~/work/*)"
-        "Bash(head /tmp/*)"
-        "Bash(ls ~/work/*)"
-        "Bash(ls /tmp/*)"
-        "Bash(tail ~/work/*)"
-        "Bash(tail /tmp/*)"
-      ];
     };
 
     # Personal CLAUDE.md content
@@ -344,17 +245,50 @@ in
       # needs a line here plus a `nixre` before codex will work in it.
       projects =
         lib.genAttrs
-          [
-            "${config.home.homeDirectory}/work/dotfiles"
-            "${config.home.homeDirectory}/work/servers"
-          ]
+          (map (name: "${config.home.homeDirectory}/work/${name}") [
+            "agents"
+            "canario"
+            "dotfiles"
+            "ebn"
+            "ebn-nixos"
+            "electronics"
+            "gha-actions"
+            "grafana"
+            "handbook"
+            "house"
+            "mayet_ops"
+            "oceansprint.org"
+            "ops"
+            "pareto-cloud"
+            "pareto-linux"
+            "pareto-mac"
+            "passlet"
+            "pyramid_jwt2"
+            "pyramid_niteo"
+            "pyramid_openapi3"
+            "salarycalc"
+            "scrooge"
+            "servers"
+            "site-hakuto"
+            "site-mayetrx"
+            "site-niteo"
+            "site-paretosecurity"
+            "site-passlet"
+            "site-trialtrack"
+            "socials"
+            "trak"
+            "vend"
+            "wordformai"
+          ])
           (_: {
             trust_level = "trusted";
           });
     };
 
-    # Personal AGENTS.md content
-    context = personalContext + rtkContext;
+    # Personal AGENTS.md content, plus the team rules that apply everywhere:
+    # codex has no rules directory to pick them up from a project.
+    context =
+      personalContext + rtkContext + niteo-agents.lib.rules.conventions + niteo-agents.lib.rules.tooling;
 
   };
 
