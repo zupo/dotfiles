@@ -163,11 +163,11 @@
         "mcp-nixos": "mcp-nixos"
       },
       "locked": {
-        "lastModified": 1791573082,
-        "narHash": "sha256-eETZxzL6pIFzgyMTZjfAHv8i+o3L49t9h9gtd2Gw6OU=",
+        "lastModified": 1793548865,
+        "narHash": "sha256-VA/GgvXE/ae+XVB+yKc1DvJliwH/CyjNiordJ5e9h2Y=",
         "owner": "teamniteo",
         "repo": "agents",
-        "rev": "f1d400ef81ee9d7e705415579f20bfdeaff172ce",
+        "rev": "e6435fe8dadee35cee69db0c6d9ee03c6c10cd55",
         "type": "github"
       },
       "original": {
