@@ -13,6 +13,9 @@
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    passlet.url = "github:ParetoSecurity/passlet/main";
+    passlet.inputs.nixpkgs.follows = "nixpkgs";
+
     # Shared Claude Code configuration for Niteo
     niteo-agents.url = "github:teamniteo/agents";
 
@@ -27,6 +30,7 @@
       nixpkgs-unstable,
       nix-darwin,
       home-manager,
+      passlet,
       niteo-agents,
       llm-agents,
     }:
@@ -65,7 +69,12 @@
             home-manager.users.zupo = import ./darwin/home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = mkPkgsUnstable "aarch64-darwin";
-              inherit commonModules niteo-agents llm-agents;
+              inherit
+                commonModules
+                niteo-agents
+                llm-agents
+                passlet
+                ;
             };
           }
         ];

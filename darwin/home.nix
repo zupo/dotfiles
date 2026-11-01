@@ -5,6 +5,7 @@
   commonModules,
   niteo-agents,
   llm-agents,
+  passlet,
   ...
 }:
 {
@@ -16,6 +17,7 @@
   home.sessionPath = [ "$HOME/.local/bin" ];
 
   imports = [
+    passlet.homeManagerModules.default
     (commonModules.ai {
       inherit
         pkgs
@@ -34,6 +36,13 @@
       inherit pkgs pkgsUnstable;
     })
   ];
+
+  programs.passlet = {
+    enable = true;
+    service.tailscaleListen = "127.0.0.1:18484";
+  };
+
+  launchd.agents.passlet.config.AssociatedBundleIdentifiers = [ "dev.passlet.app" ];
 
   # Additional Darwin-specific zsh configuration
   programs.zsh = {

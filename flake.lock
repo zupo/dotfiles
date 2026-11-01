@@ -276,6 +276,27 @@
         "type": "github"
       }
     },
+    "passlet": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793551537,
+        "narHash": "sha256-5OkmbTKKdgXuaE7PWXBGL6fnOsHtSsJcs3n7dTTeVo0=",
+        "owner": "ParetoSecurity",
+        "repo": "passlet",
+        "rev": "f4750f26a7c7bda355b0ab0732f33d07a398fc21",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ParetoSecurity",
+        "ref": "main",
+        "repo": "passlet",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
@@ -283,7 +304,8 @@
         "niteo-agents": "niteo-agents",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_3",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "passlet": "passlet"
       }
     },
     "systems": {
