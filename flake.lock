@@ -283,11 +283,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793551537,
-        "narHash": "sha256-5OkmbTKKdgXuaE7PWXBGL6fnOsHtSsJcs3n7dTTeVo0=",
+        "lastModified": 1793571190,
+        "narHash": "sha256-x5UzDI7nI7P3EfUaIe+Be8d3x0LUJKDiPs5GBujBsJk=",
         "owner": "ParetoSecurity",
         "repo": "passlet",
-        "rev": "f4750f26a7c7bda355b0ab0732f33d07a398fc21",
+        "rev": "d993394975471cb39a6585c86a084aece839aafc",
         "type": "github"
       },
       "original": {

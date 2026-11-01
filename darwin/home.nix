@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   pkgsUnstable,
@@ -39,10 +40,16 @@
 
   programs.passlet = {
     enable = true;
-    service.tailscaleListen = "127.0.0.1:18484";
+    service.tailscaleListen = "127.0.0.1:17401";
   };
 
   launchd.agents.passlet.config.AssociatedBundleIdentifiers = [ "dev.passlet.app" ];
+
+  home.activation.passletTailscale = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ${pkgsUnstable.tailscale}/bin/tailscale serve --bg --yes \
+      --proxy-protocol=2 --tls-terminated-tcp=17400 \
+      tcp://${config.programs.passlet.service.tailscaleListen}
+  '';
 
   # Additional Darwin-specific zsh configuration
   programs.zsh = {
