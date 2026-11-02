@@ -43,8 +43,6 @@
     service.tailscaleListen = "127.0.0.1:17401";
   };
 
-  launchd.agents.passlet.config.AssociatedBundleIdentifiers = [ "dev.passlet.app" ];
-
   # Uses the CLI bundled with the Tailscale.app GUI, see
   # https://tailscale.com/docs/reference/tailscale-cli?tab=macos
   home.activation.passletTailscale = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
