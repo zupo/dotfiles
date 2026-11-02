@@ -1,4 +1,5 @@
 {
+    "harper.excludePatterns": ["**/*.feature"],
     "workbench.colorTheme": "Visual Studio Dark",
     "workbench.startupEditor": "none",
     "window.zoomLevel": 1,
