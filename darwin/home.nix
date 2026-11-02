@@ -45,8 +45,10 @@
 
   launchd.agents.passlet.config.AssociatedBundleIdentifiers = [ "dev.passlet.app" ];
 
+  # Uses the CLI bundled with the Tailscale.app GUI, see
+  # https://tailscale.com/docs/reference/tailscale-cli?tab=macos
   home.activation.passletTailscale = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run ${pkgsUnstable.tailscale}/bin/tailscale serve --bg --yes \
+    run /Applications/Tailscale.app/Contents/MacOS/Tailscale serve --bg --yes \
       --proxy-protocol=2 --tls-terminated-tcp=17400 \
       tcp://${config.programs.passlet.service.tailscaleListen}
   '';
@@ -70,6 +72,7 @@
       nixre = "sudo darwin-rebuild switch --flake ~/work/dotfiles#zbook";
       nixgc = "nix-collect-garbage --delete-older-than 30d";
       nixcfg = "code ~/work/dotfiles/flake.nix";
+      tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
       yt-dlp-lowres = "yt-dlp -S res:720";
       yt-dlp-audio = "yt-dlp --extract-audio --audio-format mp3";
     };
@@ -115,7 +118,6 @@
 
   # Additional software I use on my Mac
   home.packages = with pkgs; [
-    pkgsUnstable.tailscale
     # 1Password CLI; pairs with the desktop app (Settings -> Developer ->
     # "Integrate with 1Password CLI") so `op read` unlocks via Touch ID.
     pkgsUnstable._1password-cli
