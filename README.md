@@ -131,11 +131,23 @@ Related: https://github.com/LnL7/nix-darwin/issues/193
 
 ## Updating
 
+### Agent instructions
+
+Claude Code and Codex receive the same personal instructions, RTK guidance, speed preference, and general team rules from one shared context. Home Manager writes it to their required global files, `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md`. Both use the same plugin source declarations and RTK hook definition. MCP servers share one source with a Codex format adapter; Slack remains Claude-only because its OAuth client uses Claude’s callback.
+
+### Agent plugins
+
+Nix pins the plugin code in `flake.lock`. Claude Code loads Passlet and Hakuto directly from the Nix store through Home Manager's `plugins` option. The built-in Claude plugin follows the pinned Claude package. Claude-only example skills use Claude’s native plugin manager, with their marketplace and enabled state declared in Nix. Their code is not pinned in `flake.lock`.
+
+Codex's Passlet and Hakuto marketplaces point to the same pinned Nix sources as Claude. Home Manager installs their versioned Codex cache entries as links to the Nix store, so installation, source, and enabled state are all declared in Nix. ChatGPT's account-managed plugins are separate from these repository plugins.
+
+Update with `nix flake update hakuto passlet`, then run `nixre` and start new agent sessions. No plugin install or upgrade commands are needed for these shared plugins. Update Claude-only example skills through Claude’s plugin manager. Passlet's pin controls both the app package and its plugin source.
+
 ### Passlet remote access
 
-The Mac's Home Manager configuration installs Passlet and configures Tailscale Serve during `nixre`. Tailscale must already be running and signed in. HTTPS port `17400` forwards to Passlet's loopback listener at `127.0.0.1:17401` using PROXY protocol v2. Other Tailscale Serve ports are left unchanged.
+The Mac's Home Manager configuration installs Passlet and enables `programs.passlet.service.tailscale`. When the Approver starts, it checks Tailscale Serve and configures missing HTTPS forwarding on port `17400` to its private Unix socket. Tailscale 1.104.4 or newer must already be running and signed in. Conflicting forwarding is rejected, and other Tailscale Serve ports are left unchanged.
 
-The forwarding persists across restarts. Inspect it with `tailscale serve status`. Removing the activation configuration does not remove existing forwarding. Disable it with `tailscale serve --tls-terminated-tcp=17400 off` if remote Passlet access is no longer wanted.
+The forwarding persists across restarts. Inspect it with `tailscale serve status` and check service health with `passlet approver doctor`. To disable remote access, set `programs.passlet.service.tailscale = false`, apply the configuration with `nixre`, and remove the persistent HTTPS forwarding with `tailscale serve --https=17400 off`.
 
 ### Updating inputs
 

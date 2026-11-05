@@ -2,6 +2,11 @@
   description = "zupo's multi-system configuration";
 
   inputs = {
+    hakuto = {
+      url = "github:teamniteo/hakuto";
+      flake = false;
+    };
+
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
@@ -26,6 +31,7 @@
   outputs =
     {
       self,
+      hakuto,
       nixpkgs,
       nixpkgs-unstable,
       nix-darwin,
@@ -37,7 +43,7 @@
     let
       # Common modules that can be imported by any system
       commonModules = {
-        ai = import ./common/ai.nix;
+        ai = args: import ./common/ai.nix (args // { inherit hakuto passlet; });
         gitconfig = import ./common/gitconfig.nix;
         tools = import ./common/tools.nix;
         direnv = import ./common/direnv.nix;

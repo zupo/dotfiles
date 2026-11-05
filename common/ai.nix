@@ -1,4 +1,6 @@
 {
+  hakuto,
+  passlet,
   niteo-agents,
   llm-agents,
   pkgs,
@@ -10,13 +12,13 @@
 let
   agents = llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
 
-  # Shared by Claude Code (CLAUDE.md) and codex (AGENTS.md).
   personalContext = ''
     You are an expert engineer, hired to work alongside the user.
 
     Key overrides:
       - NEVER add Co-Authored-By footers to commits
       - NEVER repeat the PR title in the PR body. Start the body with the description, across all projects.
+      - When Claude Code or Codex runs on my Mac, make dotfiles changes directly on `main` in `~/work/dotfiles` so I can immediately test them with `nixre`. This overrides the feature-branch and worktree rules for local dotfiles work. Preserve existing changes.
 
 
     ## About the User
@@ -34,11 +36,7 @@ let
 
     **GitHub:** github.com/zupo
     **Workstation:** github.com/zupo/dotfiles - usually invokes Claude from his nix-darwin-powered MacBook defined in these dotfiles.
-  '';
 
-  # Shared by Claude Code and codex: both run `rtk hook <agent>` as a
-  # PreToolUse hook on shell commands.
-  rtkContext = ''
     ## RTK
 
     Bash calls are transparently rewritten through `rtk`, a proxy that
@@ -51,15 +49,32 @@ let
     - `rtk gain` - token savings so far; `rtk discover` - missed opportunities.
     - Only shell commands go through rtk. File reads, edits and searches made
       through the agent's own tools are untouched.
-  '';
 
-  # Claude-only. Codex has "/fast" mode enabled.
-  speedContext = ''
     ## Speed
 
     Time matters here: do not spend time that can be avoided, and the earlier
     a correct result is obtained, the better.
   '';
+
+  sharedContext =
+    personalContext + niteo-agents.lib.rules.conventions + niteo-agents.lib.rules.tooling;
+
+  plugins = {
+    hakuto = hakuto.outPath;
+    passlet = passlet.outPath;
+  };
+
+  rtkHooks = agent: [
+    {
+      matcher = "Bash";
+      hooks = [
+        {
+          type = "command";
+          command = "${pkgsUnstable.rtk}/bin/rtk hook ${agent}";
+        }
+      ];
+    }
+  ];
 
   # Personal MCPs can be added here
   personalMcpServers = {
@@ -111,9 +126,31 @@ in
   # and beats the pin (claude reads process.env.CLAUDE_CODE_EFFORT_LEVEL).
   home.sessionVariables.CLAUDE_CODE_EFFORT_LEVEL = "high";
 
+  home.file =
+    lib.mapAttrs' (
+      name: source:
+      let
+        manifest = builtins.fromJSON (
+          builtins.readFile (
+            if builtins.pathExists "${source}/plugin.json" then
+              "${source}/plugin.json"
+            else
+              "${source}/.codex-plugin/plugin.json"
+          )
+        );
+      in
+      lib.nameValuePair ".codex/plugins/cache/${name}/${name}/${manifest.version}" {
+        inherit source;
+      }
+    ) plugins
+    // {
+      ".codex/config.toml".enable = false;
+    };
+
   programs.claude-code = {
     enable = true;
     package = agents.claude-code;
+    plugins = builtins.attrValues plugins;
 
     # Get team MCPs from teamniteo/agents, plus personal ones
     inherit mcpServers;
@@ -139,17 +176,7 @@ in
 
       hooks = {
         # Compress Bash output through rtk before it reaches the context window
-        PreToolUse = [
-          {
-            matcher = "Bash";
-            hooks = [
-              {
-                type = "command";
-                command = "${pkgsUnstable.rtk}/bin/rtk hook claude";
-              }
-            ];
-          }
-        ];
+        PreToolUse = rtkHooks "claude";
 
         # Rex's agent hook: tells Claude it runs inside Rex and in which
         # session/terminal. `rex skill setup` cannot write it here itself as
@@ -171,32 +198,18 @@ in
         ];
       };
 
-      # Register extra plugin marketplaces
-      extraKnownMarketplaces = {
-        hakuto = {
-          source = {
-            source = "github";
-            repo = "teamniteo/hakuto";
-          };
-        };
-        anthropic-agent-skills = {
-          source = {
-            source = "github";
-            repo = "anthropics/skills";
-          };
-        };
+      extraKnownMarketplaces.anthropic-agent-skills.source = {
+        source = "github";
+        repo = "anthropics/skills";
       };
 
       enabledPlugins = {
-        "hakuto@hakuto" = true;
-        "example-skills@anthropic-agent-skills" = true;
         "cc-plugin-you-should-know@builtin" = true;
-
+        "example-skills@anthropic-agent-skills" = true;
       };
     };
 
-    # Personal CLAUDE.md content
-    context = personalContext + rtkContext + speedContext;
+    context = sharedContext;
   };
 
   programs.codex = {
@@ -204,11 +217,14 @@ in
     package = agents.codex;
 
     settings = {
+      marketplaces = lib.mapAttrs (_: source: {
+        source_type = "local";
+        inherit source;
+      }) plugins;
+      plugins = lib.mapAttrs' (name: _: lib.nameValuePair "${name}@${name}" { enabled = true; }) plugins;
+
       model = "gpt-6-astra";
       model_reasoning_effort = "medium";
-      # Fast mode: `fast` maps to the `priority` service tier (2.5x subscription
-      # usage). The `features.fast_mode` flag it needs is on by default.
-      service_tier = "fast";
 
       # rtk records command history in its own SQLite store, which lives
       # outside the workspace. Without this the hook still rewrites commands
@@ -221,17 +237,7 @@ in
       # Declared inline here rather than in hooks.json so that the trust codex
       # records for it (`[hooks.state.*]`, written to this same file) lives in
       # one place. Codex skips new or changed hooks until trusted with `/hooks`.
-      hooks.PreToolUse = [
-        {
-          matcher = "Bash";
-          hooks = [
-            {
-              type = "command";
-              command = "${pkgsUnstable.rtk}/bin/rtk hook codex";
-            }
-          ];
-        }
-      ];
+      hooks.PreToolUse = rtkHooks "codex";
 
       sandbox_mode = "workspace-write";
       approval_policy = "on-request";
@@ -285,10 +291,7 @@ in
           });
     };
 
-    # Personal AGENTS.md content, plus the team rules that apply everywhere:
-    # codex has no rules directory to pick them up from a project.
-    context =
-      personalContext + rtkContext + niteo-agents.lib.rules.conventions + niteo-agents.lib.rules.tooling;
+    context = sharedContext;
 
   };
 
@@ -298,8 +301,6 @@ in
   # codex's own `[projects]` trust entries across rebuilds. Trust is an exact
   # path match: no globs, no inheritance from a parent directory, so codex has
   # to be able to record each repo itself.
-  home.file.".codex/config.toml".enable = false;
-
   home.activation.codexConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
     run ${pkgs.python3}/bin/python3 ${./codex-config-merge.py} \
       ${config.home.file.".codex/config.toml".source} \
