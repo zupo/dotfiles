@@ -40,16 +40,8 @@
 
   programs.passlet = {
     enable = true;
-    service.tailscaleListen = "127.0.0.1:17401";
+    service.tailscale = true;
   };
-
-  # Uses the CLI bundled with the Tailscale.app GUI, see
-  # https://tailscale.com/docs/reference/tailscale-cli?tab=macos
-  home.activation.passletTailscale = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run /Applications/Tailscale.app/Contents/MacOS/Tailscale serve --bg --yes \
-      --proxy-protocol=2 --tls-terminated-tcp=17400 \
-      tcp://${config.programs.passlet.service.tailscaleListen}
-  '';
 
   # Additional Darwin-specific zsh configuration
   programs.zsh = {
