@@ -133,9 +133,9 @@ Related: https://github.com/LnL7/nix-darwin/issues/193
 
 ### Passlet remote access
 
-The Mac's Home Manager configuration installs Passlet and configures Tailscale Serve during `nixre`. Tailscale must already be running and signed in. HTTPS port `17400` forwards to Passlet's loopback listener at `127.0.0.1:17401` using PROXY protocol v2. Other Tailscale Serve ports are left unchanged.
+The Mac's Home Manager configuration installs Passlet and enables `programs.passlet.service.tailscale`. When the Approver starts, it checks Tailscale Serve and configures missing HTTPS forwarding on port `17400` to its private Unix socket. Tailscale 1.104.4 or newer must already be running and signed in. Conflicting forwarding is rejected, and other Tailscale Serve ports are left unchanged.
 
-The forwarding persists across restarts. Inspect it with `tailscale serve status`. Removing the activation configuration does not remove existing forwarding. Disable it with `tailscale serve --tls-terminated-tcp=17400 off` if remote Passlet access is no longer wanted.
+The forwarding persists across restarts. Inspect it with `tailscale serve status` and check service health with `passlet approver doctor`. To disable remote access, set `programs.passlet.service.tailscale = false`, apply the configuration with `nixre`, and remove the persistent HTTPS forwarding with `tailscale serve --https=17400 off`.
 
 ### Updating inputs
 
