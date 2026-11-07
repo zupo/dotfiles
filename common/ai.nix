@@ -166,6 +166,30 @@ in
       # release (5.1 today), so it follows llm-agents bumps without editing.
       model = "fable";
 
+      # passlet exec drops the Git config the sandbox injects for its proxy, but
+      # keeps this variable, which Git reads for the same setting.
+      env.GIT_HTTP_PROXY_AUTHMETHOD = "basic";
+
+      permissions = {
+        # A bare wildcard here is the documented way to open every host to
+        # sandboxed commands: network.allowedDomains has no equivalent.
+        allow = [ "WebFetch(domain:*)" ];
+        defaultMode = "auto";
+      };
+      sandbox = {
+        enabled = true;
+        # gh verifies TLS through the macOS trust service, which the sandbox
+        # blocks by default. Its exfiltration risk is moot with the network open.
+        enableWeakerNetworkIsolation = true;
+        filesystem.allowWrite = [
+          "${config.home.homeDirectory}/Library/Application Support/rtk"
+        ];
+        network.allowUnixSockets = [
+          "${config.home.homeDirectory}/.local/share/passlet/passlet.sock"
+          "${config.home.homeDirectory}/Library/Application Support/rex/server.sock"
+        ];
+      };
+
       # Fullscreen renderer: alternate-screen drawing with in-app scrolling,
       # mouse support, copy on select and the /diff side panel.
       tui = "fullscreen";
@@ -226,12 +250,15 @@ in
       model = "gpt-6-astra";
       model_reasoning_effort = "medium";
 
-      # rtk records command history in its own SQLite store, which lives
-      # outside the workspace. Without this the hook still rewrites commands
-      # but every one of them fails to record (SQLITE_CANTOPEN).
-      sandbox_workspace_write.writable_roots = [
-        "${config.home.homeDirectory}/Library/Application Support/rtk"
-      ];
+      sandbox_workspace_write = {
+        network_access = true;
+        # rtk records command history in its own SQLite store, which lives
+        # outside the workspace. Without this the hook still rewrites commands
+        # but every one of them fails to record (SQLITE_CANTOPEN).
+        writable_roots = [
+          "${config.home.homeDirectory}/Library/Application Support/rtk"
+        ];
+      };
 
       # Compress shell output through rtk before it reaches the context window.
       # Declared inline here rather than in hooks.json so that the trust codex
