@@ -16,6 +16,13 @@
 
   # Tools that install themselves (uv-managed pythons, …)
   home.sessionPath = [ "$HOME/.local/bin" ];
+  home.file.".local/bin/tailscale" = {
+    executable = true;
+    text = ''
+      #!/bin/sh
+      exec /Applications/Tailscale.app/Contents/MacOS/Tailscale "$@"
+    '';
+  };
 
   imports = [
     passlet.homeManagerModules.default
@@ -62,7 +69,6 @@
       nixre = "sudo darwin-rebuild switch --flake ~/work/dotfiles#zbook";
       nixgc = "nix-collect-garbage --delete-older-than 30d";
       nixcfg = "code ~/work/dotfiles/flake.nix";
-      tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
       yt-dlp-lowres = "yt-dlp -S res:720";
       yt-dlp-audio = "yt-dlp --extract-audio --audio-format mp3";
     };
@@ -154,9 +160,13 @@
         HostName = "cruncher";
         ForwardAgent = true;
       };
-      "ai-zupo" = {
-        HostName = "ai-zupo.containers";
+      "sandbox-zupo" = {
+        ControlMaster = "auto";
+        ControlPersist = "10m";
+        ExitOnForwardFailure = true;
+        HostName = "sandbox-zupo.containers";
         ProxyJump = "cruncher";
+        RemoteForward = "/home/zupo/.local/share/passlet/passlet.sock /Users/zupo/.local/share/passlet/passlet.sock";
       };
       "cione" = {
         HostName = "cione";
