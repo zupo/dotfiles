@@ -18,7 +18,7 @@
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    passlet.url = "github:ParetoSecurity/passlet/v0.6.0";
+    passlet.url = "github:ParetoSecurity/passlet/v0.7.1";
     passlet.inputs.nixpkgs.follows = "nixpkgs";
 
     # Shared Claude Code configuration for Niteo
