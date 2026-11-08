@@ -8,7 +8,9 @@
     };
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # The nixpkgs llm-agents locks, so its codex and claude-code come from
+    # cache.numtide.com rather than a second nixpkgs or a local compile.
+    nixpkgs-unstable.follows = "llm-agents/nixpkgs";
 
     # Darwin support
     nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-26.05";
