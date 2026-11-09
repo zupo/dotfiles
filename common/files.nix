@@ -4,9 +4,14 @@ _: {
     text = "";
   };
 
-  # Supply-chain protection: refuse npm/Bun/PyPI packages younger than 7 days,
-  # so freshly-published malicious versions get caught before we install.
-  # pip key requires pip 26.0+; uv duration syntax requires uv 0.9.17+.
+  # Supply-chain protection: refuse npm/Bun/PyPI/RubyGems packages younger than
+  # 7 days, so freshly-published malicious versions get caught before we install.
+  # pip key requires pip 26.1+; uv duration syntax requires uv 0.9.17+;
+  # Bundler key requires Bundler 4.0.13+.
+  home.file.".bundle/config".text = ''
+    ---
+    BUNDLE_COOLDOWN: "7"
+  '';
   home.file.".npmrc".text = ''
     min-release-age=7
     minimum-release-age=10080

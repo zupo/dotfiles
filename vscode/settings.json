@@ -81,6 +81,7 @@
             }
         }
     ],
+    "extensions.autoUpdateDelay": 168,
     "extensions.ignoreRecommendations": true,
     "workbench.activityBar.location": "top",
     "editor.multiCursorModifier": "ctrlCmd",

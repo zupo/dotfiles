@@ -40,5 +40,12 @@
     tldr
     unrar
     wget
+
+    # Shadow Apple's /usr/bin/pip3 and /usr/bin/bundle, which are too old to
+    # honor the release-age cooldowns set in files.nix.
+    # Remove when Pareto Security 1.47 is released:
+    # https://github.com/ParetoSecurity/pareto-mac/issues/352
+    pkgsUnstable.python3Packages.pip
+    ruby_4_0
   ];
 }
