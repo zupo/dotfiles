@@ -157,10 +157,6 @@
         HostName = "192.168.65.8";
         ForwardAgent = true;
       };
-      "cruncher" = {
-        HostName = "cruncher";
-        ForwardAgent = true;
-      };
       "sandbox-zupo" = {
         ControlMaster = "auto";
         ControlPersist = "10m";
@@ -169,23 +165,8 @@
         ProxyJump = "cruncher";
         RemoteForward = "/home/zupo/.local/share/passlet/passlet.sock /Users/zupo/.local/share/passlet/passlet.sock";
       };
-      "cione" = {
-        HostName = "cione";
-        ForwardAgent = true;
-      };
-      "citwo" = {
-        HostName = "citwo";
-        ForwardAgent = true;
-      };
-      "cithree" = {
-        HostName = "cithree";
-        ForwardAgent = true;
-      };
       "lara" = {
         HostName = "lara";
-        # IdentityAgent = "SSH_AUTH_SOCK";
-        # IdentityFile = "~/.ssh/id_rsa";
-        # IdentitiesOnly = true;
         ForwardAgent = true;
       };
       "tailes" = {
@@ -193,14 +174,12 @@
         IdentityAgent = "SSH_AUTH_SOCK";
         IdentityFile = "~/.ssh/id_rsa";
         IdentitiesOnly = true;
-        ForwardAgent = true;
       };
       "tailsi" = {
         HostName = "tailsi";
         IdentityAgent = "SSH_AUTH_SOCK";
         IdentityFile = "~/.ssh/id_rsa";
         IdentitiesOnly = true;
-        ForwardAgent = true;
       };
     };
 
