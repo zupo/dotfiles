@@ -47,6 +47,7 @@
 
   programs.passlet = {
     enable = true;
+    service.sshAgentSocket = "/Users/zupo/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
     service.tailscale = true;
   };
 
