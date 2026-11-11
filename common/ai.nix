@@ -162,9 +162,7 @@ in
       # Prevent auto-starting Remote Control
       remoteControlAtStartup = false;
 
-      # Start every session on Fable. The bare alias tracks the newest Fable
-      # release (5.1 today), so it follows llm-agents bumps without editing.
-      model = "fable";
+      model = "claude-fable-5-2";
 
       # passlet exec drops the Git config the sandbox injects for its proxy, but
       # keeps this variable, which Git reads for the same setting.
