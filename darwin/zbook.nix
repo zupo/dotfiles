@@ -58,7 +58,6 @@
   # Native ARM Linux builds and nested KVM for NixOS integration tests (M3+).
   nix.linux-builder = {
     enable = false;
-    package = pkgsUnstable.darwin.linux-builder-vz;
     ephemeral = true;
     maxJobs = 4;
     supportedFeatures = [
@@ -67,19 +66,6 @@
       "benchmark"
       "big-parallel"
     ];
-    config = {
-      virtualisation = {
-        vz = {
-          nestedVirtualization = true;
-          rosetta.enable = false;
-        };
-        darwin-builder = {
-          diskSize = 40 * 1024;
-          memorySize = 8 * 1024;
-        };
-        cores = 6;
-      };
-    };
   };
 
   # Migration to 25.05, remove after clean reinstall
