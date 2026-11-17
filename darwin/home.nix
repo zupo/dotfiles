@@ -51,6 +51,22 @@
     service.tailscale = true;
   };
 
+  launchd.agents.rex-session-names = {
+    enable = true;
+    config = {
+      KeepAlive = true;
+      ProgramArguments = [
+        "${config.home.homeDirectory}/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex"
+        "do"
+        "${./rex-session-names.lua}"
+        "--all"
+      ];
+      RunAtLoad = true;
+      StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/rex-session-names.log";
+      ThrottleInterval = 10;
+    };
+  };
+
   # Additional Darwin-specific zsh configuration
   programs.zsh = {
     sessionVariables = {
