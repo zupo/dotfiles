@@ -135,6 +135,8 @@ Related: https://github.com/LnL7/nix-darwin/issues/193
 
 Claude Code and Codex receive the same personal instructions, RTK guidance, speed preference, and general team rules from one shared context. Home Manager writes it to their required global files, `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md`. Both use the same plugin source declarations and RTK hook definition. MCP servers share one source with a Codex format adapter; Slack remains Claude-only because its OAuth client uses Claude’s callback.
 
+Inside Rex, both agents are instructed to keep the session name identical to its first tab's displayed name and run long-running commands in a split pane in their current window, preserving focus and leaving completed output visible. Asked to open a project, they start a Rex session in `~/work/<project>` that pulls `main`, reloads direnv and starts Claude. Apply instruction changes with `nixre` and start new agent sessions.
+
 ### Agent plugins
 
 Nix pins the plugin code in `flake.lock`. Claude Code loads Passlet and Hakuto directly from the Nix store through Home Manager's `plugins` option. The built-in Claude plugin follows the pinned Claude package. Claude-only example skills use Claude’s native plugin manager, with their marketplace and enabled state declared in Nix. Their code is not pinned in `flake.lock`.
