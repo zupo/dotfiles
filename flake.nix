@@ -108,6 +108,9 @@
       };
 
       # Export common modules for use by other flakes (like your remote server)
-      lib = commonModules;
+      lib = commonModules // {
+        personalContext = builtins.readFile ./common/personal-context.md;
+        rexSessionNames = ./common/rex-session-names.lua;
+      };
     };
 }

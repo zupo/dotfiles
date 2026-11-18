@@ -1,4 +1,6 @@
-local pinnedNames = { "dotfiles", "socials", "support" }
+local pinnedNames = rex.args.pinSessions and { "dotfiles", "socials", "support" } or {}
+
+local pinnedSessions = {}
 
 local function orderSessions()
   local position = 1
@@ -6,7 +8,7 @@ local function orderSessions()
     local sessions, err = rex.call("session.list")
     if not sessions then rex.log(err); return end
     for index, session in ipairs(sessions.sessions) do
-      if session.label == name then
+      if pinnedSessions[session.session_id] == name then
         if index ~= position then
           local result, moveErr = rex.call("session.move", {
             session_id = session.session_id,
@@ -26,9 +28,6 @@ local function sync(sessionId)
   if not view then
     rex.log(err)
     return
-  end
-  for _, name in ipairs(pinnedNames) do
-    if view.label == name then return end
   end
   local window = (view.windows or {})[1]
   if not window then return end
@@ -66,6 +65,29 @@ end
 
 local function attach(sessionId)
   assert(rex.session.attach{session_id = sessionId})
+  local view, viewErr = rex.session.view{session_id = sessionId}
+  if not view then rex.log(viewErr); return end
+  local windows = view.windows or {}
+  for _, name in ipairs(pinnedNames) do
+    for _, window in ipairs(windows) do
+      if window.label == name then pinnedSessions[sessionId] = name; break end
+    end
+    if pinnedSessions[sessionId] then break end
+  end
+  if not pinnedSessions[sessionId] and windows[1] then
+    for _, name in ipairs(pinnedNames) do
+      if view.label == name then
+        local result, labelErr = rex.call("session.set_window_label", {
+          session_id = sessionId,
+          window_id = windows[1].window_id,
+          label = name,
+        })
+        if not result then rex.log(labelErr); return end
+        pinnedSessions[sessionId] = name
+        break
+      end
+    end
+  end
   sync(sessionId)
   orderSessions()
 end
