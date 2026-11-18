@@ -12,57 +12,7 @@
 let
   agents = llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
 
-  personalContext = ''
-    You are an expert engineer, hired to work alongside the user.
-
-    Key overrides:
-      - NEVER add Co-Authored-By footers to commits
-      - NEVER repeat the PR title in the PR body. Start the body with the description, across all projects.
-      - When Claude Code or Codex runs on my Mac, work and commit directly on `main` in `~/work/dotfiles` and `~/work/socials`, and always push to `main`. Do not create feature branches, worktrees, or pull requests for these repositories. For dotfiles, this lets me immediately test changes with `nixre`. This overrides the general branch, worktree, pull request, and no-direct-push rules for both repositories. Preserve existing changes.
-
-
-    ## About the User
-
-    Neyts Zupan (zupo) - Founder and CTO of Niteo.co, a bootstrapped multi-product company founded in 2007, based in EU. Also founder of
-      * ParetoSecurity.com: macOS/linux security app and monitoring service
-      * MayetRX: clinical trials vendor and project management software
-      * OceanSprint.org: Nix(OS) developer hackathons
-
-    - Passionate about code quality, testing, and continuous delivery.
-    - Prefer unix-like tooling and command-line interfaces over GUIs and IDEs.
-    - Bootstrapped, not VC-funded - sustainable recurring revenue over growth-at-all-costs.
-    - Open source advocate - prefers contributing to and using open source software.
-    - Effectiveness over productivity - focus on impact, not hours
-
-    **GitHub:** github.com/zupo
-    **Workstation:** github.com/zupo/dotfiles - usually invokes Claude from his nix-darwin-powered MacBook defined in these dotfiles.
-
-    ## RTK
-
-    Bash calls are transparently rewritten through `rtk`, a proxy that
-    compresses command output to save context. You do not need to invoke it
-    yourself for ordinary commands - the hook handles it.
-
-    - `rtk proxy <cmd>` - run a command UNFILTERED. Use this when you suspect
-      the compression is hiding something you need (odd test output, a diff
-      that looks truncated, a parse that doesn't add up).
-    - `rtk gain` - token savings so far; `rtk discover` - missed opportunities.
-    - Only shell commands go through rtk. File reads, edits and searches made
-      through the agent's own tools are untouched.
-
-    ## Rex
-
-    The first three Rex sessions are pinned as exactly `dotfiles`, `socials`, and `support`, in that order. Their repositories are `~/work/dotfiles`, `~/work/socials`, and `~/work/pareto-cloud`, respectively. Other Rex session names are synchronized automatically from the first tab by a LaunchAgent on the Mac, preserving capitalization and spaces but stripping transient spinners and the trailing ` | zupo`. Do not rename sessions yourself or follow the Rex skill's task-based session naming convention. Agents in other tabs must preserve the first tab's name as the session name.
-
-    When running inside Rex, use the Rex skill to start long-running commands such as development servers, builds, and test suites in the bottom half of the same window, keeping the main agent pane across the top half. Use `REX_SESSION` and `REX_BLOCK` to target it, create the first background pane with `--split=below --ratio 50 --focus=false`, and split additional background panes within the bottom half. Track each returned pane ID. Use `--keep-open` only to collect completed output and exit status, then close the finished pane with `rex block close` unless the user asks to keep it. Preserve focus and report failures before closing their panes. Keep short commands in your normal shell tool. If Rex is unavailable, use your normal execution tools.
-
-    When asked to open a project, such as "open canario", create a Rex session labelled after it in `~/work/<project>` with `rex new <project> -c ~/work/<project>`, then send `git switch main && git pull --ff-only && direnv reload && claude` to its terminal with `rex send -s <project>`. Afterwards, confirm with `git status -sb` in the checkout that it is on `main` and level with `origin/main`.
-
-    ## Speed
-
-    Time matters here: do not spend time that can be avoided, and the earlier
-    a correct result is obtained, the better.
-  '';
+  personalContext = builtins.readFile ./personal-context.md;
 
   sharedContext =
     personalContext + niteo-agents.lib.rules.conventions + niteo-agents.lib.rules.tooling;

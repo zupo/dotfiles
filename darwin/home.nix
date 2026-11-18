@@ -58,7 +58,8 @@
       ProgramArguments = [
         "${config.home.homeDirectory}/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex"
         "do"
-        "${./rex-session-names.lua}"
+        "${../common/rex-session-names.lua}"
+        "pinSessions=true"
         "--all"
       ];
       RunAtLoad = true;
