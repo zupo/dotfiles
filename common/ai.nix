@@ -18,7 +18,7 @@ let
     Key overrides:
       - NEVER add Co-Authored-By footers to commits
       - NEVER repeat the PR title in the PR body. Start the body with the description, across all projects.
-      - When Claude Code or Codex runs on my Mac, work directly on `main` in `~/work/dotfiles` and `~/work/socials`. For dotfiles, this lets me immediately test changes with `nixre`. This overrides the feature-branch and worktree rules for local work in both repositories. Preserve existing changes.
+      - When Claude Code or Codex runs on my Mac, work and commit directly on `main` in `~/work/dotfiles` and `~/work/socials`, and always push to `main`. Do not create feature branches, worktrees, or pull requests for these repositories. For dotfiles, this lets me immediately test changes with `nixre`. This overrides the general branch, worktree, pull request, and no-direct-push rules for both repositories. Preserve existing changes.
 
 
     ## About the User

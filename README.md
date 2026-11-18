@@ -139,6 +139,8 @@ The sessions `dotfiles`, `socials`, and `support` keep those exact names and occ
 
 Inside Rex, both agents run long-running commands in the bottom half of their current window, keeping the main agent pane across the top half and preserving focus. They collect output and exit status, then close finished panes unless asked to keep them. Asked to open a project, they start a Rex session in `~/work/<project>` that pulls `main`, reloads direnv and starts Claude. Apply instruction changes with `nixre` and start new agent sessions.
 
+On this Mac, agents work and commit directly on `main` in dotfiles and socials, and always push to `main`. These repositories do not use feature branches, worktrees, or pull requests for agent changes.
+
 ### Agent plugins
 
 Nix pins the plugin code in `flake.lock`. Claude Code loads Passlet and Hakuto directly from the Nix store through Home Manager's `plugins` option. The built-in Claude plugin follows the pinned Claude package. Claude-only example skills use Claude’s native plugin manager, with their marketplace and enabled state declared in Nix. Their code is not pinned in `flake.lock`.
