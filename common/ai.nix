@@ -120,7 +120,7 @@ in
       # Prevent auto-starting Remote Control
       remoteControlAtStartup = false;
 
-      model = "claude-fable-5-2";
+      model = "claude-opus-5-5";
 
       # passlet exec drops the Git config the sandbox injects for its proxy, but
       # keeps this variable, which Git reads for the same setting.
@@ -133,25 +133,11 @@ in
           "Bash(git push:*)"
           "Bash(rtk git push:*)"
 
-          # A bare wildcard here is the documented way to open every host to
-          # sandboxed commands: network.allowedDomains has no equivalent.
           "WebFetch(domain:*)"
         ];
         defaultMode = "auto";
       };
-      sandbox = {
-        enabled = true;
-        # gh verifies TLS through the macOS trust service, which the sandbox
-        # blocks by default. Its exfiltration risk is moot with the network open.
-        enableWeakerNetworkIsolation = true;
-        filesystem.allowWrite = [
-          "${config.home.homeDirectory}/Library/Application Support/rtk"
-        ];
-        network.allowUnixSockets = [
-          "${config.home.homeDirectory}/.local/share/passlet/passlet.sock"
-          "${config.home.homeDirectory}/Library/Application Support/rex/server.sock"
-        ];
-      };
+      sandbox.enabled = false;
 
       # Fullscreen renderer: alternate-screen drawing with in-app scrolling,
       # mouse support, copy on select and the /diff side panel.
