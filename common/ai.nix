@@ -114,8 +114,10 @@ in
     inherit mcpServers;
 
     settings = {
-      # Prevent `Co-Authored-By: Claude` commit footer
-      includeCoAuthoredBy = false;
+      attribution = {
+        commit = "";
+        pr = "";
+      };
 
       # Prevent auto-starting Remote Control
       remoteControlAtStartup = false;
