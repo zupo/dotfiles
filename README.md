@@ -145,6 +145,10 @@ On this Mac, agents work and commit directly on `main` in dotfiles and socials, 
 
 ### Agent plugins
 
+`/teleport-to-cruncher` and `/teleport-to-zbook` move the current Claude Code conversation and working changes to the other host and resume it in Rex. In Codex, invoke `$teleport-to-cruncher` or `$teleport-to-zbook`. The shared `common/tools.nix` module installs both skills and pins [hopsesh](https://github.com/roeehrl/hopsesh) 0.9.0 for native conversation migration. The skills transfer Git history and staged, unstaged and untracked work separately, verify the destination, and stop on conflicts. Credentials and running processes stay on their original host. After a successful transfer, continue in the destination tab, leaving the original idle as a recovery copy.
+
+Apply with `nixre` on zbook. Cruncher receives the same package and skills when its dotfiles input is updated and the server rebuilt. Both hosts need working SSH, their own agent login and Rex. Hopsesh maintains its own SSH host-key records, so the first transfer may need fingerprint verification. Its configuration is Nix-managed, use neither its installer nor its self-updater. The shared workflow and research links are in [common/skills/teleport.md](common/skills/teleport.md).
+
 Nix pins the plugin code in `flake.lock`. Claude Code loads Passlet and Hakuto directly from the Nix store through Home Manager's `plugins` option. The built-in Claude plugin follows the pinned Claude package. Claude-only example skills use Claude’s native plugin manager, with their marketplace and enabled state declared in Nix. Their code is not pinned in `flake.lock`.
 
 Codex's Passlet and Hakuto marketplaces point to the same pinned Nix sources as Claude. Home Manager installs their versioned Codex cache entries as links to the Nix store, so installation, source, and enabled state are all declared in Nix. ChatGPT's account-managed plugins are separate from these repository plugins.

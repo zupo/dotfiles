@@ -4,6 +4,8 @@
   ...
 }:
 {
+  imports = [ ./teleport.nix ];
+
   home.packages = with pkgs; [
     imapsync
 
