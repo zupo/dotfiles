@@ -1,8 +1,6 @@
 ---
 name: teleport-to-cruncher
-description: Transfer the current Claude Code or Codex conversation and working changes to cruncher, then resume the same agent in Rex there. Use when the user asks to teleport to cruncher or move this session off zbook.
+description: From zbook, push the current Claude Code or Codex conversation and working changes to cruncher, then resume the same agent in Rex there.
 ---
 
-Destination: SSH host `cruncher`, Linux, home `/home/zupo`.
-
-Read and follow [the teleport workflow](../teleport.md), using cruncher as the destination. If already on cruncher, report that and leave the session where it is.
+Run on zbook. Source is the current local conversation; destination is cruncher (`/home/zupo`). Use push mode in [the teleport workflow](../teleport.md). If invoked elsewhere, explain that this skill must run on zbook and stop.

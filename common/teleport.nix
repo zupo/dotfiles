@@ -6,32 +6,34 @@
 }:
 let
   skills = [
+    "teleport-from-cruncher"
     "teleport-to-cruncher"
-    "teleport-to-zbook"
   ];
 in
 {
   home.packages = [ (pkgs.callPackage ./hopsesh.nix { }) ];
 
-  home.file = builtins.listToAttrs (
-    lib.concatMap
-      (
-        root:
+  home.file = lib.mkIf pkgs.stdenv.isDarwin (
+    builtins.listToAttrs (
+      lib.concatMap
+        (
+          root:
+          [
+            {
+              name = "${root}/teleport.md";
+              value.source = ./skills/teleport.md;
+            }
+          ]
+          ++ map (name: {
+            name = "${root}/${name}/SKILL.md";
+            value.source = ./skills + "/${name}/SKILL.md";
+          }) skills
+        )
         [
-          {
-            name = "${root}/teleport.md";
-            value.source = ./skills/teleport.md;
-          }
+          ".agents/skills"
+          ".claude/skills"
         ]
-        ++ map (name: {
-          name = "${root}/${name}/SKILL.md";
-          value.source = ./skills + "/${name}/SKILL.md";
-        }) skills
-      )
-      [
-        ".agents/skills"
-        ".claude/skills"
-      ]
+    )
   );
 
   xdg.configFile."hopsesh/config.toml".source =
@@ -43,7 +45,7 @@ in
         original = "off";
         sync_code = false;
         update_check = "off";
-        peer.receive = true;
+        peer.receive = !pkgs.stdenv.isDarwin;
         hosts =
           map
             (name: {
@@ -54,7 +56,6 @@ in
             })
             [
               "cruncher"
-              "zbook"
             ];
       };
 }

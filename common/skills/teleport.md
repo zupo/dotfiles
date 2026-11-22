@@ -1,22 +1,26 @@
 # Teleport a conversation and its work
 
-Move the current conversation to the named host, preserving the agent, its native conversation, Git commit, staged and unstaged edits, and untracked project files. Resume in a persistent Rex terminal on the destination. Invocation authorizes this transfer and launch. Preview the concrete changes, then proceed unless a conflict or missing identity needs the user's decision. Do not switch agent or substitute a summary-only session without asking.
+Run both skills on zbook. Push the current local conversation to cruncher, or pull a selected conversation from cruncher to zbook, preserving the agent, its native conversation, Git commit, staged and unstaged edits, and untracked project files. Resume in a persistent Rex terminal on the destination. Invocation authorizes this transfer and launch. Preview the concrete changes, then proceed unless a conflict or missing identity needs the user's decision. Do not switch agent or substitute a summary-only session without asking.
 
-Use the Nix-pinned `hopsesh` for native transcript migration and path mapping. Do not install its upstream skill, hooks, login service, or updates: dotfiles manages its configuration. Its normal Git synchronization does not transfer dirty files. The workflow below prepares the checkout separately and uses `--no-sync`. Source protection hooks are disabled because both agents' hooks are managed by Nix; after success, end your source turn and do no further task work here.
+Use the Nix-pinned `hopsesh` for native transcript migration and path mapping. Do not install its upstream skill, hooks, login service, or updates: dotfiles manages its configuration. Its normal Git synchronization does not transfer dirty files. The workflow below prepares the checkout separately and uses `--no-sync`. No hopsesh daemon is installed or needed. Push starts a temporary helper on cruncher over SSH; pull reads cruncher over SSH. Every SSH, scp and rsync connection originates on zbook. Never enable Remote Login, inbound Rex access, or a receiver on the Mac. Source protection hooks are disabled because both agents' hooks are managed by Nix. After success, leave the source conversation idle.
 
 ## Identify and preflight
 
 1. Run `uname -s`, `hostname`, and `pwd`. Read the Rex skill and use `rex whoami --json` to verify the inherited pane IDs. A Rex pane ID is not an agent conversation ID. If those IDs are stale, do not pick the user's focused pane as a substitute.
-2. Identify the current native conversation exactly. For Codex, use `CODEX_THREAD_ID` when present and verify it against the local session. For Claude, use the session ID from its hook/runtime context or correlate the current process and transcript with this conversation. `hopsesh ls --host local --agent codex --json` (or `claude`) and `hopsesh show <agent>/<full-id> --json` help verify the project and conversation. Never select the newest transcript merely by timestamp. Ask if multiple candidates remain.
-3. Verify SSH with `ssh -o BatchMode=yes -o ConnectTimeout=10 HOST 'hostname; printf "%s\n" "$HOME"; command -v hopsesh; command -v rex; command -v claude; command -v codex'`. Verify the destination agent is authenticated using its status command, without printing credentials. The destination needs its own login, tools, MCPs and browser. Never copy auth files, Passlet grants, shell snapshots, or entire agent configuration directories. Obtain any necessary GitHub grant on the destination before the Mac goes offline, following the Passlet skill.
+2. In push mode, identify the current local native conversation exactly. For Codex, use `CODEX_THREAD_ID` when present and verify it against the local session. For Claude, use the session ID from its hook/runtime context or correlate the current process and transcript with this conversation. `hopsesh ls --host local --agent codex --json` (or `claude`) and `hopsesh show <agent>/<full-id> --json` help verify the project and conversation. Never select the newest transcript merely by timestamp. Ask if multiple candidates remain. In pull mode, list `hopsesh ls --host cruncher --json`, narrow by the project or session the user named, and inspect `hopsesh show cruncher:AGENT/FULL_ID --json`. Ask the user to choose when ambiguous; never use the local coordinator's `CODEX_THREAD_ID` as the remote session ID.
+3. Verify SSH with `ssh -o BatchMode=yes -o ConnectTimeout=10 cruncher 'hostname; printf "%s\n" "$HOME"; command -v hopsesh; command -v rex; command -v claude; command -v codex'`. Verify the destination agent is authenticated using its status command, without printing credentials. The destination needs its own login, tools, MCPs and browser. Never copy auth files, Passlet grants, shell snapshots, or entire agent configuration directories. Obtain any necessary GitHub grant on the destination before the Mac goes offline, following the Passlet skill.
 4. Map paths under the source home to the same relative location under the verified destination home. For paths outside home, including `/etc/nixos`, inspect the destination checkout and establish the actual mapping. Record repo root, working directory relative to it, branch, HEAD, origin, staged/unstaged diffs and untracked paths. Inspect submodules and linked worktrees; their `.git` files refer to host-specific paths and must not be copied as ordinary directories.
-5. Check `hopsesh hosts --json` and the host's SSH trust. Dotfiles declares zbook and cruncher and enables receiving. If hopsesh needs its separate host-key record, compare the offered fingerprint with an already trusted SSH/Tailscale identity before `hopsesh trust HOST --yes`. A new or changed identity needs the user's verification. Do not disable host-key checking. Missing `hopsesh` requires applying the dotfiles configuration, not running an installer.
+5. Check `hopsesh hosts --json` and the host's SSH trust. Dotfiles declares only cruncher as a remote host and enables receiving only on Linux. If hopsesh needs its separate host-key record, compare the offered fingerprint with an already trusted SSH/Tailscale identity before `hopsesh trust cruncher --yes`. A new or changed identity needs the user's verification. Do not disable host-key checking. Missing `hopsesh` requires applying the dotfiles configuration, not running an installer.
 
 ## Prepare a matching checkout
 
-Finish or stop this task's file-writing commands before snapshotting. Do not interrupt unrelated processes. Write a private handoff note outside the repo with the objective, decisions, next step, tests, unresolved problems, source/destination paths and services that need restarting. Exclude secrets. Mark the teleport request as completed so the destination does not repeat it. Keep source files intact until destination verification succeeds.
+Finish or stop this task's file-writing commands before snapshotting. In pull mode, inspect the selected remote Rex pane and agent state. Wait for its turn and background writers to finish; if it keeps working, ask the user to pause that specific session. Do not send arbitrary commands into an agent prompt. Do not interrupt unrelated processes. Write a private handoff note outside the repo with the objective, decisions, next step, tests, unresolved problems, source/destination paths and services that need restarting. Exclude secrets. Mark the teleport request as completed so the destination does not repeat it. Keep source files intact until destination verification succeeds. For a pull, read the selected remote conversation and task artifacts to write the note, not the unrelated local coordinator's history.
 
 Preview the destination repository's identity, HEAD, branch, dirty status and running agents before changing it. Do not overwrite local edits, switch a checkout another agent is using, reset a branch, stash someone else's work, or run `rsync --delete`. Ask which checkout to use when work conflicts. Observe the main-only exceptions for dotfiles/socials on zbook and `/etc/nixos` on cruncher.
+
+All commands run locally or through outbound `ssh cruncher`. For push, create bundles/patches locally and copy to `cruncher:PATH`; for pull, create them on cruncher over SSH and copy from `cruncher:PATH`. Run rsync locally in both directions. Never run SSH back to zbook from cruncher.
+
+Save a private transfer receipt on zbook recording the source/destination session IDs, paths, HEAD, branch, separate patches, untracked manifest/hashes and handoff note. On a return, an unchanged outgoing checkout can still contain the edits left there. Compare it against the receipt byte for byte and confirm no agent is using it. Only if it exactly matches the recorded outgoing state, back it up, reverse the recorded unstaged patch then the staged patch (`git apply --reverse`, with `--index` for the staged patch), and move the recorded untracked files into the backup before restoring the incoming state. Never erase changes that differ from the receipt. Without an exact match, ask how to handle the conflict. Keep the backup until the returned session is verified.
 
 For a Git project:
 
@@ -30,10 +34,16 @@ For non-Git work, preview an explicit file manifest and copy only task files int
 
 ## Move the native conversation
 
-Use the exact agent/id and destination cwd. Run and inspect:
+Use the exact source agent/id and destination cwd. In push mode, run and inspect:
 
 ```sh
-hopsesh push AGENT/SESSION_ID HOST --to DESTINATION_CWD --worktree main --no-sync --notify=false --dry-run --json
+hopsesh push AGENT/SESSION_ID cruncher --to DESTINATION_CWD --worktree main --no-sync --notify=false --dry-run --json
+```
+
+In pull mode, run and inspect:
+
+```sh
+hopsesh pull cruncher:AGENT/SESSION_ID --to DESTINATION_CWD --worktree main --no-sync --notify=false --dry-run --json
 ```
 
 `--worktree main` uses the checkout already prepared above, including an explicitly prepared worktree, without letting hopsesh choose another path. Confirm the plan's actual target path. Explain the destination, files, conversation and anything left behind. Resolve blockers before proceeding. Do not pass `--replace`, `--keep-both`, `--new-session`, `--stop-local`, `--go`, or `--rc` to get around a conflict. For return trips, stop if the destination conversation is still open or both histories diverged; ask which history to retain.
@@ -42,7 +52,7 @@ Run the same command with `--yes` instead of `--dry-run`, adding a freshly gener
 
 ## Resume and verify in Rex
 
-Use `rex hosts` to discover the destination Rex endpoint; its label may be a Tailscale FQDN rather than the SSH alias. Use `rex -S ENDPOINT` or invoke the destination's `rex` over SSH. Verify `whoami` on that endpoint before creating anything. Launching an agent under an SSH command alone does not make it persistent; the destination Rex server must own its terminal.
+For a pull, use local `rex` on zbook. For a push, use `rex hosts` to discover cruncher's Rex endpoint; its label may be a Tailscale FQDN rather than the SSH alias. Use `rex -S ENDPOINT` or invoke the destination's `rex` over SSH. Verify `whoami` on that endpoint before creating anything. Launching an agent under an SSH command alone does not make it persistent; the destination Rex server must own its terminal.
 
 Reuse the appropriate project session or create one. On zbook preserve the pinned dotfiles/socials/support sessions and their first tab names. Give the new tab a task name with `rex window new`, and pass `--focus=false`, `-c DESTINATION_CWD` and `--json`. Use the resumed ID from the migration result, which may differ from the source ID:
 
@@ -53,7 +63,7 @@ The prompt must say the transfer has finished, identify the new host and paths, 
 
 Save returned Rex session/window/block IDs. Capture the destination pane and inspect its process. Confirm native history loaded and the resumed agent acknowledged the handoff on the intended host. Authentication/trust prompts, missing models, startup errors or an empty session mean the transfer is not verified. Leave the source intact and report the exact blocker. Do not claim that processes, in-memory tools or browser sessions moved.
 
-After verification, report destination host, project, Rex tab and native session ID, plus anything that still needs attention. End the source turn without further task edits. Leave its pane and transcript as recovery copies; do not terminate your own pane from inside it. Warn that sending more work to the old conversation will fork progress. A verified transfer can continue while the source is offline, provided the destination's own required network access and credentials remain available.
+After verification, report destination host, project, Rex tab and native session ID, plus anything that still needs attention. For push, end the source turn without further task edits. For pull, end the local coordinator turn and leave the remote source idle. Leave the source pane and transcript as recovery copies; do not terminate your own pane from inside it. Warn that sending more work to the old conversation will fork progress. A verified transfer can continue while the source is offline, provided the destination's own required network access and credentials remain available.
 
 ## Research
 
