@@ -88,25 +88,6 @@
         ];
       };
 
-      # NixOS VM configuration for UTM
-      nixosConfigurations."utm" = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux"; # or "x86_64-linux" depending on your VM
-        modules = [
-          ./nixos/utm/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "backup";
-            home-manager.users.zupo = import ./nixos/utm/home.nix;
-            home-manager.extraSpecialArgs = {
-              pkgsUnstable = mkPkgsUnstable "aarch64-linux";
-              inherit commonModules niteo-agents llm-agents;
-            };
-          }
-        ];
-      };
-
       # Export common modules for use by other flakes (like your remote server)
       lib = commonModules // {
         personalContext = builtins.readFile ./common/personal-context.md;

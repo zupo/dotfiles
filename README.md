@@ -4,7 +4,6 @@ These are my dotfiles. Take anything you want, but at your own risk.
 
 They are used for configuring several of my environments:
  * MacBook with [nix-darwin](https://github.com/nix-darwin/nix-darwin),
- * NixOS VM running via [UTM](https://mac.getutm.app/) on the MacBook,
  * user account on a shared company NixOS server.
 
 
@@ -27,12 +26,6 @@ They are used for configuring several of my environments:
   │   ├── zbook.nix               # nix-darwin for my MacBook
   │   └── home.nix                # Home Manager for my MacBook
   │
-  ├── nixos/
-  │   └── utm/                    # UTM VM
-  │       ├── configuration.nix
-  │       ├── hardware-configuration.nix
-  │       └── home.nix
-  │
   ├── .secrets.env                # Environment variables for secrets (git-ignored)
   ├── mkcert/                     # development certificates
   └── vscode/                     # VS Code settings
@@ -40,17 +33,12 @@ They are used for configuring several of my environments:
 
 ## Conventions
 
-- Common modules go in `common/`, system-specific overrides in `darwin/` or `nixos/`
+- Common modules go in `common/`, system-specific overrides in `darwin/`
 - Packages from unstable nixpkgs use `pkgsUnstable` (passed via `extraSpecialArgs`)
 - Claude Code config is shared from `teamniteo/agents` repo via the `niteo-agents` flake input; personal overrides go in `common/ai.nix`
 - Codex is configured alongside Claude Code in `common/ai.nix`: it gets the same personal context (as `AGENTS.md`) and the same MCP servers, translated into codex's `config.toml` keys
 - Codex needs a writable `config.toml` (directory trust, `features enable`, `/model`), so Nix generates it and an activation script installs a real file instead of a store symlink, carrying codex's own `[projects]` trust entries across rebuilds
 - No imperative changes — everything is declarative through Nix
-
-
-## UTM NixOS VM setup
-
-TODO...
 
 
 ## MacBook setup
