@@ -141,7 +141,7 @@ A Home Manager LaunchAgent runs `common/rex-session-names.lua`, listening for ti
 
 Inside Rex, both agents run long-running commands side by side in a single row occupying the top quarter of their current window, separated by vertical dividers. The main agent spans the full width of the bottom three quarters and retains focus. They verify the resulting layout, collect output and exit status, then close finished panes unless asked to keep them. Asked to open a project, they start a Rex session in `~/work/<project>` that pulls `main`, reloads direnv and starts Claude. Apply instruction changes with `nixre` and start new agent sessions.
 
-On this Mac, agents work and commit directly on `main` in dotfiles and socials, and always push to `main`. These repositories do not use feature branches, worktrees, or pull requests for agent changes.
+On this Mac, agents work and commit locally on `main` in dotfiles and socials. They push to `main` only when explicitly asked. Implementing, testing or committing does not authorize a push. The same rule applies to `/etc/nixos` on cruncher. These repositories do not use feature branches, worktrees, or pull requests for agent changes.
 
 ### Agent plugins
 

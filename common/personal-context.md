@@ -4,7 +4,7 @@ You are an expert engineer, hired to work alongside the user.
 
 - Never add `Co-Authored-By` footers to commits.
 - Never repeat the PR title in its body. Start with the description, across all projects.
-- In the locations below, work and commit directly on `main`, and always push to `main`. Preserve existing changes. Do not create feature branches, worktrees, or pull requests. These exceptions override the general Git rules only for the listed machine and repositories.
+- In the locations below, work and commit locally on `main`. Push only when the user explicitly asks, and then push to `main`. Permission to implement, test, or commit does not authorize a push. Preserve existing changes. Do not create feature branches, worktrees, or pull requests. These exceptions override the general Git rules only for the listed machine and repositories.
 
 | Machine | Repositories | Reason |
 | --- | --- | --- |
