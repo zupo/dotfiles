@@ -149,6 +149,8 @@ Run `/teleport-to-cruncher` on zbook to push the current Claude Code conversatio
 
 The skills transfer Git history and staged, unstaged and untracked work separately, verify the destination, and resume the selected agent in Rex. A private transfer receipt distinguishes unchanged outgoing edits from conflicting local work on return. Credentials and running processes stay on their original host. After transfer, continue only in the destination tab and keep the source idle as a recovery copy.
 
+Hopsesh may convert a conversation to portable history across machine profiles, even with matching Claude logins. That can omit reasoning or shorten older context. The skills inspect its loss report and ask before transferring a working conversation that way, preserving the original when exact history is required.
+
 Apply with `nixre` on zbook and a dotfiles-pin update/rebuild on cruncher. Both hosts need their own agent login and Rex, and zbook needs outbound SSH access to cruncher. Hopsesh keeps separate SSH host-key records, so the first transfer may need fingerprint verification. Its configuration is Nix-managed, use neither its installer nor its self-updater. The workflow and research links are in [common/skills/teleport.md](common/skills/teleport.md).
 
 Nix pins the plugin code in `flake.lock`. Claude Code loads Passlet and Hakuto directly from the Nix store through Home Manager's `plugins` option. The built-in Claude plugin follows the pinned Claude package. Claude-only example skills use Claude’s native plugin manager, with their marketplace and enabled state declared in Nix. Their code is not pinned in `flake.lock`.
