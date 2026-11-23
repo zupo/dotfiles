@@ -18,15 +18,14 @@ in
       lib.concatMap
         (
           root:
-          [
-            {
-              name = "${root}/teleport.md";
-              value.source = ./skills/teleport.md;
-            }
-          ]
-          ++ map (name: {
-            name = "${root}/${name}/SKILL.md";
-            value.source = ./skills + "/${name}/SKILL.md";
+          map (name: {
+            name = "${root}/${name}";
+            # Codex skips a symlinked SKILL.md, and `..` from a linked directory resolves inside the Nix store.
+            value.source = pkgs.runCommand name { } ''
+              mkdir $out
+              cp ${./skills + "/${name}/SKILL.md"} $out/SKILL.md
+              cp ${./skills/teleport.md} $out/teleport.md
+            '';
           }) skills
         )
         [

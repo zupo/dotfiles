@@ -34,6 +34,8 @@ For non-Git work, preview an explicit file manifest and copy only task files int
 
 ## Move the native conversation
 
+Always start Claude and Codex from `~/work`. DESTINATION_CWD is the project's checkout under `~/work` (`~/work/REPO`), or `~/work` itself when there is no repository. Never use the home directory: the resumed agent would stop at a folder-trust prompt for the whole home. When the source ran from its home directory, hopsesh then maps that whole home to `~/work`, so history paths such as `~/work/work/X` mean `~/work/X`. State the real paths in the handoff note.
+
 Use the exact source agent/id and destination cwd. In push mode, run and inspect:
 
 ```sh
@@ -50,18 +52,18 @@ hopsesh pull cruncher:AGENT/SESSION_ID --to DESTINATION_CWD --worktree main --no
 
 Inspect `kind`, `placement.otherAccount`, and `continue.report` before transferring. Hopsesh 0.9.0 can choose portable history across machine profiles even when both Claude logins report the same email and organization. A `continue` plan may omit signed/encrypted reasoning, shorten tool outputs, or summarize older turns. Explain the actual loss report and get the user's explicit choice before using that path for a working conversation. Never describe it as an exact native-history transfer or override the account checks to force replay. Preserve the source if the user requires exact history.
 
-Run the same command with `--yes` instead of `--dry-run`, adding a freshly generated `--operation-id` and retaining it. Inspect the JSON result, journal ID, warnings and resume command. If a connection fails, inspect the journal/destination before retrying; reuse the operation ID for the same transfer. Do not recopy changing transcripts or hand-edit Codex SQLite files. Copy the handoff note to a private destination path.
+Run the same command with `--yes` instead of `--dry-run`, adding a freshly generated `--operation-id` and retaining it. If it fails with "was not read just now", run `hopsesh ls --host cruncher --json` and retry with the same operation ID. Inspect the JSON result, journal ID, warnings and resume command. Never launch an agent until the transfer has succeeded and returned the resumed ID. If a connection fails, inspect the journal/destination before retrying; reuse the operation ID for the same transfer. Do not recopy changing transcripts or hand-edit Codex SQLite files. Copy the handoff note to a private destination path.
 
 ## Resume and verify in Rex
 
 For a pull, use local `rex` on zbook. For a push, use `rex hosts` to discover cruncher's Rex endpoint; its label may be a Tailscale FQDN rather than the SSH alias. Use `rex -S ENDPOINT` or invoke the destination's `rex` over SSH. Verify `whoami` on that endpoint before creating anything. Launching an agent under an SSH command alone does not make it persistent; the destination Rex server must own its terminal.
 
-Reuse the appropriate project session or create one. On zbook preserve the pinned dotfiles/socials/support sessions and their first tab names. Give the new tab a task name with `rex window new`, and pass `--focus=false`, `-c DESTINATION_CWD` and `--json`. Use the resumed ID from the migration result, which may differ from the source ID:
+Open each resumed agent in a new Rex session of its own, named after its task: `rex new LABEL --window LABEL -c DESTINATION_CWD --json`. On zbook preserve the pinned dotfiles/socials/support sessions and their first tab names. Use the resumed ID from the migration result, which may differ from the source ID:
 
 - Claude: `claude --resume RESUMED_ID PROMPT`
 - Codex: `codex resume RESUMED_ID -C DESTINATION_CWD PROMPT`
 
-The prompt must say the transfer has finished, identify the new host and paths, direct the agent to read the private handoff note and current local instructions, verify checkout state, discard stale Rex IDs/OS assumptions, and continue the original task. Use the destination's login environment/direnv. Preserve the source model and effort where supported by both installations; do not copy permission-bypass flags. Pass command arguments separately, or quote them with a proper shell-quoting function when crossing SSH.
+The prompt must say the transfer has finished, identify the new host and paths, direct the agent to read the private handoff note and current local instructions, verify checkout state, discard stale Rex IDs/OS assumptions, and continue the original task. Use the destination's login environment (`--shell "$SHELL"`), but do not wrap the agent in `direnv exec`: an unbuilt project shell can download gigabytes before the agent starts. The project's shell builds later, when the agent needs it. Preserve the source model and effort where supported by both installations; do not copy permission-bypass flags. Pass command arguments separately, or quote them with a proper shell-quoting function when crossing SSH.
 
 Save returned Rex session/window/block IDs. Capture the destination pane and inspect its process. Confirm native history loaded and the resumed agent acknowledged the handoff on the intended host. Authentication/trust prompts, missing models, startup errors or an empty session mean the transfer is not verified. Leave the source intact and report the exact blocker. Do not claim that processes, in-memory tools or browser sessions moved.
 
