@@ -51,20 +51,40 @@
     service.tailscale = true;
   };
 
-  launchd.agents.rex-session-names = {
-    enable = true;
-    config = {
-      KeepAlive = true;
-      ProgramArguments = [
-        "${config.home.homeDirectory}/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex"
-        "do"
-        "${../common/rex-session-names.lua}"
-        "pinSessions=true"
-        "--all"
-      ];
-      RunAtLoad = true;
-      StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/rex-session-names.log";
-      ThrottleInterval = 10;
+  launchd.agents = {
+    rex-session-names = {
+      enable = true;
+      config = {
+        KeepAlive = true;
+        ProgramArguments = [
+          "${config.home.homeDirectory}/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex"
+          "do"
+          "${../common/rex-session-names.lua}"
+          "pinSessions=true"
+          "--all"
+        ];
+        RunAtLoad = true;
+        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/rex-session-names.log";
+        ThrottleInterval = 10;
+      };
+    };
+
+    rex-usage = {
+      enable = true;
+      config = {
+        EnvironmentVariables = {
+          NIX_SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+          PATH = "${config.home.homeDirectory}/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS:/usr/bin:/bin";
+        };
+        KeepAlive = true;
+        ProgramArguments = [
+          "${pkgs.python3}/bin/python3"
+          "${../common/rex-usage.py}"
+        ];
+        RunAtLoad = true;
+        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/rex-usage.log";
+        ThrottleInterval = 30;
+      };
     };
   };
 
