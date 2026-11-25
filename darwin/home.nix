@@ -68,24 +68,24 @@
         ThrottleInterval = 10;
       };
     };
+  };
 
-    rex-usage = {
-      enable = true;
-      config = {
-        EnvironmentVariables = {
-          NIX_SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-          PATH = "${config.home.homeDirectory}/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS:/usr/bin:/bin";
-        };
-        KeepAlive = true;
-        ProgramArguments = [
-          "${pkgs.python3}/bin/python3"
-          "${../common/rex-usage.py}"
-        ];
-        RunAtLoad = true;
-        StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/rex-usage.log";
-        ThrottleInterval = 30;
-      };
-    };
+  home.file."work/swiftbar/claude.5m.sh" = {
+    executable = true;
+    text = ''
+      #!/bin/sh
+      export NIX_SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
+      exec ${pkgs.python3}/bin/python3 ${../common/swiftbar-usage.py} Claude
+    '';
+  };
+
+  home.file."work/swiftbar/codex.5m.sh" = {
+    executable = true;
+    text = ''
+      #!/bin/sh
+      export NIX_SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
+      exec ${pkgs.python3}/bin/python3 ${../common/swiftbar-usage.py} Codex
+    '';
   };
 
   # Additional Darwin-specific zsh configuration
@@ -204,6 +204,5 @@
         IdentitiesOnly = true;
       };
     };
-
   };
 }
